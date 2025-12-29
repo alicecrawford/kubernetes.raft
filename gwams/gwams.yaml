@@ -1,0 +1,134 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: gwams
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gwams-web
+  namespace: gwams
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: gwams
+  template:
+    metadata:
+      labels:
+        name: gwams
+    spec:
+      containers:
+        - name: git-sync
+          image: k8s.gcr.io/git-sync/git-sync:v4.5.1
+          volumeMounts:
+            - name: gwams-data
+              mountPath: /git
+          env:
+            - name: GITSYNC_REPO
+              value: https://git.raft.lutris.house/october/gwams.git
+            - name: GITSYNC_ROOT
+              value: /git
+            - name: GITSYNC_PERIOD
+              value: 30s
+            - name: GITSYNC_HTTP_BIND
+              value: ":1234"
+            - name: GITSYNC_HTTP_METRICS
+              value: "true"
+        - name: nginx
+          image: nginx:1.23.1-alpine
+          volumeMounts:
+            - name: gwams-data
+              mountPath: /usr/share/nginx/html
+            - name: config-volume
+              mountPath: /etc/nginx/conf.d
+              readOnly: true
+      volumes:
+        - name: gwams-data
+          emptyDir: {}
+        - name: config-volume
+          configMap:
+            name: gwams-nginx-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gwams-www
+  namespace: gwams
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+  selector:
+    name: gwams
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gwams-nginx-config
+  namespace: gwams
+data:
+  default.conf: |
+    server {
+          listen       80;
+          listen  [::]:80;
+          server_name  gwams.raft.lutris.house;
+
+          location / {
+              root   /usr/share/nginx/html/gwams.git;
+              index  index.html index.htm;
+          }
+          error_page   500 502 503 504  /50x.html;
+          location = /50x.html {
+              root   /usr/share/nginx/html/gwams.git;
+          }
+      }
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: gwams-certificate
+  namespace: gwams
+spec:
+  dnsNames:
+    - "gwams.raft.lutris.house"
+  secretName: gwams-certificate
+  issuerRef:
+    name: letsencrypt-dns01-issuer
+    kind: ClusterIssuer
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: gwams-gateway
+  namespace: gwams
+spec:
+  gatewayClassName: istio
+  listeners:
+    - name: http
+      port: 443
+      protocol: HTTPS
+      allowedRoutes:
+        namespaces:
+          from: Same
+      tls:
+        certificateRefs:
+          - kind: Secret
+            group: ""
+            name: gwams-certificate
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: gwams-route
+  namespace: gwams
+spec:
+  parentRefs:
+    - name: gwams-gateway
+  hostnames:
+    - "gwams.raft.lutris.house"
+  rules:
+    - backendRefs:
+        - name: gwams-www
+          port: 80
