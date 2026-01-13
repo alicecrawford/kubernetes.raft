@@ -137,9 +137,18 @@ metadata:
 spec:
   parentRefs:
     - name: gwams-gateway
+      group: gateway.networking.k8s.io
+      kind: Gateway
   hostnames:
     - "gwams.raft.lutris.house"
   rules:
     - backendRefs:
         - name: gwams-www
           port: 80
+          group: ''
+          kind: Service
+          weight: 1
+      matches:
+        - path:
+            type: PathPrefix
+            value: /
