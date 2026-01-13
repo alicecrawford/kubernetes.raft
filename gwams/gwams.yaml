@@ -20,8 +20,24 @@ spec:
         name: gwams
     spec:
       containers:
+        - name: nginx
+          image: nginx:1.23.1-alpine
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          volumeMounts:
+            - name: gwams-data
+              mountPath: /usr/share/nginx/html
+            - name: config-volume
+              mountPath: /etc/nginx/conf.d
+              readOnly: true
         - name: git-sync
           image: k8s.gcr.io/git-sync/git-sync:v4.5.1
+          ports:
+            - name: metrics
+              containerPort: 1234
+              protocol: TCP
           volumeMounts:
             - name: gwams-data
               mountPath: /git
@@ -36,14 +52,6 @@ spec:
               value: ":1234"
             - name: GITSYNC_HTTP_METRICS
               value: "true"
-        - name: nginx
-          image: nginx:1.23.1-alpine
-          volumeMounts:
-            - name: gwams-data
-              mountPath: /usr/share/nginx/html
-            - name: config-volume
-              mountPath: /etc/nginx/conf.d
-              readOnly: true
       volumes:
         - name: gwams-data
           emptyDir: {}
@@ -60,6 +68,9 @@ spec:
   type: ClusterIP
   ports:
     - port: 80
+      name: gawms-www
+    - port: 1234
+      name: git-sync-metrics
   selector:
     name: gwams
 ---
