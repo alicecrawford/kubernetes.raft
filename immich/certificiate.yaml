@@ -1,0 +1,13 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: immich-certificate
+  namespace: immich
+spec:
+  dnsNames:
+    - immich.raft.lutris.house
+  secretName: immich-certificate
+  issuerRef:
+    name: letsencrypt-dns01-issuer
+    kind: ClusterIssuer
