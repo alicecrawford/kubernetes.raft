@@ -8,9 +8,17 @@ spec:
   parentRefs:
     - name: immich-gateway
       sectionName: http
+      group: gateway.networking.k8s.io
   hostnames:
     - immich.raft.lutris.house
   rules:
     - backendRefs:
         - name: immich-server
+          kind: Service
+          group: ""
           port: 2283
+          weight: 1
+      matches:
+        - path:
+            type: PathPrefix
+            value: /
