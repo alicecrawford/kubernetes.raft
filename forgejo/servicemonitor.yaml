@@ -1,0 +1,14 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: forgejo-prometheus-servicemonitor
+  namespace: forgejo
+  labels:
+    name: forgejo-prometheus-servicemonitor
+spec:
+  selector:
+    matchLabels:
+      app: forgejo
+  endpoints:
+    - port: http

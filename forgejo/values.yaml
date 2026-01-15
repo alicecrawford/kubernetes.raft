@@ -1,0 +1,29 @@
+---
+global:
+  storageClass: longhorn
+clusterDomain: polycule.raft.lutris.house
+securityContext:
+  capabilities:
+    add: ["SYS_CHROOT"]
+gitea:
+  metrics:
+    enabled: true
+  config:
+    server:
+      ROOT_URL: https://git.raft.lutris.house/
+      DOMAIN: git.raft.lutris.house
+      SSH_DOMAIN: git.raft.lutris.house
+      ENABLE_PPROF: true
+    database:
+      DB_TYPE: postgres
+      HOST: "forgejodb-rw:5432"
+      USER: forgejo
+      NAME: forgejo
+  additionalConfigFromEnvs:
+    - name: FORGEJO__DATABASE__PASSWD
+      valueFrom:
+        secretKeyRef:
+          name: forgejo-pg-user
+          key: password
+persistence:
+  size: 400Gi

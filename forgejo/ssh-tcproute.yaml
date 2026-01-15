@@ -1,0 +1,16 @@
+---
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: TCPRoute
+metadata:
+  name: forgejo-ssh-route
+  namespace: forgejo
+spec:
+  parentRefs:
+    - name: forgejo-gateway
+      sectionName: ssh
+  hostnames:
+    - git.raft.lutris.house
+  rules:
+    - backendRefs:
+        - name: forgejo-ssh
+          port: 22
