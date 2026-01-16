@@ -1,0 +1,17 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cnpg
+spec:
+  destination:
+    namespace: cnpg-system
+    server: https://kubernetes.default.svc
+  source:
+    path: cnpg
+    repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+    targetRevision: HEAD
+  project: system
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true

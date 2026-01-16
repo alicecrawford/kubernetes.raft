@@ -1,0 +1,17 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: external-dns
+spec:
+  destination:
+    namespace: external-dns
+    server: https://kubernetes.default.svc
+  source:
+    path: external-dns
+    repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+    targetRevision: HEAD
+  project: system
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true

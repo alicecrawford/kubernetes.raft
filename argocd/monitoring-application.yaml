@@ -1,0 +1,92 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prometheus-stack
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
+  sources:
+    - repoURL: https://github.com/prometheus-community/helm-charts.git
+      path: charts/kube-prometheus-stack
+      targetRevision: kube-prometheus-stack-80.10.0
+      helm:
+        values: |-
+          prometheus-node-exporter:
+            prometheus:
+              podMonitor:
+                enabled: true
+            service:
+              ipDualStack:
+                enabled: true
+
+          prometheusOperator:
+            service:
+              ipDualStack:
+                enabled: true
+
+          prometheus:
+            service:
+              ipDualStack:
+                enabled: true
+            prometheusSpec:
+              ruleSelectorNilUsesHelmValues: false
+              serviceMonitorSelectorNilUsesHelmValues: false
+              podMonitorSelectorNilUsesHelmValues: false
+              probeSelectorNilUsesHelmValues: false
+              serviceMonitorNamespaceSelector: {}
+              podMonitorNamespaceSelector: {}
+              retention: 365d
+              retentionSize: 95GiB
+              storageSpec:
+                volumeClaimTemplate:
+                  spec:
+                    storageClassName: longhorn
+                    accessModes: ["ReadWriteOnce"]
+                    resources:
+                      requests:
+                        storage: 100Gi
+
+          grafana:
+            persistence:
+              enabled: true
+              storageClassName: longhorn
+              accessModes: ["ReadWriteOnce"]
+              size: 5Gi
+            dashboardProviders:
+              dashboardproviders.yaml:
+                apiVersion: 1
+                providers:
+                  - name: default
+                    orgId: 1
+                    folder: ''
+                    type: file
+                    disableDeletion: false
+                    # Set editable to true
+                    editable: true
+                    options:
+                      path: /var/lib/grafana/dashboards/default
+
+          alertmanager:
+            service:
+              ipDualStack:
+                enabled: true
+            alertmanagerSpec:
+              storage:
+                volumeClaimTemplate:
+                  spec:
+                    storageClassName: longhorn
+                    accessModes: ["ReadWriteOnce"]
+                    resources:
+                      requests:
+                        storage: 5Gi
+    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+      path: monitoring
+      targetRevision: HEAD
+      ref: values

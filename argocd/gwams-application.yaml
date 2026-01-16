@@ -1,0 +1,18 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gwams
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+    path: gwams
+    targetRevision: HEAD
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: gwams
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true

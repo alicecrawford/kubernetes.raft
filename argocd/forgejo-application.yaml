@@ -1,0 +1,52 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: forgejo
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: forgejo
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
+  sources:
+    - repoURL: oci://code.forgejo.org/forgejo-helm/forgejo
+      targetRevision: 16.0.0
+      path: .
+      helm:
+        values: |-
+          global:
+            storageClass: longhorn
+          clusterDomain: polycule.raft.lutris.house
+          securityContext:
+            capabilities:
+              add: ["SYS_CHROOT"]
+          gitea:
+            metrics:
+              enabled: true
+            config:
+              server:
+                ROOT_URL: https://git.raft.lutris.house/
+                DOMAIN: git.raft.lutris.house
+                SSH_DOMAIN: git.raft.lutris.house
+                ENABLE_PPROF: true
+              database:
+                DB_TYPE: postgres
+                HOST: "forgejodb-rw:5432"
+                USER: forgejo
+                NAME: forgejo
+            additionalConfigFromEnvs:
+              - name: FORGEJO__DATABASE__PASSWD
+                valueFrom:
+                  secretKeyRef:
+                    name: forgejo-pg-user
+                    key: password
+          persistence:
+            size: 400Gi
+    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+      path: forgejo
+      targetRevision: HEAD
+      ref: values

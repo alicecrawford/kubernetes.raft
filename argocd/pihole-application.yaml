@@ -1,0 +1,49 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: pihole
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: pihole
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
+  sources:
+    - repoURL: https://github.com/MoJo2600/pihole-kubernetes
+      path: charts/pihole
+      targetRevision: pihole-2.35.0
+      helm:
+        values: |-
+          DNS1: 8.8.8.8
+          DNS2: 1.1.1.1
+          persistentVolumeClaim:
+            enabled: true
+            storageClass: longhorn
+          dualStack:
+            enabled: true
+          admin:
+            existingSecret: pihole-admin
+          serviceDns:
+            mixedService: true
+            loadBalancerIP: 172.16.60.53
+            loadBalancerIPv6: 2001:5a8:4bd5:ef00::f00d:cbe:5353
+            type: LoadBalancer
+          serviceDhcp:
+            enabled: false
+          podDnsConfig:
+            enabled: true
+            policy: None
+            nameservers:
+              - 127.0.0.1
+              - 8.8.8.8
+          extraEnvVars:
+            FTLCONF_dns_listeningMode: all
+            DNSMASQ_USER: root
+    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+      path: pihole
+      targetRevision: HEAD
+      ref: values
