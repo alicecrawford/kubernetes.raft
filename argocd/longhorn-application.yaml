@@ -1,0 +1,22 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: longhorn
+  namespace: argocd
+spec:
+  project: system
+  sources:
+    - repoURL: https://charts.longhorn.io/
+      targetRevision: 1.10.1
+      chart: longhorn
+    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+      path: longhorn
+      targetRevision: HEAD
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: longhorn-system
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
