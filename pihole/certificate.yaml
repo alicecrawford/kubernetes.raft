@@ -1,0 +1,13 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: pihole-certificate
+  namespace: pihole
+spec:
+  dnsNames:
+    - pihole.raft.lutris.house
+  secretName: pihole-certificate
+  issuerRef:
+    name: letsencrypt-dns01-issuer
+    kind: ClusterIssuer
