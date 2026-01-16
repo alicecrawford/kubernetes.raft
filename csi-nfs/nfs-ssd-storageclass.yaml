@@ -1,0 +1,11 @@
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-ssd-csi
+provisioner: nfs.csi.k8s.io
+parameters:
+  server: narwhal.raft.lutris.house
+  share: /srv/nfs/kubernetes.ssd
+volumeBindingMode: Immediate
+allowVolumeExpansion: true
