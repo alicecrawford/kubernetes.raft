@@ -8,8 +8,6 @@ spec:
   parentRefs:
     - name: forgejo-gateway
       sectionName: ssh
-  hostnames:
-    - git.raft.lutris.house
   rules:
     - backendRefs:
         - name: forgejo-ssh
