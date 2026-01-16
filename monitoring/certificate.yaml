@@ -1,0 +1,15 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: monitoring-certificate
+  namespace: monitoring
+spec:
+  dnsNames:
+    - grafana.raft.lutris.house
+    - prometheus.raft.lutris.house
+    - alertmanager.raft.lutris.house
+  secretName: monitoring-certificate
+  issuerRef:
+    name: letsencrypt-dns01-issuer
+    kind: ClusterIssuer
