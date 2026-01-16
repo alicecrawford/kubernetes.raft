@@ -15,9 +15,9 @@ spec:
   rules:
     - backendRefs:
         - name: immich-server
+          port: 2283
           kind: Service
           group: ""
-          port: 2283
           weight: 1
       matches:
         - path:
