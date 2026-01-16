@@ -8,7 +8,12 @@ spec:
   parentRefs:
     - name: forgejo-gateway
       sectionName: ssh
+      group: gateway.networking.k8s.io
+      kind: Gateway
   rules:
     - backendRefs:
         - name: forgejo-ssh
           port: 22
+          group: ""
+          kind: Service
+          weight: 1
