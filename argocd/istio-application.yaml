@@ -1,0 +1,79 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: istio
+  namespace: argocd
+spec:
+  project: system
+  sources:
+    - repoURL: https://istio-release.storage.googleapis.com/charts
+      targetRevision: 1.28.2
+      helm:
+        values: |
+          profile: ambient
+          pilot:
+            env:
+              PILOT_ENABLE_ALPHA_GATEWAY_API: true
+              ISTIO_DUAL_STACK: "true"
+            ipFamilyPolicy: RequireDualStack
+          meshConfig:
+            defaultConfig:
+              proxyMetadata:
+                ISTIO_DUAL_STACK: "true"
+      chart: base
+    - repoURL: https://istio-release.storage.googleapis.com/charts
+      targetRevision: 1.28.2
+      helm:
+        values: |
+          profile: ambient
+          pilot:
+            env:
+              PILOT_ENABLE_ALPHA_GATEWAY_API: true
+              ISTIO_DUAL_STACK: "true"
+            ipFamilyPolicy: RequireDualStack
+          meshConfig:
+            defaultConfig:
+              proxyMetadata:
+                ISTIO_DUAL_STACK: "true"
+      chart: istiod
+    - repoURL: https://istio-release.storage.googleapis.com/charts
+      targetRevision: 1.28.2
+      helm:
+        values: |
+          profile: ambient
+          pilot:
+            env:
+              PILOT_ENABLE_ALPHA_GATEWAY_API: true
+              ISTIO_DUAL_STACK: "true"
+            ipFamilyPolicy: RequireDualStack
+          meshConfig:
+            defaultConfig:
+              proxyMetadata:
+                ISTIO_DUAL_STACK: "true"
+      chart: cni
+    - repoURL: https://istio-release.storage.googleapis.com/charts
+      targetRevision: 1.28.2
+      helm:
+        values: |
+          profile: ambient
+          pilot:
+            env:
+              PILOT_ENABLE_ALPHA_GATEWAY_API: true
+              ISTIO_DUAL_STACK: "true"
+            ipFamilyPolicy: RequireDualStack
+          meshConfig:
+            defaultConfig:
+              proxyMetadata:
+                ISTIO_DUAL_STACK: "true"
+      chart: ztunnel
+    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+      path: istio
+      targetRevision: HEAD
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: istio-system
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
