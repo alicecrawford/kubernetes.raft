@@ -24,7 +24,7 @@ prometheus:
     serviceMonitorNamespaceSelector: {}
     podMonitorNamespaceSelector: {}
     retention: 365d
-    retentionSize: 95Gi
+    retentionSize: 95GiB
     storageSpec:
       volumeClaimTemplate:
         spec:
