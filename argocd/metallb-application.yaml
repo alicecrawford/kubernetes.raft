@@ -1,0 +1,29 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: metallb
+  namespace: argocd
+spec:
+  project: system
+  sources:
+    - repoURL: https://metallb.github.io/metallb
+      targetRevision: 0.15.3
+      helm:
+        values: |-
+          prometheus:
+            serviceMonitor:
+              enabled: true
+            serviceAccount: prometheus-stack-kube-prom-prometheus
+            namespace: monitoring
+      chart: metallb
+    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+      path: metallb
+      targetRevision: HEAD
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: metallb-system
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
