@@ -8,9 +8,18 @@ spec:
   parentRefs:
     - name: romm-gateway
       sectionName: http
+      kind: Gateway
+      group: gateway.networking.k8s.io
   hostnames:
     - romm.raft.lutris.house
   rules:
     - backendRefs:
         - name: romm-www
           port: 8080
+          kind: Service
+          group: ""
+          weight: 1
+      matches:
+        - path:
+            type: PathPrefix
+            value: /
