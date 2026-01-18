@@ -1,0 +1,13 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: romm-certificate
+  namespace: romm
+spec:
+  dnsNames:
+    - romm.raft.lutris.house
+  secretName: romm-certificate
+  issuerRef:
+    name: letsencrypt-dns01-issuer
+    kind: ClusterIssuer

@@ -1,0 +1,18 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: romm
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+    path: romm
+    targetRevision: HEAD
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: romm
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true

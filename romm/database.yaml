@@ -1,0 +1,17 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: rommdb
+  namespace: romm
+spec:
+  instances: 2
+  storage:
+    size: 8Gi
+    storageClass: longhorn
+  bootstrap:
+    initdb:
+      database: romm
+      owner: romm
+      secret:
+        name: romm-db-secret

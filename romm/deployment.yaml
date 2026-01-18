@@ -1,0 +1,82 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: romm-server
+  namespace: romm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: romm
+  template:
+    metadata:
+      labels:
+        name: romm
+    spec:
+      containers:
+        - name: romm-server-ctr
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          image: rommapp/romm:latest
+          resources:
+            requests:
+              ephemeral-storage: 2Gi
+          volumeMounts:
+            - name: romm-data
+              mountPath: /romm
+            - name: romm-redis
+              mountPath: /redis-data
+          env:
+            - name: ROMM_AUTH_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: romm-secret
+                  key: romm_auth_secret
+            - name: ROMM_BASE_URL
+              value: https://romm.raft.lutris.house
+            - name: DB_HOST
+              value: rommdb-rw
+            - name: DB_PORT
+              value: "5432"
+            - name: ROMM_DB_DRIVER
+              value: postgresql
+            - name: DB_NAME
+              value: romm
+            - name: DB_USER
+              value: romm
+            - name: DB_PASSWD
+              valueFrom:
+                secretKeyRef:
+                  name: romm-db-secret
+                  key: password
+            - name: IGDB_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: romm-secret
+                  key: igdb_client_id
+            - name: IGDB_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: romm-secret
+                  key: igdb_client_secret
+            - name: SCREENSCRAPER_USER
+              valueFrom:
+                secretKeyRef:
+                  name: romm-secret
+                  key: screenscraper_user
+            - name: SCREENSCRAPER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: romm-secret
+                  key: screenscraper_password
+            - name: HASHEOUS_API_ENABLED
+              value: "true"
+      volumes:
+        - name: romm-redis
+          emptyDir: {}
+        - name: romm-data
+          PersistentVolumeClaim:
+            claimName: romm-data-pvc
