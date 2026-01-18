@@ -78,5 +78,5 @@ spec:
         - name: romm-redis
           emptyDir: {}
         - name: romm-data
-          PersistentVolumeClaim:
+          persistentVolumeClaim:
             claimName: romm-data-pvc
