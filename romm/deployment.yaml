@@ -30,6 +30,8 @@ spec:
             - name: romm-redis
               mountPath: /redis-data
           env:
+            - name: SCAN_TIMEOUT
+              value: "86400"
             - name: ROMM_AUTH_SECRET_KEY
               valueFrom:
                 secretKeyRef:
@@ -74,6 +76,12 @@ spec:
                   key: screenscraper_password
             - name: HASHEOUS_API_ENABLED
               value: "true"
+            - name: LAUNCHBOX_API_ENABLED
+              value: true
+            - name: PLAYMATCH_API_ENABLED
+              value: true
+            - name: HLTB_API_ENABLED
+              value: true
       volumes:
         - name: romm-redis
           emptyDir: {}
