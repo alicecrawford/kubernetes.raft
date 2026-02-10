@@ -77,11 +77,11 @@ spec:
             - name: HASHEOUS_API_ENABLED
               value: "true"
             - name: LAUNCHBOX_API_ENABLED
-              value: true
+              value: "true"
             - name: PLAYMATCH_API_ENABLED
-              value: true
+              value: "true"
             - name: HLTB_API_ENABLED
-              value: true
+              value: "true"
       volumes:
         - name: romm-redis
           emptyDir: {}
