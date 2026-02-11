@@ -29,3 +29,17 @@ spec:
       volumes:
         - name: valkey-data
           emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: romm-valkey
+  namespace: romm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 6379
+      protocol: TCP
+      targetPort: 6379
+  selector:
+    name: romm-valkey
