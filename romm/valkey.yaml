@@ -1,0 +1,31 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: romm-valkey
+  namespace: romm
+  labels:
+    app: romm-valkey
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: romm-valkey
+  template:
+    metadata:
+      labels:
+        app: romm-valkey
+    spec:
+      containers:
+        - name: valkey
+          image: valkey/valkey:9-alpine
+          ports:
+            - containerPort: 6379
+          command: ["valkey-server"]
+          args: ["--appendonly", "yes", "--maxmemory", "256mb", "--maxmemory-policy", "noeviction"]
+          volumeMounts:
+            - mountPath: /data
+              name: valkey-data
+      volumes:
+        - name: valkey-data
+          emptyDir: {}
