@@ -33,7 +33,7 @@ spec:
             - name: SCAN_TIMEOUT
               value: "86400"
             - name: SCAN_WORKERS
-              value: "2"
+              value: "4"
             - name: ROMM_AUTH_SECRET_KEY
               valueFrom:
                 secretKeyRef:
