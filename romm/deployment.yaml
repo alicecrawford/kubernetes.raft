@@ -41,7 +41,7 @@ spec:
                   key: romm_auth_secret
             - name: ROMM_BASE_URL
               value: https://romm.raft.lutris.house
-            - name: REDIS_HT
+            - name: REDIS_HOST
               value: romm-valkey
             - name: REDIS_PORT
               value: "6379"
