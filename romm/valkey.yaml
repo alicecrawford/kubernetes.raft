@@ -21,8 +21,6 @@ spec:
           image: valkey/valkey:9-alpine
           ports:
             - containerPort: 6379
-          command: ["valkey-server"]
-          args: ["--appendonly", "yes", "--maxmemory", "256mb", "--maxmemory-policy", "noeviction"]
           volumeMounts:
             - mountPath: /data
               name: valkey-data
