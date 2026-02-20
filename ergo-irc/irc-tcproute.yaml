@@ -1,0 +1,19 @@
+---
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: TCPRoute
+metadata:
+  name: ergo-irc-tcproute
+  namespace: ergo-irc
+spec:
+  parentRefs:
+    - name: ergo-gateway
+      sectionName: irc
+      group: gateway.networking.k8s.io
+      kind: Gateway
+  rules:
+    - backendRefs:
+        - name: ergo-irc
+          port: 6697
+          group: ""
+          kind: Service
+          weight: 1

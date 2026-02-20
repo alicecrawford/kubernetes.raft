@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ergo-irc
+  namespace: ergo-irc
+spec:
+  type: ClusterIP
+  ports:
+    - port: 6697
+      protocol: TCP
+      targetPort: 6697
+  selector:
+    name: ergo

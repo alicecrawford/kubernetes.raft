@@ -1,0 +1,15 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: ergo-gateway
+  namespace: ergo-irc
+spec:
+  gatewayClassName: istio
+  listeners:
+    - name: irc
+      port: 6697
+      protocol: TCP
+      allowedRoutes:
+        namespaces:
+          from: Same
