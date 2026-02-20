@@ -27,7 +27,12 @@ spec:
           volumeMounts:
             - name: ergo-data
               mountPath: /ircd
+            - name: tls-certs
+              mountPath: /ircd/tls
       volumes:
         - name: ergo-data
           persistentVolumeClaim:
             claimName: ergo-data-pvc
+        - name: tls-certs
+          secret:
+            secretName: irc-certificate
