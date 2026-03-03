@@ -13340,7 +13340,7 @@ spec:
           - --acme-http01-solver-image=quay.io/jetstack/cert-manager-acmesolver:v1.19.1
           - --max-concurrent-challenges=60
           - --dns01-recursive-nameservers-only
-          - --enable-certificate-owner-ref=true
+          - --enable-certificate-owner-ref=false
           - --dns01-recursive-nameservers=8.8.8.8:53,1.1.1.1:53
           ports:
           - containerPort: 9402
