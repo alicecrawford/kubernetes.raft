@@ -9,5 +9,5 @@ spec:
     - romm.lutris.house
   secretName: ext-romm-certificate
   issuerRef:
-    name: letsencrypt-dns01-issuer
+    name: cloudflare-le-dns01-issuer
     kind: ClusterIssuer
