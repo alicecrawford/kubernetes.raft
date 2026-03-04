@@ -20,7 +20,7 @@ spec:
             - containerPort: 8080
               name: http
               protocol: TCP
-          image: rommapp/romm:latest
+          image: rommapp/romm:4.7.0
           resources:
             requests:
               ephemeral-storage: 2Gi
@@ -42,7 +42,7 @@ spec:
                   name: romm-secret
                   key: romm_auth_secret
             - name: ROMM_BASE_URL
-              value: https://romm.raft.lutris.house
+              value: https://romm.lutris.house
             - name: REDIS_PORT
               value: "6379"
             - name: DB_HOST
