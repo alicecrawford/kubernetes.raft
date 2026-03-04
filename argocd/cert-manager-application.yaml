@@ -14,7 +14,7 @@ spec:
   sources:
     - repoURL: oci://quay.io/jetstack/charts/cert-manager
       path: .
-      targetRevision: 1.19.4
+      targetRevision: 1.20.0-beta.0
       helm:
         valuesObject:
           installCRDs: true
@@ -25,7 +25,11 @@ spec:
           featureGates: ""
           namespace: "cert-manager"
           enableCertificateOwnerRef: false
-          config: {}
+          config:
+            apiVersion: controller.config.cert-manager.io/v1alpha1
+            kind: ControllerConfiguration
+            enableGatewayAPI: true
+            enableGatewayAPIListenerSet: true
           dns01RecursiveNameservers: "8.8.8.8:53,1.1.1.1:53"
           dns01RecursiveNameserversOnly: true
           prometheus:
