@@ -36,6 +36,11 @@ spec:
               ipDualStack:
                 enabled: true
             prometheusSpec:
+              additionalScrapeConfigs: |
+                - job_name: node-exporter
+                  scheme: http
+                  static_configs:
+                    - targets: ['narwhal.raft.lutris.house:9100']
               ruleSelectorNilUsesHelmValues: false
               serviceMonitorSelectorNilUsesHelmValues: false
               podMonitorSelectorNilUsesHelmValues: false

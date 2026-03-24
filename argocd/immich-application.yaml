@@ -24,7 +24,7 @@ spec:
                 containers:
                   main:
                     image:
-                      tag: release
+                      tag: v2.6.2
                     env:
                       DB_HOSTNAME: immichdb-rw
                       DB_DATABASE_NAME: immich
