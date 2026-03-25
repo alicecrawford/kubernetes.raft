@@ -14,33 +14,80 @@ spec:
       - ServerSideApply=true
   sources:
     - repoURL: https://github.com/prometheus-community/helm-charts.git
+      path: charts/prometheus-node-exporter
+      targetRevision: prometheus-node-exporter-4.52.2
+      helm:
+        valuesObject:
+          prometheus:
+            podMonitor:
+              enabled: true
+              relabelings:
+                - sourceLabels: [__meta_kubernetes_pod_node_name]
+                  targetLabel: instance
+                  action: replace
+                  replacement: $1
+                - targetLabel: job
+                  action: replace
+                  replacement: node-exporter
+    - repoURL: https://github.com/prometheus-community/helm-charts.git
+      path: charts/prometheus-smartctl-exporter
+      targetRevision: prometheus-smartctl-exporter-0.16.0
+      helm:
+        valuesObject:
+          serviceMonitor:
+            enabled: true
+            relabelings:
+              - sourceLabels: [__meta_kubernetes_pod_node_name]
+                targetLabel: instance
+                action: replace
+                replacement: $1
+    - repoURL: https://github.com/prometheus-community/helm-charts.git
       path: charts/kube-prometheus-stack
       targetRevision: kube-prometheus-stack-80.10.0
       helm:
-        values: |-
-          prometheus-node-exporter:
-            prometheus:
-              podMonitor:
-                enabled: true
-            service:
-              ipDualStack:
-                enabled: true
+        valuesObject:
+          nodeExporter:
+            enabled: false
 
           prometheusOperator:
+            serviceMonitor:
+              relabelings:
+                - sourceLabels: [__meta_kubernetes_pod_node_name]
+                  targetLabel: instance
+                  action: replace
+                  replacement: $1
             service:
               ipDualStack:
                 enabled: true
 
           prometheus:
+            serviceMonitor:
+              relabelings:
+                - sourceLabels: [__meta_kubernetes_pod_node_name]
+                  targetLabel: instance
+                  action: replace
+                  replacement: $1
             service:
               ipDualStack:
                 enabled: true
             prometheusSpec:
               additionalScrapeConfigs: |
+                - job_name: smartctl-exporter
+                  scheme: http
+                  static_configs:
+                    - targets: ['narwhal.raft.lutris.house:9633']
                 - job_name: node-exporter
                   scheme: http
                   static_configs:
                     - targets: ['narwhal.raft.lutris.house:9100']
+                - job_name: nut-eaton1500
+                  metrics_path: /ups_metrics
+                  params:
+                    ups: [ 'eaton1500' ]
+                  static_configs:
+                    - targets: ['narwhal.raft.lutris.house:9199']
+                      labels:
+                        ups: "eaton1500"
               ruleSelectorNilUsesHelmValues: false
               serviceMonitorSelectorNilUsesHelmValues: false
               podMonitorSelectorNilUsesHelmValues: false
@@ -59,6 +106,12 @@ spec:
                         storage: 100Gi
 
           grafana:
+            serviceMonitor:
+              relabelings:
+                - sourceLabels: [__meta_kubernetes_pod_node_name]
+                  targetLabel: instance
+                  action: replace
+                  replacement: $1
             persistence:
               enabled: true
               storageClassName: longhorn
@@ -79,6 +132,12 @@ spec:
                       path: /var/lib/grafana/dashboards/default
 
           alertmanager:
+            serviceMonitor:
+              relabelings:
+                - sourceLabels: [__meta_kubernetes_pod_node_name]
+                  targetLabel: instance
+                  action: replace
+                  replacement: $1
             service:
               ipDualStack:
                 enabled: true
@@ -91,6 +150,58 @@ spec:
                     resources:
                       requests:
                         storage: 5Gi
+
+          kube-state-metrics:
+            serviceMonitor:
+              relabelings:
+                - sourceLabels: [__meta_kubernetes_pod_node_name]
+                  targetLabel: instance
+                  action: replace
+                  replacement: $1
+
+          kubeScheduler:
+            serviceMonitor:
+              relabelings:
+                - sourceLabels: [__meta_kubernetes_pod_node_name]
+                  targetLabel: instance
+                  action: replace
+                  replacement: $1
+
+          kubeEtcd:
+            serviceMonitor:
+              relabelings:
+                - sourceLabels: [__meta_kubernetes_pod_node_name]
+                  targetLabel: instance
+                  action: replace
+                  replacement: $1
+
+          coreDns:
+            serviceMonitor:
+              relabelings:
+                - sourceLabels: [__meta_kubernetes_pod_node_name]
+                  targetLabel: instance
+                  action: replace
+                  replacement: $1
+
+          kubeControllerManager:
+            serviceMonitor:
+              relabelings:
+                - sourceLabels: [__meta_kubernetes_pod_node_name]
+                  targetLabel: instance
+                  action: replace
+                  replacement: $1
+
+          kubelet:
+            serviceMonitor:
+              relabelings:
+                - action: replace
+                  sourceLabels: [__metrics_path__]
+                  targetLabel: metrics_path
+                - sourceLabels: [__meta_kubernetes_endpoint_node_name]
+                  targetLabel: instance
+                  action: replace
+                  replacement: $1
+
     - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
       path: monitoring
       targetRevision: HEAD
