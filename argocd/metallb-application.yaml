@@ -10,7 +10,7 @@ spec:
     - repoURL: https://metallb.github.io/metallb
       targetRevision: 0.15.3
       helm:
-        values: |-
+        valuesObject:
           prometheus:
             serviceMonitor:
               enabled: true
