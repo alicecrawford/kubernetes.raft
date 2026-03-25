@@ -49,6 +49,9 @@ spec:
           nodeExporter:
             enabled: false
 
+          defaultRules:
+            create: false
+
           prometheusOperator:
             serviceMonitor:
               relabelings:
@@ -94,8 +97,9 @@ spec:
               probeSelectorNilUsesHelmValues: false
               serviceMonitorNamespaceSelector: {}
               podMonitorNamespaceSelector: {}
-              retention: 365d
+              retention: 90d
               retentionSize: 95GiB
+              externalUrl: https://prometheus.raft.lutris.house
               storageSpec:
                 volumeClaimTemplate:
                   spec:
@@ -132,6 +136,28 @@ spec:
                       path: /var/lib/grafana/dashboards/default
 
           alertmanager:
+            config:
+              receivers:
+                - name: 'null'
+                - name: 'discord-warning'
+                  discord_configs:
+                    - webhook_url: 'https://discord.com/api/webhooks/1486418967831642294/KdWveFcn3vayM0GxoNuhvo2ZQrQKlmA7q9Gn7wQRnXUpujohttgoCN95Z7DQEuZDekBA'
+                      send_resolved: true
+                - name: 'discord-critical'
+                  discord_configs:
+                    - webhook_url: 'https://discord.com/api/webhooks/1486412547400794264/wAUcawXUtbLlpjgGYC0D1ubBNL2qQ6t4WOBwnNs4pb-I1mX8riB2X-76ZSyfJUR-Y8KO'
+                      send_resolved: true
+              route:
+                group_by: []
+                receiver: 'discord-warning'
+                routes:
+                  - receiver: 'null'
+                    matchers:
+                      - alertname =~ "Watchdog|InfoInhibitor"
+                  - receiver: 'discord-critical'
+                    matchers:
+                      - severity =~ "critical|page"
+
             serviceMonitor:
               relabelings:
                 - sourceLabels: [__meta_kubernetes_pod_node_name]
@@ -142,6 +168,8 @@ spec:
               ipDualStack:
                 enabled: true
             alertmanagerSpec:
+              replicas: 2
+              externalUrl: https://alertmanager.raft.lutris.house
               storage:
                 volumeClaimTemplate:
                   spec:
@@ -152,6 +180,7 @@ spec:
                         storage: 5Gi
 
           kube-state-metrics:
+            replicas: 2
             serviceMonitor:
               relabelings:
                 - sourceLabels: [__meta_kubernetes_pod_node_name]
