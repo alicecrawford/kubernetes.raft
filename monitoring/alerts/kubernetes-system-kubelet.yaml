@@ -19,9 +19,9 @@ spec:
             kube_node_status_condition{job="kube-state-metrics",condition="Ready",status="true"} == 0
             and on (cluster, node)
             kube_node_spec_unschedulable{job="kube-state-metrics"} == 0
-          for: 15m
+          for: 5m
           labels:
-            severity: warning
+            severity: critical
 
         - alert: KubeNodePressure
           annotations:

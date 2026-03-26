@@ -22,9 +22,9 @@ spec:
               )
             )
             > 0
-          for: 20m
+          for: 10m
           labels:
-            severity: warning
+            severity: critical
 
         - alert: etcdInsufficientMembers
           annotations:
