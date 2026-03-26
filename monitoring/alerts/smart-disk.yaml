@@ -1,0 +1,19 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: smart-disk.alerts
+  namespace: monitoring
+spec:
+  groups:
+    - name: smart-disk
+      rules:
+        - alert: NvmeSsdHighPercenatageUsed
+          annotations:
+            description: 'NVMe SSD {{ $labels.device }} on {{ $labels.instance }} is at {{ printf "%f" $value }}% used'
+            summary: nvme ssd is over 80% used
+          expr: |-
+            smartctl_device_percentage_used{job=~".*smartctl-exporter"} >= 80
+          for: 5m
+          labels:
+            severity: critical
