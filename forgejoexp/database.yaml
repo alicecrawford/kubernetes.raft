@@ -11,7 +11,7 @@ spec:
     storageClass: longhorn
   bootstrap:
     initdb:
-      database: forgejoexp
+      database: forgejo
       owner: forgejo
       secret:
         name: forgejoexp-pg-user
