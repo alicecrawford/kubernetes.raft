@@ -17,9 +17,9 @@ spec:
       targetRevision: 16.2.1
       path: .
       helm:
-        values: |-
+        valuesObject:
           global:
-            storageClass: longhorn
+            storageClass: nfs-ssd-csi
           clusterDomain: polycule.raft.lutris.house
           securityContext:
             capabilities:
