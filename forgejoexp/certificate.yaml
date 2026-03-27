@@ -1,0 +1,13 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: forgejoexp-certificate
+  namespace: forgejoexp
+spec:
+  dnsNames:
+    - gitexp.raft.lutris.house
+  secretName: forgejoexp-certificate
+  issuerRef:
+    name: letsencrypt-dns01-issuer
+    kind: ClusterIssuer
