@@ -57,7 +57,7 @@ spec:
           annotations:
             description: 'UPS {{ $labels.ups }} on {{ $labels.instance }} has an unknown status'
             summary: 'UPS {{ $labels.ups }} status unknown'
-          expr: network_ups_tools_ups_status == 0
+          expr: network_ups_tools_ups_status{flag=".+"} == 0
           for: 1m
           labels:
             severity: critical
