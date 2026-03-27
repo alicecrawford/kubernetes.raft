@@ -45,7 +45,7 @@ spec:
                     name: forgejo-pg-user
                     key: password
           persistence:
-            size: 101Gi
+            size: 400Gi
     - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
       path: forgejo
       targetRevision: HEAD
