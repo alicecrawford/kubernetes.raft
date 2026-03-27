@@ -398,6 +398,6 @@ spec:
             description: Temperature sensor {{ $labels.chip }} on {{ $labels.instance }} is at {{ print "%f" $value }}
             summary: Temperature of {{ $labels.chip }} on {{ $labels.instance }} is > 85C
           expr: node_hwmon_temp_celsius > 85
-          for: 1m
+          for: 10m
           labels:
             severity: warning
