@@ -10,8 +10,8 @@ spec:
       rules:
         - alert: UPSLoadHigh
           annotations:
-            description: 'UPS {{ $labels.ups }} on {{ $labels.instance }} is at {{ printf "%f" value }}% load'
-            summary: UPS {{ $labels.ups }} is at {{ printf "%f" value }}% load
+            description: 'UPS {{ $labels.ups }} on {{ $labels.instance }} is at {{ printf "%f" $value }}% load'
+            summary: UPS {{ $labels.ups }} is at {{ printf "%f" $value }}% load
           expr: network_ups_tools_ups_load > 80
           for: 0m
           labels:
@@ -19,8 +19,8 @@ spec:
 
         - alert: UPSLoadVeryHigh
           annotations:
-            description: 'UPS {{ $labels.ups }} on {{ $labels.instance }} is at {{ printf "%f" value }}% load'
-            summary: UPS {{ $labels.ups }} is at {{ printf "%f" value }}% load
+            description: 'UPS {{ $labels.ups }} on {{ $labels.instance }} is at {{ printf "%f" $value }}% load'
+            summary: UPS {{ $labels.ups }} is at {{ printf "%f" $value }}% load
           expr: network_ups_tools_ups_load > 90
           for: 0m
           labels:
@@ -28,8 +28,8 @@ spec:
 
         - alert: UPSLineVoltageOutOfSpec
           annotations:
-            description: 'Line in voltage for UPS {{ $labels.ups }} on {{ $labels.instance }} is out of range.  Input is at {{ printf "%d" value }}V and range is 100V to 125V'
-            summary: UPS {{ $labels.ups }} is at {{ printf "%d" value}}V
+            description: 'Line in voltage for UPS {{ $labels.ups }} on {{ $labels.instance }} is out of range.  Input is at {{ printf "%d" $value }}V and range is 100V to 125V'
+            summary: UPS {{ $labels.ups }} is at {{ printf "%d" $value }}V
           expr: (network_ups_tools_input_voltage > 125 or network_ups_tools_input_voltage < 100)
           for: 0m
           labels:
@@ -37,8 +37,8 @@ spec:
 
         - alert: UPSBatteryLow
           annotations:
-            description: 'Battery level for UPS {{ $labels.ups }} on {{ $labels.instance }} is low at {{ printf "%d" value }}%'
-            summary: UPS {{ $labels.ups }} battery is low at {{ printf "%d" value }}%
+            description: 'Battery level for UPS {{ $labels.ups }} on {{ $labels.instance }} is low at {{ printf "%d" $value }}%'
+            summary: UPS {{ $labels.ups }} battery is low at {{ printf "%d" $value }}%
           expr: network_ups_tools_battery_charge < 25
           for: 0m
           labels:
@@ -46,8 +46,8 @@ spec:
 
         - alert: UPSBatteryVeryLow
           annotations:
-            description: 'Battery level for UPS {{ $labels.ups }} on {{ $labels.instance }} is critically low at {{ printf "%d" value }}%'
-            summary: UPS {{ $labels.ups }} battery is low at {{ printf "%d" value }}%
+            description: 'Battery level for UPS {{ $labels.ups }} on {{ $labels.instance }} is critically low at {{ printf "%d" $value }}%'
+            summary: UPS {{ $labels.ups }} battery is low at {{ printf "%d" $value }}%
           expr: network_ups_tools_battery_charge < 15
           for: 0m
           labels:
