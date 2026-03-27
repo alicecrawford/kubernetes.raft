@@ -8,12 +8,84 @@ spec:
   groups:
     - name: smart-disk
       rules:
-        - alert: NvmeSsdHighPercenatageUsed
+        - alert: SmartHighPercenatageUsed
           annotations:
             description: 'NVMe SSD {{ $labels.device }} on {{ $labels.instance }} is at {{ printf "%f" $value }}% used'
             summary: nvme ssd is over 80% used
           expr: |-
-            smartctl_device_percentage_used{job=~".*smartctl-exporter"} >= 80
-          for: 5m
+            smartctl_device_percentage_used >= 80
+          for: 0m
           labels:
             severity: critical
+
+        - alert: SmartWearoutIndicator
+          expr: smartctl_device_available_spare < smartctl_device_available_spare_threshold
+          for: 0m
+          labels:
+            severity: critical
+          annotations:
+            summary: SMART Wearout Indicator (instance {{ $labels.instance }})
+            description: "Device is wearing out on {{ $labels.insance }} drive {{ $labels.device }})\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+        - alert: SmartMediaErrors
+          expr: smartctl_device_media_errors > 0
+          for: 0m
+          labels:
+            severity: critical
+          annotations:
+            summary: SMART media errors (instance {{ $labels.instance }})
+            description: "Disk controller detected media errors on {{ $labels.instance }} drive {{ $labels.device }})\n  VALUE = {{ $value }}"
+
+        - alert: SmartCriticalWarning
+          expr: smartctl_device_critical_warning > 0
+          for: 0m
+          labels:
+            severity: critical
+          annotations:
+            summary: SMART critical warning (instance {{ $labels.instance }})
+            description: "Disk controller has critical warning on {{ $labels.instance }} drive {{ $labels.device }})\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+        - alert: SmartStatus
+          expr: smartctl_device_smart_status != 1
+          for: 0m
+          labels:
+            severity: critical
+          annotations:
+            summary: SMART status (instance {{ $labels.instance }})
+            description: "Device has a SMART status failure on {{ $labels.instance }} drive {{ $labels.device }})\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+        - alert: SmartDeviceTemperatureWarning
+          expr: avg_over_time(smartctl_device_temperature{temperature_type="current"} [5m]) > 60
+          for: 0m
+          labels:
+            severity: warning
+          annotations:
+            summary: SMART device temperature warning (instance {{ $labels.instance }})
+            description: "Device temperature warning on {{ $labels.instance }} drive {{ $labels.device }} over 60°C\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+        - alert: SmartDeviceTemperatureCritical
+          expr: max_over_time(smartctl_device_temperature{temperature_type="current"} [5m]) > 70
+          for: 0m
+          labels:
+            severity: critical
+          annotations:
+            summary: SMART device temperature critical (instance {{ $labels.instance }})
+            description: "Device temperature critical on {{ $labels.instance }} drive {{ $labels.device }} over 70°C\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+        - alert: SmartDeviceErrorsLogged
+          expr: rate(smartctl_device_log_count [60m]) > 0
+          for: 0m
+          labels:
+            severity: critical
+          annotations:
+            summary: SMART device error log increasing (instance {{ $labels.instance }})
+            description: "Device has logged new errors in the past hour on {{ $labels.instance }} drive {{ $labels.device }}"
+
+        - alert: SmartDeviceErrorsLogged
+          expr: rate(smartctl_device_num_err_log_entries [60m]) > 0
+          for: 0m
+          labels:
+            severity: critical
+          annotations:
+            summary: SMART device error log increasing (instance {{ $labels.instance }})
+            description: "Device has logged new errors in the past hour on {{ $labels.instance }} drive {{ $labels.device }}"
