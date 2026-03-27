@@ -83,6 +83,9 @@ spec:
               ipDualStack:
                 enabled: true
             prometheusSpec:
+              replicas: 2
+              replicaExternalLabelName: prometheus_replica
+              podAntiAffinity: hard
               additionalScrapeConfigs: |
                 - job_name: smartctl-exporter
                   scheme: http
@@ -177,7 +180,7 @@ spec:
               ipDualStack:
                 enabled: true
             alertmanagerSpec:
-              replicas: 2
+              replicas: 3
               externalUrl: https://alertmanager.raft.lutris.house
               storage:
                 volumeClaimTemplate:
