@@ -17,7 +17,7 @@ spec:
       path: charts/immich
       targetRevision: immich-0.10.3
       helm:
-        values: |-
+        valuesObject:
           server:
             controllers:
               main:
