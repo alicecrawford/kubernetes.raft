@@ -12,6 +12,15 @@ spec:
   syncPolicy:
     syncOptions:
       - ServerSideApply=true
+  ignoreDifferences:
+    - group: ''
+      kind: Secret
+      jsonPointers:
+        - /data
+    - group: '*'
+      kind: Deployment
+      jsonPointers:
+        - /spec/template/metadata/annotations/checksum~1secret
   sources:
     - repoURL: https://github.com/prometheus-community/helm-charts.git
       path: charts/prometheus-node-exporter
@@ -148,7 +157,7 @@ spec:
                     - webhook_url: 'https://discord.com/api/webhooks/1486412547400794264/wAUcawXUtbLlpjgGYC0D1ubBNL2qQ6t4WOBwnNs4pb-I1mX8riB2X-76ZSyfJUR-Y8KO'
                       send_resolved: true
               route:
-                group_by: []
+                group_by: ['...']
                 receiver: 'discord-warning'
                 routes:
                   - receiver: 'null'
@@ -235,3 +244,6 @@ spec:
       path: monitoring
       targetRevision: HEAD
       ref: values
+    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+      path: monitoring/alerts
+      targetRevision: HEAD

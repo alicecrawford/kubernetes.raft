@@ -6,6 +6,12 @@ metadata:
   namespace: argocd
 spec:
   project: system
+  ignoreDifferences:
+    - group: ''
+      kind: Secret
+      jsonPointers:
+        - /data/ca.crt
+        - /data/ca.key
   source:
     repoURL: https://helm.cilium.io/
     targetRevision: 1.18.5

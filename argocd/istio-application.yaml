@@ -6,6 +6,11 @@ metadata:
   namespace: argocd
 spec:
   project: system
+  ignoreDifferences:
+    - group: '*'
+      kind: ValidatingWebhookConfiguration
+      jqPathExpressions:
+        - .webhooks[] | select(.key == "failurePolicy")
   sources:
     - repoURL: https://istio-release.storage.googleapis.com/charts
       targetRevision: 1.28.2
