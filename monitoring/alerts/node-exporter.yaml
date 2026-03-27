@@ -383,3 +383,21 @@ spec:
           for: 5m
           labels:
             severity: warning
+
+        - alert: NodeBtrfsDeviceErrors
+          annotations:
+            description: btrfs filesystem {{ $labels.device }} on {{ $labels.instance }} is reporting {{ print "%f" value }} {{ $labels.type }} errors
+            summary: btrfs fs {{ $labels.device }} on {{ $labels.instance }} has active {{ $labels.type }} errors
+          expr: rate(node_btrfs_device_errors_total{job="node-exporter"}[5m]) > 0
+          for: 1m
+          labels:
+            severity: critical
+
+        - alert: NodeHwmonTemperatureHigh
+          annotations:
+            description: Temperature sensor {{ $labels.chip }} on {{ $labels.instance }} is at {{ print "%f" value }}
+            summary: Temperature of {{ $labels.chip }} on {{ $labels.instance }} is > 80C
+          expr: node_hwmon_temp_celsius > 80
+          for: 1m
+          labels:
+            severity: warning
