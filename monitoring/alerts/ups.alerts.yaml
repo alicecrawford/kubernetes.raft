@@ -84,7 +84,7 @@ spec:
           annotations:
             description: 'UPS {{ $labels.ups }} on {{ $labels.instance }} is overloaded'
             summary: 'UPS {{ $labels.ups }} is overloaded'
-          expr: network_ups_tools_ups_status{flag="OL"} == 1
+          expr: network_ups_tools_ups_status{flag="OVER"} == 1
           for: 0m
           labels:
             severity: critical
