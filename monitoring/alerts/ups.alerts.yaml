@@ -53,15 +53,6 @@ spec:
           labels:
             severity: critical
 
-        - alert: UPSStatusUnknown
-          annotations:
-            description: 'UPS {{ $labels.ups }} on {{ $labels.instance }} has an unknown status'
-            summary: 'UPS {{ $labels.ups }} status unknown'
-          expr: network_ups_tools_ups_status{flag=~".+"} == 0
-          for: 1m
-          labels:
-            severity: critical
-
         - alert: UPSStatusOnBattery
           annotations:
             description: 'UPS {{ $labels.ups }} on {{ $labels.instance }} is on battery'
