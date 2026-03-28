@@ -1,1 +1,5 @@
 .venv
+
+secrets/
+tmp/
+working/
