@@ -51,7 +51,7 @@ spec:
                 replacement: $1
     - repoURL: oci://ghcr.io/prometheus-community/charts/kube-prometheus-stack
       path: .
-      targetRevision: 80.10.0
+      targetRevision: 81.6.9
       helm:
         valuesObject:
           nodeExporter:
