@@ -9,8 +9,8 @@ spec:
   ignoreDifferences:
     - group: '*'
       kind: ValidatingWebhookConfiguration
-      jqPathExpressions:
-        - .webhooks[] | select(.key == "failurePolicy")
+      jsonPointers:
+        - /webhooks
   sources:
     - repoURL: https://istio-release.storage.googleapis.com/charts
       targetRevision: 1.28.2
