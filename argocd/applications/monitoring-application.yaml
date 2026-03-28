@@ -21,9 +21,9 @@ spec:
       jsonPointers:
         - /spec/template/metadata/annotations/checksum~1secret
   sources:
-    - repoURL: https://github.com/prometheus-community/helm-charts.git
-      path: charts/prometheus-node-exporter
-      targetRevision: prometheus-node-exporter-4.52.2
+    - repoURL: oci://ghcr.io/prometheus-community/charts/prometheus-node-exporter
+      path: .
+      targetRevision: 4.52.2
       helm:
         valuesObject:
           prometheus:
@@ -37,9 +37,9 @@ spec:
                 - targetLabel: job
                   action: replace
                   replacement: node-exporter
-    - repoURL: https://github.com/prometheus-community/helm-charts.git
-      path: charts/prometheus-smartctl-exporter
-      targetRevision: prometheus-smartctl-exporter-0.16.0
+    - repoURL: oci://ghcr.io/prometheus-community/charts/prometheus-smartctl-exporter
+      path: .
+      targetRevision: 0.16.0
       helm:
         valuesObject:
           serviceMonitor:
@@ -49,9 +49,9 @@ spec:
                 targetLabel: instance
                 action: replace
                 replacement: $1
-    - repoURL: https://github.com/prometheus-community/helm-charts.git
-      path: charts/kube-prometheus-stack
-      targetRevision: kube-prometheus-stack-80.10.0
+    - repoURL: oci://ghcr.io/prometheus-community/charts/kube-prometheus-stack
+      path: .
+      targetRevision: 80.10.0
       helm:
         valuesObject:
           nodeExporter:

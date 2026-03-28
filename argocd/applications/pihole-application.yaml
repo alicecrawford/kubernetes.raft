@@ -13,11 +13,12 @@ spec:
     syncOptions:
       - ServerSideApply=true
   sources:
-    - repoURL: https://github.com/MoJo2600/pihole-kubernetes
-      path: charts/pihole
-      targetRevision: pihole-2.35.0
+    - repoURL: https://mojo2600.github.io/pihole-kubernetes/
+      chart: pihole
+      path: .
+      targetRevision: 2.35.0
       helm:
-        values: |-
+        valuesObject:
           DNS1: 8.8.8.8
           DNS2: 1.1.1.1
           persistentVolumeClaim:

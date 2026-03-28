@@ -13,9 +13,9 @@ spec:
     syncOptions:
       - ServerSideApply=true
   sources:
-    - repoURL: https://github.com/immich-app/immich-charts
-      path: charts/immich
-      targetRevision: immich-0.10.3
+    - repoURL: oci://ghcr.io/immich-app/immich-charts/immich
+      path: .
+      targetRevision: 0.10.3
       helm:
         valuesObject:
           server:
