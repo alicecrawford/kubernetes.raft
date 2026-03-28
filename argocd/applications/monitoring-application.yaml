@@ -148,28 +148,6 @@ spec:
                       path: /var/lib/grafana/dashboards/default
 
           alertmanager:
-            config:
-              receivers:
-                - name: 'null'
-                - name: 'discord-warning'
-                  discord_configs:
-                    - webhook_url_file: /etc/alertmanager/secrets/alertmanager-secrets/discord-webhook-warning
-                      send_resolved: true
-                - name: 'discord-critical'
-                  discord_configs:
-                    - webhook_url_file: /etc/alertmanager/secrets/alertmanager-secrets/discord-webhook-critical
-                      send_resolved: true
-              route:
-                group_by: ['...']
-                receiver: 'discord-warning'
-                routes:
-                  - receiver: 'null'
-                    matchers:
-                      - alertname =~ "Watchdog|InfoInhibitor"
-                  - receiver: 'discord-critical'
-                    matchers:
-                      - severity =~ "critical|page"
-
             serviceMonitor:
               relabelings:
                 - sourceLabels: [__meta_kubernetes_pod_node_name]
@@ -180,8 +158,7 @@ spec:
               ipDualStack:
                 enabled: true
             alertmanagerSpec:
-              secrets:
-                - alertmanager-secrets
+              configSecret: alertmanager-config-secret
               replicas: 3
               externalUrl: https://alertmanager.raft.lutris.house
               storage:
