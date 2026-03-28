@@ -19,7 +19,7 @@ spec:
     - repoURL: https://istio-release.storage.googleapis.com/charts
       targetRevision: 1.28.2
       helm:
-        values: |
+        valuesObject:
           profile: ambient
           pilot:
             env:
@@ -34,7 +34,7 @@ spec:
     - repoURL: https://istio-release.storage.googleapis.com/charts
       targetRevision: 1.28.2
       helm:
-        values: |
+        valuesObject:
           profile: ambient
           pilot:
             env:
@@ -49,7 +49,7 @@ spec:
     - repoURL: https://istio-release.storage.googleapis.com/charts
       targetRevision: 1.28.2
       helm:
-        values: |
+        valuesObject:
           profile: ambient
           pilot:
             env:
@@ -64,7 +64,7 @@ spec:
     - repoURL: https://istio-release.storage.googleapis.com/charts
       targetRevision: 1.28.2
       helm:
-        values: |
+        valuesObject:
           profile: ambient
           pilot:
             env:
