@@ -13,8 +13,7 @@ spec:
     syncOptions:
       - ServerSideApply=true
   ignoreDifferences:
-    - group: ''
-      kind: Secret
+    - kind: Secret
       jsonPointers:
         - /data
     - group: '*'

@@ -7,8 +7,7 @@ metadata:
 spec:
   project: system
   ignoreDifferences:
-    - group: ''
-      kind: Secret
+    - kind: Secret
       jsonPointers:
         - /data/ca.crt
         - /data/ca.key
