@@ -12,6 +12,10 @@ spec:
   syncPolicy:
     syncOptions:
       - ServerSideApply=true
+  ignoreDifferences:
+    - kind: Secret
+      jsonPointers:
+        - /data
   sources:
     - repoURL: oci://code.forgejo.org/forgejo-helm/forgejo
       targetRevision: 16.2.1
