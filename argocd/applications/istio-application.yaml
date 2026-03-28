@@ -8,8 +8,13 @@ spec:
   project: system
   ignoreDifferences:
     - kind: ValidatingWebhookConfiguration
+      group: '*'
       jsonPointers:
         - /webhooks
+    - kind: DaemonSet
+      group: '*'
+      jqPathExpressions:
+        - .spec.template.spec.containers[].env[].valueFrom.resourceFieldRef.divisor
   sources:
     - repoURL: https://istio-release.storage.googleapis.com/charts
       targetRevision: 1.28.2
