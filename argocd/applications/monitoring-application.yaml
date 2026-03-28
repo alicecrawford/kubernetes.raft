@@ -180,6 +180,8 @@ spec:
               ipDualStack:
                 enabled: true
             alertmanagerSpec:
+              secrets:
+                - alertmanager-secrets
               replicas: 3
               externalUrl: https://alertmanager.raft.lutris.house
               storage:
