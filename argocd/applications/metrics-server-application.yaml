@@ -10,7 +10,7 @@ spec:
     repoURL: https://kubernetes-sigs.github.io/metrics-server/
     targetRevision: 3.13.0
     helm:
-      valuesObject:
+      valuesObject: |
         replicas: 2
         args:
           - --kubelet-insecure-tls
