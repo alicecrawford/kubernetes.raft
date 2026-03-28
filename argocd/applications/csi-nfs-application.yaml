@@ -14,7 +14,6 @@ spec:
       - ServerSideApply=true
   sources:
     - repoURL: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
-      path: ''
       chart: csi-driver-nfs
       targetRevision: 4.12.1
       helm:
