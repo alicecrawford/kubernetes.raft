@@ -6,11 +6,11 @@ metadata:
   namespace: monitoring
 spec:
   inhibitRules:
-    - targetMatch:
+    - sourceMatch:
         - name: alertname
           value: NodeRAIDOperationInProgress
           matchType: '='
-      sourceMatch:
+      targetMatch:
         - name: alertname
           value: NodeDiskIOSaturation
           matchType: '='
