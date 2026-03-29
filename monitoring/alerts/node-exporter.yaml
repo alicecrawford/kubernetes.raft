@@ -246,6 +246,16 @@ spec:
           labels:
             severity: critical
 
+        - alert: NodeRAIDOperationInProgress
+          annotations:
+            description: RAID array '{{ $labels.device }}' at {{ $labels.instance }} is
+              currently operating in the {{ $labels.state }} state.
+            summary: RAID operation in progress
+          expr: node_md_state{state=~"(recovering|check|resync)"} == 1
+          for: 0m
+          labels:
+            severity: info
+
         - alert: NodeRAIDDiskFailure
           annotations:
             description: At least one device in RAID array at {{ $labels.instance }} failed.
