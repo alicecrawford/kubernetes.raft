@@ -1,0 +1,22 @@
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: AlertmanagerConfig
+metadata:
+  name: route-config
+  namespace: monitoring
+spec:
+  inhibitRules:
+    - targetMatch:
+        - name: alertname
+          value: NodeRAIDOperationInProgress
+          matchType: '='
+      sourceMatch:
+        - name: alertname
+          value: NodeDiskIOSaturation
+          matchType: '='
+        - name: device
+          value: 'sd.'
+          matchType: '=~'
+      equal:
+        - instance
+        - job
