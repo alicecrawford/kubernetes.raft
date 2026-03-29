@@ -160,6 +160,8 @@ spec:
               configSecret: alertmanager-config-secret
               replicas: 3
               externalUrl: https://alertmanager.raft.lutris.house
+              alertmanagerConfigMatcherStrategy:
+                type: "None"
               storage:
                 volumeClaimTemplate:
                   spec:
