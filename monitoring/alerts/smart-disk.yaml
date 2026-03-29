@@ -55,7 +55,7 @@ spec:
             description: "Device has a SMART status failure on {{ $labels.instance }} drive {{ $labels.device }})\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
         - alert: SmartDeviceTemperatureWarning
-          expr: avg_over_time(smartctl_device_temperature{temperature_type="current"} [5m]) > 60
+          expr: avg_over_time(smartctl_device_temperature{temperature_type="current"} [5m]) > 70
           for: 0m
           labels:
             severity: warning
@@ -64,7 +64,7 @@ spec:
             description: "Device temperature warning on {{ $labels.instance }} drive {{ $labels.device }} over 60°C\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
         - alert: SmartDeviceTemperatureCritical
-          expr: max_over_time(smartctl_device_temperature{temperature_type="current"} [5m]) > 70
+          expr: max_over_time(smartctl_device_temperature{temperature_type="current"} [5m]) > 80
           for: 0m
           labels:
             severity: critical
