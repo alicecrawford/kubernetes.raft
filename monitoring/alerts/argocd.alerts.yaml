@@ -1,0 +1,36 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: argocd.alerts
+  namespace: monitoring
+spec:
+  groups:
+    - name: argocd-alerts
+      rules:
+        - alert: ArgocdAppAutosyncNotEnabled
+          annotations:
+            description: 'Argocd application {{ $labels.name }} has autosync disabled'
+            summary: 'Application has autosync disabled'
+          expr: argocd_app_info{autosync_enabled!="true"} != 0
+          for: 15m
+          labels:
+            severity: info
+
+        - alert: ArgocdServiceNotSynced
+          expr: argocd_app_info{sync_status!="Synced"} != 0
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: ArgoCD service not synced (instance {{ $labels.instance }})
+            description: "Service {{ $labels.name }} run by argo is currently not in sync.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+        - alert: ArgocdServiceUnhealthy
+          expr: argocd_app_info{health_status!="Healthy"} != 0
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: ArgoCD service unhealthy (instance {{ $labels.instance }})
+            description: "Service {{ $labels.name }} run by argo is currently not healthy.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
