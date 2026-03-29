@@ -2,7 +2,7 @@
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: AlertmanagerConfig
 metadata:
-  name: route-config
+  name: inhibit-rules-config
   namespace: monitoring
 spec:
   inhibitRules:
