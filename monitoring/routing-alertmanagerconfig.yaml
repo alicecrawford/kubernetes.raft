@@ -1,0 +1,22 @@
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: AlertmanagerConfig
+metadata:
+  name: route-config
+  namespace: monitoring
+spec:
+  route:
+    group_by: ['alertname', 'job']
+    receiver: 'discord-info'
+    routes:
+      - receiver: 'null'
+        matchers:
+          - alertname =~ "Watchdog|InfoInhibitor"
+      - receiver: 'discord-critical'
+        matchers:
+          - severity =~ "critical|page"
+        group_by: ['alertname', 'job']
+      - receiver: 'discord-warning'
+        matchers:
+          - severity =~ "warning"
+        group_by: ['alertname', 'job']
