@@ -6,7 +6,7 @@ metadata:
   namespace: monitoring
 spec:
   route:
-    group_by: ['alertname', 'job']
+    groupBy: ['alertname', 'job']
     receiver: 'discord-info'
     routes:
       - receiver: 'null'
@@ -15,8 +15,8 @@ spec:
       - receiver: 'discord-critical'
         matchers:
           - severity =~ "critical|page"
-        group_by: ['alertname', 'job']
+        groupBy: ['alertname', 'job']
       - receiver: 'discord-warning'
         matchers:
           - severity =~ "warning"
-        group_by: ['alertname', 'job']
+        groupBy: ['alertname', 'job']
