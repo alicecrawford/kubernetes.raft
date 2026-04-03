@@ -1,0 +1,174 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: authelia
+  namespace: argocd
+spec:
+  project: system
+  sources:
+    - repoURL: https://djjudas21.github.io/charts/
+      targetRevision: 0.6.3
+      chart: lldap
+      helm:
+        valuesObject:
+          externalPostgresql:
+            enabled: true
+            fromSecret: lldap-storage-app
+            uriKey: uri
+
+          lldap:
+            baseDN: &base_dn dc=raft,dc=lutris,dc=house
+            secretName: lldap-credentials
+            jwtSecretKey: jwt-secret
+            keySeedKey: kee-seed
+            ldapUserPassKey: admin-password
+
+            forceLDAPUserPassReset: true
+
+            httpHost: "::"
+            ldapHost: "::"
+
+          bootstrap:
+            enabled: true
+
+            groups:
+              - cluster_admin
+
+            users:
+              - id: authelia
+                email: alicelutris+authelia@gmail.com
+                passwordSecret:
+                  name: lldap-credentials
+                  key: authelia-password
+                groups:
+                  - lldap_strict_readonly
+              - id: sysadmin
+                email: alicelutris+lldap@gmail.com
+                passwordSecret:
+                  name: lldap-credentials
+                  key: sysadmin-password
+                groups:
+                  - cluster_admin
+
+    - repoURL: https://valkey.io/valkey-helm/
+      targetRevision: 0.9.3
+      chart: valkey
+      helm:
+        valuesObject:
+          auth:
+            enabled: true
+            usersExistingSecret: authelia-sessions-password
+            aclUsers:
+              default:
+                permissions: '~* &* +@all'
+                passwordKey: password
+
+          metrics:
+            enabled: true
+            serviceMonitor:
+              enabled: true
+
+    - repoURL: https://charts.authelia.com
+      targetRevision: 0.10.50
+      chart: authelia
+      helm:
+        valuesObject:
+          pod:
+            kind: Deployment
+
+          secret:
+            lldap-credentials:
+              items:
+                - key: authelia-password
+            authelia-config:
+              items:
+                - key: smtp-password
+                - key: storage-key
+            authelia-sessions-key:
+              items:
+                - key: password
+            authelia-sessions-password:
+              items:
+                - key: password
+            authelia-storage-app:
+              items:
+                - key: password
+
+          configMap:
+            theme: auto
+
+            telemetry:
+              metrics:
+                enabled: true
+                serviceMonitor:
+                  enabled: true
+
+            default_2fa_method: totp
+
+            identity_validation:
+              elevated_session:
+                require_second_factor: true
+
+            ldap:
+              enabled: true
+              implementation: lldap
+              address: ldap://lldap-ldap:3890
+              base_dn: *base_dn
+              user: uid=authelia,ou=people,dc=raft,dc=lutris,dc=house
+              password:
+                secret_name: lldap-credentials
+                path: authelia-password
+
+            access_control:
+              rules:
+                - domain: '*.raft.lutris.house'
+                  policy: two_factor
+                  subject:
+                    - group:cluster_admin
+
+            notifier:
+              smtp:
+                enabled: true
+                address: submissions://smtp.gmail.com
+                sender: 'Lutris.house Authentication <noreply@lutris.house>'
+                identifier: gmail.com
+                username: alicelutris@gmail.com
+                password:
+                  secret_name: authelia-config
+                  path: smtp-password
+
+            session:
+              cookies:
+                - domain: raft.lutris.house
+                  authelia_url: https://authelia.raft.lutris.house/
+
+              encryption_key:
+                secret_name: authelia-sessions-key
+                path: password
+
+              redis:
+                enabled: true
+                host: authelia-sessions-valkey
+                username: default
+                password:
+                  secret_name: authelia-sessions-password
+                  path: password
+
+            storage:
+              encryption_key:
+                secret_name: authelia-config
+                path: storage-key
+
+              postgres:
+                enabled: true
+                address: tcp://authelia-storage-rw:5432
+                database: app
+                username: app
+                password:
+                  secret_name: authelia-storage-app
+                  path: password
+
+    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+      path: authelia
+      targetRevision: HEAD
