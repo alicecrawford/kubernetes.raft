@@ -32,7 +32,6 @@ spec:
               tolerationSeconds: 5
           persistentVolumeClaim:
             enabled: true
-            storageClass: longhorn
             size: 10Gi
           dualStack:
             enabled: true
