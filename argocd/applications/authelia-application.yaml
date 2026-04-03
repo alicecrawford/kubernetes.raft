@@ -84,22 +84,23 @@ spec:
             kind: Deployment
 
           secret:
-            lldap-credentials:
-              items:
-                - key: authelia-password
-            authelia-config:
-              items:
-                - key: smtp-password
-                - key: storage-key
-            authelia-sessions-key:
-              items:
-                - key: password
-            authelia-sessions-password:
-              items:
-                - key: password
-            authelia-storage-app:
-              items:
-                - key: password
+            additionalSecrets:
+              lldap-credentials:
+                items:
+                  - key: authelia-password
+              authelia-config:
+                items:
+                  - key: smtp-password
+                  - key: storage-key
+              authelia-sessions-key:
+                items:
+                  - key: password
+              authelia-sessions-password:
+                items:
+                  - key: password
+              authelia-storage-app:
+                items:
+                  - key: password
 
           configMap:
             theme: auto
@@ -116,15 +117,16 @@ spec:
               elevated_session:
                 require_second_factor: true
 
-            ldap:
-              enabled: true
-              implementation: lldap
-              address: ldap://lldap-ldap:3890
-              base_dn: *base_dn
-              user: uid=authelia,ou=people,dc=raft,dc=lutris,dc=house
-              password:
-                secret_name: lldap-credentials
-                path: authelia-password
+            authentication_backend:
+              ldap:
+                enabled: true
+                implementation: lldap
+                address: ldap://lldap-ldap:3890
+                base_dn: *base_dn
+                user: uid=authelia,ou=people,dc=raft,dc=lutris,dc=house
+                password:
+                  secret_name: lldap-credentials
+                  path: authelia-password
 
             access_control:
               rules:
