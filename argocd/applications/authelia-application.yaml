@@ -19,7 +19,7 @@ spec:
       helm:
         valuesObject:
           deploymentAnnotations:
-            argocd.argoproj.io/sync-wave: 1
+            argocd.argoproj.io/sync-wave: '1'
           externalPostgresql:
             enabled: true
             fromSecret: lldap-storage-app
