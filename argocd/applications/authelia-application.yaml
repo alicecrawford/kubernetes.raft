@@ -121,7 +121,7 @@ spec:
               ldap:
                 enabled: true
                 implementation: lldap
-                address: ldap://lldap-ldap:3890
+                address: ldap://authelia-lldap-ldap:3890
                 base_dn: *base_dn
                 user: uid=authelia,ou=people,dc=raft,dc=lutris,dc=house
                 password:
