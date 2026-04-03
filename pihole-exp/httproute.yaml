@@ -14,7 +14,7 @@ spec:
     - pihole-exp.raft.lutris.house
   rules:
     - backendRefs:
-        - name: pihole-web
+        - name: pihole-exp-web
           port: 80
           kind: Service
           group: ""
