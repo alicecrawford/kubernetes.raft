@@ -157,7 +157,7 @@ spec:
 
               redis:
                 enabled: true
-                host: authelia-sessions-valkey
+                host: authelia-valkey
                 username: default
                 password:
                   secret_name: authelia-sessions-password
