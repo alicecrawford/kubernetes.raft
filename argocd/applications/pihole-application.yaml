@@ -21,6 +21,15 @@ spec:
         valuesObject:
           DNS1: 8.8.8.8
           DNS2: 1.1.1.1
+          tolerations:
+            - key: "node.kubernetes.io/unreachable"
+              operator: "Exists"
+              effect: "NoExecute"
+              tolerationSeconds: 5
+            - key: "node.kubernetes.io/not-ready"
+              operator: "Exists"
+              effect: "NoExecute"
+              tolerationSeconds: 5
           persistentVolumeClaim:
             enabled: true
             storageClass: longhorn
