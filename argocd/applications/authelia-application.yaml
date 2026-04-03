@@ -27,7 +27,7 @@ spec:
             baseDN: &base_dn dc=raft,dc=lutris,dc=house
             secretName: lldap-credentials
             jwtSecretKey: jwt-secret
-            keySeedKey: kee-seed
+            keySeedKey: key-seed
             ldapUserPassKey: admin-password
 
             forceLDAPUserPassReset: true
