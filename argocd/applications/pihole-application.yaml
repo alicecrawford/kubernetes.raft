@@ -41,10 +41,6 @@ spec:
               tolerationSeconds: 5
           dualStack:
             enabled: true
-          persistentVolumeClaim:
-            enabled: true
-            storageClass: longhorn
-            size: 10Gi
           admin:
             existingSecret: pihole-admin
           serviceDns:
