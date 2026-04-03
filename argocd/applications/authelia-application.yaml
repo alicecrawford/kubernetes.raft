@@ -18,6 +18,8 @@ spec:
       chart: lldap
       helm:
         valuesObject:
+          annotations:
+            argocd.argoproj.io/sync-wave: 1
           externalPostgresql:
             enabled: true
             fromSecret: lldap-storage-app
