@@ -40,9 +40,6 @@ spec:
           bootstrap:
             enabled: true
 
-            groups:
-              - cluster_admin
-
             users:
               - id: authelia
                 email: alicelutris+authelia@gmail.com
@@ -51,13 +48,6 @@ spec:
                   key: authelia-password
                 groups:
                   - lldap_strict_readonly
-              - id: sysadmin
-                email: alicelutris+lldap@gmail.com
-                passwordSecret:
-                  name: lldap-credentials
-                  key: sysadmin-password
-                groups:
-                  - cluster_admin
 
     - repoURL: https://valkey.io/valkey-helm/
       targetRevision: 0.9.3
