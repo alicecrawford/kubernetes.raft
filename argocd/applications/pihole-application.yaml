@@ -50,6 +50,8 @@ spec:
             type: LoadBalancer
           serviceDhcp:
             enabled: false
+          antiaff:
+            enabled: true
           podDnsConfig:
             enabled: true
             policy: None
