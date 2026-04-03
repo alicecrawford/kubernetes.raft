@@ -6,6 +6,12 @@ metadata:
   namespace: argocd
 spec:
   project: system
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: authelia
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
   sources:
     - repoURL: https://djjudas21.github.io/charts/
       targetRevision: 0.6.3
