@@ -82,6 +82,8 @@ spec:
       chart: authelia
       helm:
         valuesObject:
+          podAnnotations:
+            argocd.argoproj.io/sync-wave: '1'
           pod:
             kind: Deployment
 
