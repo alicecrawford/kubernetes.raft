@@ -95,6 +95,7 @@ spec:
                 items:
                   - key: smtp-password
                   - key: storage-key
+                  - key: oidc-jwks-key
               authelia-sessions-key:
                 items:
                   - key: password
