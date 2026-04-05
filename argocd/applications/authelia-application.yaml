@@ -41,6 +41,13 @@ spec:
           bootstrap:
             enabled: true
 
+            groups:
+              - cluster_admin
+              - monitoring
+              - media
+              - cloud
+              - development
+
             users:
               - id: authelia
                 email: alicelutris+authelia@gmail.com
