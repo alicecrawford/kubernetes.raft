@@ -104,6 +104,13 @@ spec:
               authelia-storage-app:
                 items:
                   - key: password
+              authelia-oidc-hmac-secret:
+                items:
+                  - key: password
+              authelia-oidc:
+                items:
+                  - key: argocd-id
+                  - key: argocd-digest
 
           configMap:
             theme: auto
