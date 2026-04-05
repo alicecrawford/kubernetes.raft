@@ -1,0 +1,13 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: authelia-http
+  namespace: authelia
+spec:
+  dnsNames:
+    - auth.raft.lutris.house
+  secretName: authelia-http
+  issuerRef:
+    name: letsencrypt-dns01-issuer
+    kind: ClusterIssuer

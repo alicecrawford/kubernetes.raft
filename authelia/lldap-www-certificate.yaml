@@ -1,0 +1,13 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: lldap-http
+  namespace: romm
+spec:
+  dnsNames:
+    - ldap.raft.lutris.house
+  secretName: lldap-http
+  issuerRef:
+    name: letsencrypt-dns01-issuer
+    kind: ClusterIssuer
