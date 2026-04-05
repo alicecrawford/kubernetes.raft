@@ -116,6 +116,60 @@ spec:
 
             default_2fa_method: totp
 
+            identity_providers:
+              oidc:
+                enabled: true
+                hmac_secret:
+                  secret_name: authelia-oidc-hmac-secret
+                  path: password
+                jwks:
+                  - key:
+                      path: /secrets/authelia-config/oidc-jwks-key
+
+                authorization_policies:
+                  monitoring:
+                    rules:
+                      - poilcy: one_factor
+                        subject:
+                          - group:monitoring
+
+                  development:
+                    rules:
+                      - policy: one_factor
+                        subject:
+                          - group:development
+
+                  media:
+                    rules:
+                      - policy: one_factor
+                        subject:
+                          - group:media
+
+                  cloud:
+                    rules:
+                      - policy: one_factor
+                        subject:
+                          - group:cloud
+
+                  cluster_admin:
+                    rules:
+                      - policy: two_factor
+                        subject:
+                          - group:cluster_admin
+
+                clients:
+                  - client_name: ArgoCD
+                    client_id: '{{ secret "/secrets/authelia-oidc/argocd-id" }}'
+                    client_secret:
+                      path: /secrets/authelia-oidc/argocd-digest
+                    redirect_uris:
+                      - https://argocd.raft.lutris.house/auth/callback
+                    scopes:
+                      - openid
+                      - groups
+                      - email
+                    authorization_policy: cluster_admin
+
             identity_validation:
               elevated_session:
                 require_second_factor: true
