@@ -223,6 +223,18 @@ spec:
                 - domain: '*.raft.lutris.house'
                   policy: one_factor
                   subject:
+                    - group:development
+                - domain: '*.raft.lutris.house'
+                  policy: one_factor
+                  subject:
+                    - group:cloud
+                - domain: '*.raft.lutris.house'
+                  policy: one_factor
+                  subject:
+                    - group:media
+                - domain: '*.raft.lutris.house'
+                  policy: one_factor
+                  subject:
                     - group:monitoring
                 - domain: '*.raft.lutris.house'
                   policy: two_factor
