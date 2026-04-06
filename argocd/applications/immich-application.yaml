@@ -42,9 +42,6 @@ spec:
           valkey:
             enabled: true
 
-          machine-learning:
-            enabled: false
-
           immich:
             metrics:
               enabled: true
