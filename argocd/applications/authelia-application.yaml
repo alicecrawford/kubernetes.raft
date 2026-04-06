@@ -221,6 +221,10 @@ spec:
             access_control:
               rules:
                 - domain: '*.raft.lutris.house'
+                  policy: one_factor
+                  subject:
+                    - group:monitoring
+                - domain: '*.raft.lutris.house'
                   policy: two_factor
                   subject:
                     - group:cluster_admin
