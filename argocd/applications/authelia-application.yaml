@@ -139,12 +139,6 @@ spec:
                       path: /secrets/authelia-config/oidc-jwks-key
 
                 authorization_policies:
-                  mon_users:
-                    rules:
-                      - poilcy: one_factor
-                        subject:
-                          - group:mon_users
-
                   development:
                     rules:
                       - policy: one_factor
@@ -199,7 +193,7 @@ spec:
                       - authorization_code
                     access_token_signed_response_alg: none
                     userinfo_signed_response_alg: none
-                    authorization_policy: mon_users
+                    authorization_policy: cluster_admin
                     require_pkce: true
                     pkce_challenge_method: S256
 
@@ -232,10 +226,6 @@ spec:
                   policy: one_factor
                   subject:
                     - group:media
-                - domain: '*.raft.lutris.house'
-                  policy: one_factor
-                  subject:
-                    - group:mon_users
                 - domain: '*.raft.lutris.house'
                   policy: two_factor
                   subject:
