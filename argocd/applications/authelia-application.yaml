@@ -108,7 +108,7 @@ spec:
               authelia-oidc-hmac-secret:
                 items:
                   - key: password
-              authelia-oidc:
+              authelia-oidc-argocd:
                 items:
                   - key: argocd-id
                   - key: argocd-digest
@@ -167,9 +167,9 @@ spec:
 
                 clients:
                   - client_name: ArgoCD
-                    client_id: '{{ secret "/secrets/authelia-oidc/argocd-id" }}'
+                    client_id: '{{ secret "/secrets/authelia-oidc-argocd/argocd-id" }}'
                     client_secret:
-                      path: /secrets/authelia-oidc/argocd-digest
+                      path: /secrets/authelia-oidc-argocd/argocd-digest
                     redirect_uris:
                       - https://argocd.raft.lutris.house/auth/callback
                     scopes:
