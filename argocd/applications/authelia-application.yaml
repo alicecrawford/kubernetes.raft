@@ -81,7 +81,7 @@ spec:
       helm:
         valuesObject:
           pod:
-            replicas: 2
+            replicas: 1
             annotations:
               argocd.argoproj.io/sync-wave: '2'
             kind: Deployment
