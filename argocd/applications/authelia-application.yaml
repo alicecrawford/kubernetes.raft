@@ -141,6 +141,11 @@ spec:
 
             identity_providers:
               oidc:
+                lifespans:
+                  access_token: '4 hours'
+                  refresh_token: '6 hours'
+                  id_token: '4 hours'
+
                 enabled: true
                 hmac_secret:
                   secret_name: authelia-oidc-hmac-secret
@@ -313,6 +318,7 @@ spec:
                   path: smtp-password
 
             session:
+              expiration: 4 hours
               remember_me: 3 months
               cookies:
                 - domain: raft.lutris.house
