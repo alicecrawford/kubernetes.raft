@@ -45,6 +45,8 @@ spec:
               value: https://romm.raft.lutris.house
             - name: REDIS_PORT
               value: "6379"
+            - name: REDIS_HOST
+              value: romm-valkey
             - name: DB_HOST
               valueFrom:
                 secretKeyRef:
