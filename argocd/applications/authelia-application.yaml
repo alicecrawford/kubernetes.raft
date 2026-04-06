@@ -112,6 +112,10 @@ spec:
                 items:
                   - key: argocd-id
                   - key: argocd-digest
+              authelia-oidc-grafana:
+                items:
+                  - key: grafana-id
+                  - key: grafana-digest
 
           configMap:
             theme: auto
