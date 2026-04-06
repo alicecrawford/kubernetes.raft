@@ -42,24 +42,54 @@ spec:
                   name: romm-secret
                   key: romm_auth_secret
             - name: ROMM_BASE_URL
-              value: https://romm.lutris.house
+              value: https://romm.raft.lutris.house
             - name: REDIS_PORT
               value: "6379"
             - name: DB_HOST
-              value: rommdb-rw
+              valueFrom:
+                secretKeyRef:
+                  name: rommdb-app
+                  key: host
             - name: DB_PORT
-              value: "5432"
+              valueFrom:
+                secretKeyRef:
+                  name: rommdb-app
+                  key: port
             - name: ROMM_DB_DRIVER
               value: postgresql
             - name: DB_NAME
-              value: romm
+              valueFrom:
+                secretKeyRef:
+                  name: rommdb-app
+                  key: dbname
             - name: DB_USER
-              value: romm
+              valueFrom:
+                secretKeyRef:
+                  name: rommdb-app
+                  key: username
             - name: DB_PASSWD
               valueFrom:
                 secretKeyRef:
-                  name: romm-db-secret
+                  name: rommdb-app
                   key: password
+            - name: OIDC_ENABLED
+              value: "true"
+            - name: OIDC_PROVIDER
+              value: authelia
+            - name: OIDC_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: romm-oidc
+                  key: romm-id
+            - name: OIDC_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: romm-oidc
+                  key: romm-secret
+            - name: OIDC_REDIRECT_URI
+              value: https://romm.raft.lutris.house/api/oauth/openid
+            - name: OIDC_SERVER_APPLICATION_URL
+              value: https://auth.raft.lutris.house
             - name: IGDB_CLIENT_ID
               valueFrom:
                 secretKeyRef:

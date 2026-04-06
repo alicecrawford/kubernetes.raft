@@ -9,9 +9,3 @@ spec:
   storage:
     size: 8Gi
     storageClass: longhorn
-  bootstrap:
-    initdb:
-      database: romm
-      owner: romm
-      secret:
-        name: romm-db-secret
