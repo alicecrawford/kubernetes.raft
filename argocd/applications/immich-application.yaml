@@ -15,7 +15,7 @@ spec:
   sources:
     - repoURL: oci://ghcr.io/immich-app/immich-charts/immich
       path: .
-      targetRevision: 0.10.3
+      targetRevision: 0.11.1
       helm:
         valuesObject:
           server:
@@ -24,7 +24,7 @@ spec:
                 containers:
                   main:
                     image:
-                      tag: v2.6.2
+                      tag: v2.6.3
                     env:
                       DB_HOSTNAME: immichdb-rw
                       DB_DATABASE_NAME: immich
@@ -41,6 +41,13 @@ spec:
 
           valkey:
             enabled: true
+
+          machine-learning:
+            enabled: true
+            controllers:
+              main:
+                image:
+                  tag: v2.6.3
 
           immich:
             metrics:
