@@ -20,7 +20,7 @@ spec:
             - containerPort: 8080
               name: http
               protocol: TCP
-          image: rommapp/romm:4.7.0
+          image: rommapp/romm:4.8.1
           resources:
             requests:
               ephemeral-storage: 2Gi
