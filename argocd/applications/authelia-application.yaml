@@ -176,6 +176,7 @@ spec:
                       - openid
                       - groups
                       - email
+                      - profile
                     authorization_policy: cluster_admin
 
             identity_validation:
