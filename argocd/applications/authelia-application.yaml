@@ -185,7 +185,7 @@ spec:
                     authorization_policy: cluster_admin
 
                   - client_name: Grafana
-                    client_id: '{{ secret "/secrets/authelia-oidc-grafana/grafana-id }}'
+                    client_id: '{{ secret "/secrets/authelia-oidc-grafana/grafana-id" }}'
                     client_secret:
                       path: /secrets/authelia-oidc-grafana/grafana-digest
                     redirect_uris:
