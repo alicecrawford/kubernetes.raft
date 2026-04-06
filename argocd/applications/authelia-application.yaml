@@ -180,6 +180,25 @@ spec:
                       - offline_access
                     authorization_policy: cluster_admin
 
+                  - client_name: Grafana
+                    client_id: '{{ secret "/secrets/authelia-oidc-grafana/grafana-id }}'
+                    client_secret:
+                      path: /secrets/authelia-oidc-grafana/grafana-digest
+                    redirect_uris:
+                      - https://grafana.raft.lutris.house/login/generic_oauth
+                    scopes:
+                      - openid
+                      - groups
+                      - profile
+                      - email
+                    grant_types:
+                      - authorization_code
+                    access_token_signed_response_alg: none
+                    userinfo_signed_response_alg: none
+                    authorization_policy: monitoring
+                    require_pkce: true
+                    pkce_challenge_method: S256
+
             identity_validation:
               elevated_session:
                 require_second_factor: true
