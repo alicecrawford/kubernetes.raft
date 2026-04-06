@@ -43,7 +43,7 @@ spec:
 
             groups:
               - cluster_admin
-              - monitoring
+              - mon_users
               - media
               - cloud
               - development
@@ -139,11 +139,11 @@ spec:
                       path: /secrets/authelia-config/oidc-jwks-key
 
                 authorization_policies:
-                  monitoring:
+                  mon_users:
                     rules:
                       - poilcy: one_factor
                         subject:
-                          - group:monitoring
+                          - group:mon_users
 
                   development:
                     rules:
@@ -199,7 +199,7 @@ spec:
                       - authorization_code
                     access_token_signed_response_alg: none
                     userinfo_signed_response_alg: none
-                    authorization_policy: monitoring
+                    authorization_policy: mon_users
                     require_pkce: true
                     pkce_challenge_method: S256
 
@@ -235,7 +235,7 @@ spec:
                 - domain: '*.raft.lutris.house'
                   policy: one_factor
                   subject:
-                    - group:monitoring
+                    - group:mon_users
                 - domain: '*.raft.lutris.house'
                   policy: two_factor
                   subject:
