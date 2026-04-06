@@ -6,10 +6,19 @@ metadata:
   namespace: argocd
 spec:
   project: default
-  source:
-    repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
-    path: romm
-    targetRevision: HEAD
+  sources:
+    - repoURL: https://valkey.io/valkey-helm/
+      targetRevision: 0.9.3
+      chart: valkey
+      helm:
+        valueObject:
+          metrics:
+            enabled: true
+            serviceMonitor:
+              enabled: true
+    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+      path: romm
+      targetRevision: HEAD
   destination:
     server: https://kubernetes.default.svc
     namespace: romm
