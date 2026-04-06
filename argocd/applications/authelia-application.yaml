@@ -43,7 +43,6 @@ spec:
 
             groups:
               - cluster_admin
-              - mon_users
               - media
               - cloud
               - development
@@ -116,6 +115,18 @@ spec:
                 items:
                   - key: grafana-id
                   - key: grafana-digest
+              authelia-oidc-immich:
+                items:
+                  - key: immich-id
+                  - key: immich-digest
+              authelia-oidc-forgejo:
+                items:
+                  - key: forgejo-id
+                  - key: forgejo-digest
+              authelia-oidc-romm:
+                items:
+                  - key: romm-id
+                  - key: romm-digest
 
           configMap:
             theme: auto
@@ -196,6 +207,56 @@ spec:
                     authorization_policy: cluster_admin
                     require_pkce: true
                     pkce_challenge_method: S256
+
+                  - client_name: immich
+                    client_id: '{{ secret "/secrets/authelia-oidc-immich/immich-id" }}'
+                    client_secret:
+                      path: /secrets/authelia-oidc-immich/immich-digest
+                    require_pkce: false
+                    redirect_uris:
+                      - https://immich.raft.lutris.house/auth/login
+                      - https://immich.raft.lutris.house/user-settings
+                      - app.immich:///oauth-callback
+                    scopes:
+                      - openid
+                      - profile
+                      - email
+                      - groups
+                    authorization_policy: media
+                    id_token_signed_response_alg: RS256
+                    userinfo_signed_response_alg: RS256
+                    token_endpoint_auth_method: client_secret_post
+
+                  - client_name: romm
+                    client_id: '{{ secret "/secrets/authelia-oidc-romm/romm-id" }}'
+                    client_secret:
+                      path: /secrets/authelia-oidc-romm/romm-digest
+                    authorization_policy: media
+                    redirect_uris:
+                      - https://romm.raft.lutris.house/api/oauth/openid
+                    scopes:
+                      - openid
+                      - profile
+                      - email
+                      - groups
+                    userinfo_signed_response_alg: none
+
+                  - client_name: forgejo
+                    client_id: '{{ secret "/secrets/authelia-oidc-forgejo/forgejo-id" }}'
+                    client_secret:
+                      path: /secrets/authelia-oidc-forgejo/forgejo-digest
+                    authorization_policy: development
+                    require_pkce: true
+                    pkce_challenge_method: S256
+                    redirect_uris:
+                      - https://git.raft.lutris.house/user/oauth2/authelia/callback
+                    scopes:
+                      - openid
+                      - profile
+                      - email
+                      - groups
+                    access_token_signed_response_alg: none
+                    userinfo_signed_response_alg: none
 
             identity_validation:
               elevated_session:
