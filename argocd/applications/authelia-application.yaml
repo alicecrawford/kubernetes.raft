@@ -178,6 +178,7 @@ spec:
                       - email
                       - profile
                     authorization_policy: cluster_admin
+                    token_endpoint_auth_method: client_secret_post
 
             identity_validation:
               elevated_session:
