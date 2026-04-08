@@ -250,3 +250,6 @@ spec:
     - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
       path: monitoring/alerts
       targetRevision: HEAD
+    - repoURL: https://charts.jetstack.io
+      targetRevision: v0.10.0
+      chart: version-checker
