@@ -1,0 +1,110 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cryptpad
+  namespace: cryptpad
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: cryptpad
+  template:
+    metadata:
+      labels:
+        name: cryptpad
+    spec:
+      securityContext:
+        fsGroup: 4001
+      containers:
+        - name: cryptpad
+          securityContext:
+            {}
+          image: "cryptpad/cryptpad:version-2026.2.2"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: CPAD_MAIN_DOMAIN
+              value: "https://cryptpad.raft.lutris.house"
+            - name: CPAD_SANDBOX_DOMAIN
+              value: "https://cryptpad.raft.lutris.house"
+            - name: CPAD_CONF
+              value: "/cryptpad/config/config.js"
+            - name: CPAD_INSTALL_ONLYOFFICE
+              value: "yes"
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+            - name: ws
+              containerPort: 3003
+              protocol: TCP
+          startupProbe:
+            tcpSocket:
+              port: 3000
+            initialDelaySeconds: 0
+            timeoutSeconds: 1
+            periodSeconds: 10
+            failureThreshold: 25
+            successThreshold: 1
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 0
+            timeoutSeconds: 1
+            periodSeconds: 10
+            failureThreshold: 25
+            successThreshold: 1
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 0
+            timeoutSeconds: 1
+            periodSeconds: 10
+            failureThreshold: 25
+            successThreshold: 1
+          resources:
+            {}
+          volumeMounts:
+            - name: cryptpad-plugins
+              mountPath: /cryptpad/lib/plugins
+            - name: cryptpad-blob
+              mountPath: /cryptpad/blob
+            - name: cryptpad-block
+              mountPath: /cryptpad/block
+            - name: cryptpad-data
+              mountPath: /cryptpad/data
+            - name: cryptpad-datastore
+              mountPath: /cryptpad/datastore
+            - name: configmaps
+              mountPath: /cryptpad/config/config.js
+              subPath: config.js
+            - name: configmaps
+              mountPath: /cryptpad/customize/application_config.js
+              subPath: application_config.js
+            - name: sso-secret
+              mountPath: /cryptpad/config/sso.js
+              subPath: sso.js
+      volumes:
+        - name: configmaps
+          configMap:
+            name: cryptpad
+        - name: sso-secret
+          secret:
+            secretName: cryptpad-sso
+        - name: cryptpad-blob
+          persistentVolumeClaim:
+            claimName: cryptpad-blob
+        - name: cryptpad-block
+          persistentVolumeClaim:
+            claimName: cryptpad-block
+        - name: cryptpad-data
+          persistentVolumeClaim:
+            claimName: cryptpad-data
+        - name: cryptpad-datastore
+          persistentVolumeClaim:
+            claimName: cryptpad-datastore
+        - name: cryptpad-plugins
+          persistentVolumeClaim:
+            claimName: cryptpad-plugins

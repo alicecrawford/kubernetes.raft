@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cryptpad
+  namespace: cryptpad
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+      name: http
+    - port: 3003
+      targetPort: 3003
+      protocol: TCP
+      name: ws
+  selector:
+    name: cryptpad

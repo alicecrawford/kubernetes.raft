@@ -1,0 +1,49 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cryptpad
+  namespace: cryptpad
+data:
+  config.js: |
+    /* globals module */
+
+    module.exports = {
+              httpUnsafeOrigin: 'https://cryptpad.raft.lutris.house',
+              httpSafeOrigin: 'https://cryptpad.raft.lutris.house',
+              adminKeys: [],
+              inactiveTime: 365,
+              archiveRetentionTime: 30,
+              accountRetentionTime: 3650,
+              maxUploadSize: 20 * 1024 * 1024 * 1024,
+              premiumUploadSize: 30 * 1024 * 1024 * 1024,
+              httpAddress: "0.0.0.0",
+              archivePath: "./data/archive",
+              blobPath: "./blob",
+              blobStagingPath: "./data/blobstage",
+              blockPath: "./block",
+              decreePath: "./data/decrees",
+              filePath: "./datastore/",
+              installMethod: "kubernetes-manual",
+              logFeedback: "false",
+              logLevel: "info",
+              logPath: "./data/logs",
+              logToStdout: "false",
+              pinPath: "./data/pins",
+              taskPath: "./data/tasks",
+              verbose: "true",
+
+
+        };
+  application_config.js: |
+    /*
+    * You can override the configurable values from this file.
+    * The recommended method is to make a copy of this file (/customize.dist/application_config.js)
+      in a 'customize' directory (/customize/application_config.js).
+    * If you want to check all the configurable values, you can open the internal configuration file
+      but you should not change it directly (/common/application_config_internal.js)
+    */
+    define(['/common/application_config_internal.js'], function (AppConfig) {
+
+        return AppConfig;
+    });
