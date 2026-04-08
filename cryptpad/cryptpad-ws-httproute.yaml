@@ -14,7 +14,7 @@ spec:
     - cryptpad.raft.lutris.house
   rules:
     - backendRefs:
-        - name: ws
+        - name: cryptpad
           port: 3003
           kind: Service
           group: ""
