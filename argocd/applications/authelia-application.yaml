@@ -127,6 +127,10 @@ spec:
                 items:
                   - key: romm-id
                   - key: romm-digest
+              authelia-oidc-cryptpad:
+                items:
+                  - key: cryptpad-id
+                  - key: cryptpad-digest
 
           configMap:
             theme: auto
