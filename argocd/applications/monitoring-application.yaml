@@ -121,6 +121,14 @@ spec:
                         storage: 100Gi
 
           grafana:
+            deploymentStrategy:
+              type: Recreate
+            additionalDataSources:
+              - name: VictoriaLogs
+                type: victoriametrics-logs-datasource
+                url: http://prometheus-stack-victoria-logs-single-server:9428
+                access: proxy
+                isDefault: false
             envFromSecret: grafana-oidc
             grafana.ini:
               server:
@@ -278,5 +286,5 @@ spec:
       helm:
         valuesObject:
           remoteWrite:
-            - url: http://victoria-logs:9428
+            - url: http://prometheus-stack-victoria-logs-single-server:9428
               maxDiskUsagePerURL: 10GB
