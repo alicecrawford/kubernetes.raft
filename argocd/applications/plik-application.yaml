@@ -30,6 +30,8 @@ spec:
             MaxTTLStr: 365d
             FeatureAuthentication: enabled
             FeatureComments: disabled
-            # OIDCClientID: Hii0QyEoSpaOEXHnHXMSohsF-IxyO2LeNHmcgpQD0bv0ZSRCtkZUzh02EBJNYbQH524WPGvx
-            # OIDCProviderURL: https://auth.raft.lutris.house
-            # OIDCProviderName: authelia
+            OIDCClientID: Hii0QyEoSpaOEXHnHXMSohsF-IxyO2LeNHmcgpQD0bv0ZSRCtkZUzh02EBJNYbQH524WPGvx
+            OIDCProviderURL: https://auth.raft.lutris.house
+            OIDCProviderName: authelia
+          secrets:
+            existingSecret: plik-secret
