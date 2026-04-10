@@ -38,30 +38,30 @@ data:
         items:
           - title: Forgejo
             description: Fork this site
-            icon: favicon
+            icon: https://forgejo.org/favicon.ico
             url: https://git.raft.lutris.house/
           - title: Livecodes
             description: Livecodes
             url: https://livecodes.raft.lutris.house/
-            icon: favicon
+            icon: https://livecodes.io/favicon.ico
       - name: Media
         icon: fas fa-photo-film
         items:
           - title: RomM
             description: Vidja Gaems!
             url: https://romm.raft.lutris.house/
-            icon: favicon
+            icon: https://romm.app/favicon.ico
           - title: Immich
             description: Photos!
             url: https://immich.raft.lutris.house/
-            icon: favicon
+            icon: https://immich.app/favicon.ico
       - name: Productivity
         icon: fas fa-file-lines
         items:
           - title: Cryptpad
             description: Docs n shit
             url: https://cryptpad.raft.lutris.house/
-            icon: favicon
+            icon: https://cryptpad.fr/favicon.ico
       - name: idk it's the cat's stuff
         icon: fas fa-cat
         items:
@@ -75,28 +75,28 @@ data:
           - title: Grafana
             description: The Raft system monitoring
             url: https://grafana.raft.lutris.house/
-            icon: favicon
+            icon: https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Grafana_icon.svg/500px-Grafana_icon.svg.png
           - title: Prometheus
             description: Prometheus rules and targets
             url: https://prometheus.raft.lutris.house/
-            icon: favicon
+            icon: https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Prometheus_software_logo.svg/500px-Prometheus_software_logo.svg.png
           - title: Alertmanager
             description: Alertmanager alerts and silences
             url: https://alertmanager.raft.lutris.house/
-            icon: favicon
+            icon: fas fa-bell
       - name: System Administration
         icon: fas fa-users-gear
         items:
           - title: ArgoCD
             description: ArgoCD deployment system
             url: https://argocd.raft.lutris.house/
-            icon: favicon
+            icon: https://icon.icepanel.io/Technology/svg/Argo-CD.svg
           - title: LLDAP Frontend
             description: User management
             url: https://ldap.raft.lutris.house/
-            icon: favicon
+            icon: fas fa-users-viewfinder
           - title: PiHole
             description: PiHole Frontend
             url: https://pihole.raft.lutris.house/
-            icon: favicon
+            icon: https://wp-cdn.pi-hole.net/wp-content/uploads/2016/12/Vortex-R.png
 
