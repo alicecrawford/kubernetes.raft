@@ -131,6 +131,10 @@ spec:
                 items:
                   - key: cryptpad-id
                   - key: cryptpad-digest
+              authelia-oidc-plik:
+                items:
+                  - key: plik-id
+                  - key: plik-digest
 
           configMap:
             theme: auto
@@ -283,6 +287,19 @@ spec:
                     authorization_policy: cloud
                     redirect_uris:
                       - https://cryptpad.raft.lutris.house/ssoauth
+                    scopes:
+                      - openid
+                      - profile
+                      - email
+                      - groups
+
+                  - client_name: plik
+                    client_id: '{{ secret "/secrets/authelia-oidc-cryptpad/plik-id" }}'
+                    client_secret:
+                      path: /secrets/authelia-oidc-cryptpad/plik-digest
+                    authorization_policy: cloud
+                    redirect_uris:
+                      - https://plik.raft.lutris.house/auth/oidc/callback
                     scopes:
                       - openid
                       - profile
