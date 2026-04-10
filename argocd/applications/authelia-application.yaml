@@ -294,9 +294,9 @@ spec:
                       - groups
 
                   - client_name: plik
-                    client_id: '{{ secret "/secrets/authelia-oidc-cryptpad/plik-id" }}'
+                    client_id: '{{ secret "/secrets/authelia-oidc-plik/plik-id" }}'
                     client_secret:
-                      path: /secrets/authelia-oidc-cryptpad/plik-digest
+                      path: /secrets/authelia-oidc-plik/plik-digest
                     authorization_policy: cloud
                     redirect_uris:
                       - https://plik.raft.lutris.house/auth/oidc/callback
