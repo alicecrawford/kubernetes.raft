@@ -1,0 +1,30 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dashy
+  namespace: dashy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: dashy
+  template:
+    metadata:
+      labels:
+        name: dashy
+    spec:
+      containers:
+        - name: dashy
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          image: lissy93/dashy:latest
+          volumeMounts:
+            - name: dashy-config
+              mountPath: /app/user-data/
+      volumes:
+        - name: dashy-config
+          configMap:
+            name: dashy-cm

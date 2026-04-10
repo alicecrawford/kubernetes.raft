@@ -1,0 +1,102 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dashy-cm
+  namespace: dashy
+data:
+  conf.yml: |
+    ---
+    # Page meta info, like heading, footer text and nav links
+    pageInfo:
+      title: The Raft Intranet
+      description: A world of possibilities!
+      navLinks:
+        - title: Config
+          path: https://git.raft.lutris.house/the_raft/kubernetes.raft/src/branch/main/dashy
+        - title: Documentation
+          path: https://dashy.to/docs
+
+    # Optional app settings and configuration
+    appConfig:
+      theme: colorful
+      webSearch:
+        searchEngine: google
+
+    # Main content - An array of sections, each containing an array of items
+    sections:
+      - name: Authentication
+        icon: fas fa-user-lock
+        items:
+          - title: Authelia
+            description: OIDC Login and password management
+            icon: https://www.authelia.com/favicon.ico
+            url: https://auth.raft.lutris.house/
+            target: newtab
+      - name: Development
+        icon: fas file-code
+        items:
+          - title: Forgejo
+            description: Fork this site
+            icon: favicon
+            url: https://git.raft.lutris.house/
+          - title: Livecodes
+            description: Livecodes
+            url: https://livecodes.raft.lutris.house/
+            icon: favicon
+      - name: Media
+        icon: fas fa-photo-film
+        items:
+          - title: RomM
+            description: Vidja Gaems!
+            url: https://romm.raft.lutris.house/
+            icon: favicon
+          - title: Immich
+            description: Photos!
+            url: https://immich.raft.lutris.house/
+            icon: favicon
+      - name: Productivity
+        icon: fas fa-file-lines
+        items:
+          - title: Cryptpad
+            description: Docs n shit
+            url: https://cryptpad.raft.lutris.house/
+            icon: favicon
+      - name: idk it's the cat's stuff
+        icon: fas fa-cat
+        items:
+          - title: Gwams
+            description: Gwams
+            url: https://gwams.raft.lutris.house/
+            icon: fas fa-child-combatant
+      - name: Monitoring
+        icon: fas fa-chart-line
+        items:
+          - title: Grafana
+            description: The Raft system monitoring
+            url: https://grafana.raft.lutris.house/
+            icon: favicon
+          - title: Prometheus
+            description: Prometheus rules and targets
+            url: https://prometheus.raft.lutris.house/
+            icon: favicon
+          - title: Alertmanager
+            description: Alertmanager alerts and silences
+            url: https://alertmanager.raft.lutris.house/
+            icon: favicon
+      - name: System Administration
+        icon: fas fa-users-gear
+        items:
+          - title: ArgoCD
+            description: ArgoCD deployment system
+            url: https://argocd.raft.lutris.house/
+            icon: favicon
+          - title: LLDAP Frontend
+            description: User management
+            url: https://ldap.raft.lutris.house/
+            icon: favicon
+          - title: PiHole
+            description: PiHole Frontend
+            url: https://pihole.raft.lutris.house/
+            icon: favicon
+
