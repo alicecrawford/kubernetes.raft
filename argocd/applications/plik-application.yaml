@@ -18,12 +18,12 @@ spec:
       targetRevision: 1.4.2
       helm:
         valuesObject:
-          # persistence:
-          #  enabled: true
-          #  storageClassName: nfs-disk-csi
-          # dbPersistence:
-          #  enabled: true
-          #  storageClassName: longhorn
+          persistence:
+            enabled: true
+            storageClassName: nfs-disk-csi
+          dbPersistence:
+            enabled: true
+            storageClassName: longhorn
           plikd:
             PlikDomain: https://plik.raft.lutris.house
             MaxFileSizeStr: unlimited
@@ -33,6 +33,7 @@ spec:
             OIDCClientID: Hii0QyEoSpaOEXHnHXMSohsF-IxyO2LeNHmcgpQD0bv0ZSRCtkZUzh02EBJNYbQH524WPGvx
             OIDCProviderURL: https://auth.raft.lutris.house
             OIDCProviderName: authelia
+            DefaultAdminLogin: admin
           secrets:
             existingSecret: plik-secret
     - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
