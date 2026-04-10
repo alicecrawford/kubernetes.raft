@@ -35,3 +35,6 @@ spec:
             OIDCProviderName: authelia
           secrets:
             existingSecret: plik-secret
+    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+      path: plik
+      targetRevision: HEAD
