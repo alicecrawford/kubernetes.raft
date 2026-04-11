@@ -135,6 +135,10 @@ spec:
                 items:
                   - key: plik-id
                   - key: plik-digest
+              authelia-oidc-opengist:
+                items:
+                  - key: opengist-id
+                  - key: opengist-digest
 
           configMap:
             theme: auto
@@ -300,6 +304,19 @@ spec:
                     authorization_policy: cloud
                     redirect_uris:
                       - https://plik.raft.lutris.house/auth/oidc/callback
+                    scopes:
+                      - openid
+                      - profile
+                      - email
+                      - groups
+
+                  - client_name: opengist
+                    client_id: '{{ secret "/secrets/authelia-oidc-opengist/opengist-id" }}'
+                    client_secret:
+                      path: /secrets/authelia-oidc-opengist/opengist-digest
+                    authorization_policy: development
+                    redirect_uris:
+                      - http://opengist.raft.lutris.house/oauth/openid-connect/callback
                     scopes:
                       - openid
                       - profile
