@@ -28,7 +28,7 @@ spec:
             PlikDomain: https://plik.raft.lutris.house
             MaxFileSizeStr: unlimited
             MaxTTLStr: 365d
-            FeatureAuthentication: enabled
+            FeatureAuthentication: forced
             FeatureComments: disabled
             OIDCClientID: Hii0QyEoSpaOEXHnHXMSohsF-IxyO2LeNHmcgpQD0bv0ZSRCtkZUzh02EBJNYbQH524WPGvx
             OIDCProviderURL: https://auth.raft.lutris.house
