@@ -34,7 +34,7 @@ data:
             url: https://auth.raft.lutris.house/
             target: newtab
       - name: Development
-        icon: fas file-code
+        icon: fa-solid fa-file-code
         items:
           - title: Forgejo
             description: Fork this site
@@ -45,7 +45,7 @@ data:
             url: https://livecodes.raft.lutris.house/
             icon: https://livecodes.io/favicon.ico
       - name: Media
-        icon: fas fa-photo-film
+        icon: fa-solid fa-photo-film
         items:
           - title: RomM
             description: Vidja Gaems!
@@ -56,19 +56,23 @@ data:
             url: https://immich.raft.lutris.house/
             icon: https://immich.app/favicon.ico
       - name: Productivity
-        icon: fas fa-file-lines
+        icon: fa-solid fa-file-lines
         items:
           - title: Cryptpad
             description: Docs n shit
             url: https://cryptpad.raft.lutris.house/
             icon: https://cryptpad.fr/favicon.ico
+          - title: Plik
+            description: File drop/share
+            url: https://plik.raft.lutris.house/
+            icon: fa-solid fa-download
       - name: idk it's the cat's stuff
         icon: fas fa-cat
         items:
           - title: Gwams
             description: Gwams
             url: https://gwams.raft.lutris.house/
-            icon: fas fa-child-combatant
+            icon: fa-solid fa-child-combatant
       - name: Monitoring
         icon: fas fa-chart-line
         items:
@@ -85,7 +89,7 @@ data:
             url: https://alertmanager.raft.lutris.house/
             icon: fas fa-bell
       - name: System Administration
-        icon: fas fa-users-gear
+        icon: fa-solid fa-users-gear
         items:
           - title: ArgoCD
             description: ArgoCD deployment system
@@ -94,9 +98,8 @@ data:
           - title: LLDAP Frontend
             description: User management
             url: https://ldap.raft.lutris.house/
-            icon: fas fa-users-viewfinder
+            icon: fa-solid fa-users-viewfinder
           - title: PiHole
             description: PiHole Frontend
             url: https://pihole.raft.lutris.house/
             icon: https://wp-cdn.pi-hole.net/wp-content/uploads/2016/12/Vortex-R.png
-
