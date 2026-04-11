@@ -45,6 +45,27 @@ spec:
             defaultConfig:
               proxyMetadata:
                 ISTIO_DUAL_STACK: "true"
+            extensionProviders:
+              - name: 'authelia'
+                envoyExtAuthzHttp:
+                  service: 'authelia.authelia.svc.polycule.raft.lutris.house'
+                  port: 80
+                  pathPrefix: '/api/authz/ext-authz/'
+                  includeRequestHeadersInCheck:
+                    - accept
+                    - cookie
+                    - location
+                    - authorization
+                    - proxy-authorization
+                  headersToUpstreamOnAllow:
+                    - 'remote-*'
+                    - 'authelia-*'
+                  includeAdditionalHeadersInCheck:
+                    X-Forwarded-Proto: '%REQ(:SCHEME)%'
+                  headersToDownstreamOnDeny:
+                    - 'set-cookie'
+                  headersToDownstreamOnAllow:
+                    - 'set-cookie'
       chart: istiod
     - repoURL: https://istio-release.storage.googleapis.com/charts
       targetRevision: 1.28.2
