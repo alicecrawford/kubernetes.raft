@@ -77,6 +77,13 @@ data:
             description: Gwams
             url: https://gwams.raft.lutris.house/
             icon: mdi-cookie-alert
+      - name: Home Stuff
+        icon: mdi-folder-home-outline
+        items:
+          - title: Home Assistant
+            description: Home Assistant
+            url: http://homeassistant.lutris.house:8123
+            icon: https://cdn.jsdelivr.net/gh/selfhst/icons@main/png/home-assistant.png
       - name: Monitoring
         icon: fas fa-chart-line
         items:
@@ -107,3 +114,11 @@ data:
             description: PiHole Frontend
             url: https://pihole.raft.lutris.house/
             icon: https://wp-cdn.pi-hole.net/wp-content/uploads/2016/12/Vortex-R.png
+          - title: Logs
+            description: It's log, it's log, it's big it's heavy it's wood
+            url: https://logs.raft.lutris.house/select/vmui/
+            icon: mdi-text-box-search
+          - title: Longhorn
+            description: Longhorn UI
+            url: https://longhorn.raft.lutris.house/
+            icon: mdi-harddisk
