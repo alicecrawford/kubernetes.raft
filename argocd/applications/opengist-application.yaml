@@ -26,8 +26,13 @@ spec:
                     OG_EXTERNAL_URL: https://gist.raft.lutris.house
                     OG_OIDC_DISCOVERY_URL: https://auth.raft.lutris.house
           persistence:
-            enabled: true
-            storageClass: nfs-ssd-csi
+            opengist:
+              enabled: true
+              storageClass: nfs-ssd-csi
+              type: persistentVolumeClaim
+              accessMode: ReadWriteOnce
+              size: 20Gi
+
     - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
       path: opengist
       targetRevision: HEAD
