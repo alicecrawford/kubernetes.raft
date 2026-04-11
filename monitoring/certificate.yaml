@@ -9,6 +9,7 @@ spec:
     - grafana.raft.lutris.house
     - prometheus.raft.lutris.house
     - alertmanager.raft.lutris.house
+    - logs.raft.lutris.house
   secretName: monitoring-certificate
   issuerRef:
     name: letsencrypt-dns01-issuer
