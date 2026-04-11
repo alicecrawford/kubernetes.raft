@@ -44,6 +44,10 @@ data:
             description: Livecodes
             url: https://livecodes.raft.lutris.house/
             icon: https://livecodes.io/favicon.ico
+          - title: Opengist
+            description: Gisty stuff
+            icon: https://raw.githubusercontent.com/thomiceli/opengist/master/public/img/opengist.svg
+            url: https://gist.raft.lutris.house/
       - name: Media
         icon: fa-solid fa-photo-film
         items:
