@@ -316,7 +316,7 @@ spec:
                       path: /secrets/authelia-oidc-opengist/opengist-digest
                     authorization_policy: development
                     redirect_uris:
-                      - http://gist.raft.lutris.house/oauth/openid-connect/callback
+                      - https://gist.raft.lutris.house/oauth/openid-connect/callback
                     scopes:
                       - openid
                       - profile
