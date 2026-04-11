@@ -34,7 +34,7 @@ data:
             url: https://auth.raft.lutris.house/
             target: newtab
       - name: Development
-        icon: fa-solid fa-file-code
+        icon: mdi-source-repository-multiple
         items:
           - title: Forgejo
             description: Fork this site
@@ -49,7 +49,7 @@ data:
             icon: https://raw.githubusercontent.com/thomiceli/opengist/master/public/img/opengist.svg
             url: https://gist.raft.lutris.house/
       - name: Media
-        icon: fa-solid fa-photo-film
+        icon: mdi-multimedia
         items:
           - title: RomM
             description: Vidja Gaems!
@@ -60,7 +60,7 @@ data:
             url: https://immich.raft.lutris.house/
             icon: https://immich.app/favicon.ico
       - name: Productivity
-        icon: fa-solid fa-file-lines
+        icon: mdi-folder-file
         items:
           - title: Cryptpad
             description: Docs n shit
@@ -69,31 +69,31 @@ data:
           - title: Plik
             description: File drop/share
             url: https://plik.raft.lutris.house/
-            icon: fa-solid fa-download
+            icon: mdi-file-arrow-up-down
       - name: idk it's the cat's stuff
         icon: fas fa-cat
         items:
           - title: Gwams
             description: Gwams
             url: https://gwams.raft.lutris.house/
-            icon: fa-solid fa-child-combatant
+            icon: mdi-cookie-alert
       - name: Monitoring
         icon: fas fa-chart-line
         items:
           - title: Grafana
             description: The Raft system monitoring
             url: https://grafana.raft.lutris.house/
-            icon: https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Grafana_icon.svg/500px-Grafana_icon.svg.png
+            icon: https://cdn.jsdelivr.net/gh/selfhst/icons@main/png/grafana.png
           - title: Prometheus
             description: Prometheus rules and targets
             url: https://prometheus.raft.lutris.house/
-            icon: https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Prometheus_software_logo.svg/500px-Prometheus_software_logo.svg.png
+            icon: https://cdn.jsdelivr.net/gh/selfhst/icons@main/png/prometheus.png
           - title: Alertmanager
             description: Alertmanager alerts and silences
             url: https://alertmanager.raft.lutris.house/
             icon: fas fa-bell
       - name: System Administration
-        icon: fa-solid fa-users-gear
+        icon: mdi-server-network
         items:
           - title: ArgoCD
             description: ArgoCD deployment system
@@ -102,7 +102,7 @@ data:
           - title: LLDAP Frontend
             description: User management
             url: https://ldap.raft.lutris.house/
-            icon: fa-solid fa-users-viewfinder
+            icon: mdi-account-cog
           - title: PiHole
             description: PiHole Frontend
             url: https://pihole.raft.lutris.house/
