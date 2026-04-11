@@ -1,0 +1,33 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: opengist
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: opengist
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
+  sources:
+    - repoURL: https://charts.obeone.cloud
+      chart: opengist
+      targetRevision: 1.1.0
+      helm:
+        valuesObject:
+          controllers:
+            main:
+              containers:
+                main:
+                  env:
+                    OG_EXTERNAL_URL: https://gist.raft.lutris.house
+                    OG_OIDC_DISCOVERY_URL: https://auth.raft.lutris.house
+          persistence:
+            enabled: true
+            storageClass: nfs-ssd-csi
+    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+      path: opengist
+      targetRevision: HEAD
