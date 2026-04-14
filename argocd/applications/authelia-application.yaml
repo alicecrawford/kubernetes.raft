@@ -75,7 +75,7 @@ spec:
               enabled: true
 
     - repoURL: https://charts.authelia.com
-      targetRevision: 0.10.51
+      targetRevision: 0.10.57
       chart: authelia
       helm:
         valuesObject:
@@ -376,6 +376,7 @@ spec:
               remember_me: 3 months
               cookies:
                 - domain: raft.lutris.house
+                  subdomain: auth
                   authelia_url: https://auth.raft.lutris.house/
 
               encryption_key:
