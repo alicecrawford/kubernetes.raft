@@ -377,7 +377,6 @@ spec:
               cookies:
                 - domain: raft.lutris.house
                   subdomain: auth
-                  authelia_url: https://auth.raft.lutris.house/
 
               encryption_key:
                 secret_name: authelia-sessions-key
