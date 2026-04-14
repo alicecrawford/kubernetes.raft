@@ -376,7 +376,7 @@ spec:
               remember_me: 3 months
               cookies:
                 - domain: raft.lutris.house
-                  authelia_url: https://authelia.raft.lutris.house/
+                  authelia_url: https://auth.raft.lutris.house/
 
               encryption_key:
                 secret_name: authelia-sessions-key
