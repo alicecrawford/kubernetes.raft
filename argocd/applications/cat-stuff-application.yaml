@@ -11,6 +11,12 @@ spec:
   syncPolicy:
     syncOptions:
       - ServerSideApply=true
+  ignoreDifferences:
+    - kind: StatefulSet
+      group: apps
+      jqPathExpressions:
+        - .spec.volumeClaimTemplates[].apiVersion
+        - .spec.volumeClaimTemplates[].kind
   sources:
     - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
       path: cat-stuff
