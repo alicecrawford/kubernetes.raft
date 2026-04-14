@@ -24,3 +24,6 @@ spec:
           persistentVolume:
             enabled: true
             storageClass: nfs-ssd-csi
+          couchdbConfig:
+            couchdb:
+              uuid: 5033d0c4-6da6-4135-902e-e58a5edda3ef
