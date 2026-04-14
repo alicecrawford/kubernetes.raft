@@ -13,7 +13,7 @@ spec:
         - /data/ca.key
   source:
     repoURL: https://helm.cilium.io/
-    targetRevision: 1.18.5
+    targetRevision: 1.19.2
     helm:
       valuesObject:
         cni:

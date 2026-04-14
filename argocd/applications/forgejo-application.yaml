@@ -18,7 +18,7 @@ spec:
         - /data
   sources:
     - repoURL: oci://code.forgejo.org/forgejo-helm/forgejo
-      targetRevision: 16.2.1
+      targetRevision: 16.2.2
       path: .
       helm:
         valuesObject:

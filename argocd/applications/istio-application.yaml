@@ -17,7 +17,7 @@ spec:
         - .spec.template.spec.containers[].env[].valueFrom.resourceFieldRef.divisor
   sources:
     - repoURL: https://istio-release.storage.googleapis.com/charts
-      targetRevision: 1.28.2
+      targetRevision: 1.29.2
       helm:
         valuesObject:
           profile: ambient
@@ -32,7 +32,7 @@ spec:
                 ISTIO_DUAL_STACK: "true"
       chart: base
     - repoURL: https://istio-release.storage.googleapis.com/charts
-      targetRevision: 1.28.2
+      targetRevision: 1.29.2
       helm:
         valuesObject:
           profile: ambient
@@ -68,7 +68,7 @@ spec:
                     - 'set-cookie'
       chart: istiod
     - repoURL: https://istio-release.storage.googleapis.com/charts
-      targetRevision: 1.28.2
+      targetRevision: 1.29.2
       helm:
         valuesObject:
           profile: ambient
@@ -83,7 +83,7 @@ spec:
                 ISTIO_DUAL_STACK: "true"
       chart: cni
     - repoURL: https://istio-release.storage.googleapis.com/charts
-      targetRevision: 1.28.2
+      targetRevision: 1.29.2
       helm:
         valuesObject:
           profile: ambient

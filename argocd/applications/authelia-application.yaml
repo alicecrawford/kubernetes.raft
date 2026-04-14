@@ -57,7 +57,7 @@ spec:
                   - lldap_password_manager
 
     - repoURL: https://valkey.io/valkey-helm/
-      targetRevision: 0.9.3
+      targetRevision: 0.9.4
       chart: valkey
       helm:
         valuesObject:
@@ -75,7 +75,7 @@ spec:
               enabled: true
 
     - repoURL: https://charts.authelia.com
-      targetRevision: 0.10.50
+      targetRevision: 0.10.57
       chart: authelia
       helm:
         valuesObject:
