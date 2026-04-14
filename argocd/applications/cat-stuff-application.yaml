@@ -1,0 +1,26 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cat-stuff
+spec:
+  destination:
+    namespace: cat-stuff
+    server: https://kubernetes.default.svc
+  project: default
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
+  sources:
+    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+      path: cat-stuff
+      targetRevision: HEAD
+    - repoURL: https://apache.github.io/couchdb-helm
+      targetRevision: 4.6.3
+      chart: couchdb
+      helm:
+        valuesObject:
+          clusterSize: 1
+          persistentVolume:
+            enabled: true
+            storageClass: nfs-ssd-csi
