@@ -17,6 +17,15 @@ spec:
       jqPathExpressions:
         - .spec.volumeClaimTemplates[].apiVersion
         - .spec.volumeClaimTemplates[].kind
+    - kind: Secret
+      jsonPointers:
+        - /data/adminPassword
+        - /data/cookieAuthSecret
+        - /data/erlangCookie
+    - kind: StatefulSet
+      group: apps
+      jsonPointers:
+        - /spec/template/metadata/annotations/checksum~1secret
   sources:
     - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
       path: cat-stuff

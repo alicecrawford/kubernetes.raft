@@ -12,6 +12,14 @@ spec:
   syncPolicy:
     syncOptions:
       - ServerSideApply=true
+  ignoreDifferences:
+    - kind: Secret
+      jsonPointers:
+        - /data/identity_validation.reset_password.jwt.hmac.key
+    - kind: Deployment
+      group: apps
+      jsonPointers:
+        - /spec/template/metadata/annotations/authelia.com~1checksum-secret
   sources:
     - repoURL: https://djjudas21.github.io/charts/
       targetRevision: 0.6.3
