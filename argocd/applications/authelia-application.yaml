@@ -152,7 +152,7 @@ spec:
             theme: auto
 
             regulation:
-              max_retry: 20
+              max_retries: 20
 
             telemetry:
               metrics:
