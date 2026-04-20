@@ -1,0 +1,26 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: discord-alert
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: discord-alert
+  template:
+    metadata:
+      labels:
+        name: discord-alert
+    spec:
+      containers:
+        - name: discord-alert
+          image: git.raft.lutris.house/alice/discord_alert:v0.0.1
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          envFrom:
+            - secretRef:
+                name: discord-alert
