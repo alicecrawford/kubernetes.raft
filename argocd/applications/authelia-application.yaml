@@ -151,6 +151,9 @@ spec:
           configMap:
             theme: auto
 
+            regulation:
+              max_retry: 20
+
             telemetry:
               metrics:
                 enabled: true
