@@ -4,6 +4,8 @@ kind: Service
 metadata:
   name: discord-alert
   namespace: monitoring
+  labels:
+    name: discord-alert
 spec:
   type: ClusterIP
   ports:

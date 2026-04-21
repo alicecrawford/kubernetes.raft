@@ -1,0 +1,17 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: discord-alert
+  namespace: monitoring
+  labels:
+    name: discord-alert
+spec:
+  selector:
+    matchLabels:
+      name: discord-alert
+  namespaceSelector:
+    matchNames:
+      - monitoring
+  endpoints:
+    - port: discord-alert-www
