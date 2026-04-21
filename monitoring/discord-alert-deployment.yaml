@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: discord-alert
-          image: git.raft.lutris.house/alice/discord_alert:v0.0.1
+          image: git.raft.lutris.house/alice/discord_alert:v0.0.2
           ports:
             - name: http
               containerPort: 8080
