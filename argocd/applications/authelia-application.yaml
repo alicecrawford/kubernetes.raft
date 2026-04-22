@@ -76,7 +76,7 @@ spec:
         valuesObject:
           replica:
             enabled: true
-            replicas: 3
+            replicas: 2
             persistence:
               size: 5Gi
               storageClass: longhorn
