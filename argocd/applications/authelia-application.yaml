@@ -72,6 +72,9 @@ spec:
           replica:
             enabled: true
             replicas: 3
+            persistence:
+              size: 5Gi
+              storageClass: longhorn
           auth:
             enabled: true
             usersExistingSecret: authelia-sessions-password
