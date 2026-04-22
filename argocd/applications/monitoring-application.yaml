@@ -123,6 +123,8 @@ spec:
           grafana:
             deploymentStrategy:
               type: Recreate
+            plugins:
+              - victoriametrics-logs-datasource
             additionalDataSources:
               - name: VictoriaLogs
                 type: victoriametrics-logs-datasource
