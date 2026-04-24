@@ -29,6 +29,8 @@ spec:
             capabilities:
               add: ["SYS_CHROOT"]
           gitea:
+            indexer:
+              REPO_INDEXER_ENABLED: true
             metrics:
               enabled: true
             config:
@@ -42,12 +44,24 @@ spec:
                 HOST: "forgejodb-rw:5432"
                 USER: forgejo
                 NAME: forgejo
+              mailer:
+                ENABLED: true
+                PROTOCOL: smtps
+                SMTP_ADDR: smtp.gmail.com
+                SMTP_PORT: 465
+                USER: alicelutris@gmail.com
+                FROM: noreply@git.raft.lutris.house
             additionalConfigFromEnvs:
               - name: FORGEJO__DATABASE__PASSWD
                 valueFrom:
                   secretKeyRef:
                     name: forgejo-pg-user
                     key: password
+              - name: FORGEJO__MAILER__PASSWD
+                valueFrom:
+                  secretKeyRef:
+                    name: forgejo-smtp-secret
+                    key: PASSWD
           persistence:
             size: 400Gi
     - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
