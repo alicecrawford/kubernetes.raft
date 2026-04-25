@@ -29,8 +29,6 @@ spec:
             capabilities:
               add: ["SYS_CHROOT"]
           gitea:
-            indexer:
-              REPO_INDEXER_ENABLED: true
             metrics:
               enabled: true
             config:
