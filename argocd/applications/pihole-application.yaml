@@ -22,6 +22,9 @@ spec:
           replicaCount: 2
           image:
             tag: latest
+          whitelist:
+            - allydvm.com
+            - willowglenpethospital.com
           adlists:
             - https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
             - https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/pro.txt
