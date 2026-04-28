@@ -133,6 +133,8 @@ spec:
                 isDefault: false
             envFromSecret: grafana-oidc
             grafana.ini:
+              date:
+                default_timezone: browser
               server:
                 root_url: https://grafana.raft.lutris.house/
               auth.generic_oauth:
