@@ -133,7 +133,7 @@ spec:
                 isDefault: false
             envFromSecret: grafana-oidc
             grafana.ini:
-              date:
+              date_formats:
                 default_timezone: browser
               server:
                 root_url: https://grafana.raft.lutris.house/
