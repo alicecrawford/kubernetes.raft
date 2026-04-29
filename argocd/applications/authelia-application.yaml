@@ -228,6 +228,7 @@ spec:
                       path: /secrets/authelia-oidc-argocd/argocd-digest
                     redirect_uris:
                       - https://argocd.raft.lutris.house/auth/callback
+                      - http://localhost:8085/auth/callback
                     scopes:
                       - openid
                       - groups
