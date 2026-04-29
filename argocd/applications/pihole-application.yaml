@@ -27,7 +27,7 @@ spec:
             - willowglenpethospital.com
           adlists:
             - https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
-            - https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/pro.txt
+            - https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/multi.txt
             - https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/fake.txt
             - https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/domains/tif.txt
             - https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/doh-vpn-proxy-bypass.txt
