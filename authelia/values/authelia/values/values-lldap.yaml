@@ -1,0 +1,38 @@
+---
+replicaCount: 2
+deploymentAnnotations:
+  argocd.argoproj.io/sync-wave: '1'
+externalPostgresql:
+  enabled: true
+  fromSecret: lldap-storage-app
+  uriKey: uri
+
+lldap:
+  baseDN: dc=raft,dc=lutris,dc=house
+  secretName: lldap-credentials
+  jwtSecretKey: jwt-secret
+  keySeedKey: key-seed
+  ldapUserPassKey: admin-password
+
+  forceLDAPUserPassReset: true
+
+  httpHost: "::"
+  ldapHost: "::"
+
+bootstrap:
+  enabled: true
+
+  groups:
+    - cluster_admin
+    - media
+    - cloud
+    - development
+
+  users:
+    - id: authelia
+      email: alicelutris+authelia@gmail.com
+      passwordSecret:
+        name: lldap-credentials
+        key: authelia-password
+      groups:
+        - lldap_password_manager

@@ -1,0 +1,329 @@
+---
+pod:
+  replicas: 2
+  annotations:
+    argocd.argoproj.io/sync-wave: '2'
+  kind: Deployment
+
+secret:
+  additionalSecrets:
+    lldap-credentials:
+      items:
+        - key: authelia-password
+    authelia-config:
+      items:
+        - key: smtp-password
+        - key: storage-key
+        - key: oidc-jwks-key
+    authelia-sessions-key:
+      items:
+        - key: password
+    authelia-sessions-password:
+      items:
+        - key: password
+    authelia-storage-app:
+      items:
+        - key: password
+    authelia-oidc-hmac-secret:
+      items:
+        - key: password
+    authelia-oidc-argocd:
+      items:
+        - key: argocd-id
+        - key: argocd-digest
+    authelia-oidc-grafana:
+      items:
+        - key: grafana-id
+        - key: grafana-digest
+    authelia-oidc-immich:
+      items:
+        - key: immich-id
+        - key: immich-digest
+    authelia-oidc-forgejo:
+      items:
+        - key: forgejo-id
+        - key: forgejo-digest
+    authelia-oidc-romm:
+      items:
+        - key: romm-id
+        - key: romm-digest
+    authelia-oidc-cryptpad:
+      items:
+        - key: cryptpad-id
+        - key: cryptpad-digest
+    authelia-oidc-plik:
+      items:
+        - key: plik-id
+        - key: plik-digest
+    authelia-oidc-opengist:
+      items:
+        - key: opengist-id
+        - key: opengist-digest
+
+configMap:
+  theme: auto
+
+  regulation:
+    max_retries: 20
+
+  telemetry:
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+
+  default_2fa_method: totp
+
+  identity_providers:
+    oidc:
+      lifespans:
+        access_token: '4 hours'
+        refresh_token: '6 hours'
+        id_token: '4 hours'
+
+      enabled: true
+      hmac_secret:
+        secret_name: authelia-oidc-hmac-secret
+        path: password
+      jwks:
+        - key:
+            path: /secrets/authelia-config/oidc-jwks-key
+
+      claims_policies:
+        legacy_claims:
+          id_token:
+            - email
+            - email_verified
+            - preferred_username
+            - name
+
+      authorization_policies:
+        development:
+          rules:
+            - policy: one_factor
+              subject:
+                - group:development
+
+        media:
+          rules:
+            - policy: one_factor
+              subject:
+                - group:media
+
+        cloud:
+          rules:
+            - policy: one_factor
+              subject:
+                - group:cloud
+
+        cluster_admin:
+          rules:
+            - policy: two_factor
+              subject:
+                - group:cluster_admin
+
+      clients:
+        - client_name: ArgoCD
+          client_id: '{{ secret "/secrets/authelia-oidc-argocd/argocd-id" }}'
+          client_secret:
+            path: /secrets/authelia-oidc-argocd/argocd-digest
+          redirect_uris:
+            - https://argocd.raft.lutris.house/auth/callback
+            - http://localhost:8085/auth/callback
+          scopes:
+            - openid
+            - groups
+            - email
+            - profile
+            - offline_access
+          authorization_policy: cluster_admin
+
+        - client_name: Grafana
+          client_id: '{{ secret "/secrets/authelia-oidc-grafana/grafana-id" }}'
+          client_secret:
+            path: /secrets/authelia-oidc-grafana/grafana-digest
+          redirect_uris:
+            - https://grafana.raft.lutris.house/login/generic_oauth
+          scopes:
+            - openid
+            - groups
+            - profile
+            - email
+          grant_types:
+            - authorization_code
+          access_token_signed_response_alg: none
+          userinfo_signed_response_alg: none
+          authorization_policy: cluster_admin
+          require_pkce: true
+          pkce_challenge_method: S256
+
+        - client_name: immich
+          client_id: '{{ secret "/secrets/authelia-oidc-immich/immich-id" }}'
+          client_secret:
+            path: /secrets/authelia-oidc-immich/immich-digest
+          require_pkce: false
+          redirect_uris:
+            - https://immich.raft.lutris.house/auth/login
+            - https://immich.raft.lutris.house/user-settings
+            - app.immich:///oauth-callback
+          scopes:
+            - openid
+            - profile
+            - email
+            - groups
+          authorization_policy: media
+          id_token_signed_response_alg: RS256
+          userinfo_signed_response_alg: RS256
+          token_endpoint_auth_method: client_secret_post
+
+        - client_name: romm
+          client_id: '{{ secret "/secrets/authelia-oidc-romm/romm-id" }}'
+          client_secret:
+            path: /secrets/authelia-oidc-romm/romm-digest
+          authorization_policy: media
+          claims_policy: legacy_claims
+          redirect_uris:
+            - https://romm.raft.lutris.house/api/oauth/openid
+          scopes:
+            - openid
+            - profile
+            - email
+            - groups
+          userinfo_signed_response_alg: none
+
+        - client_name: forgejo
+          client_id: '{{ secret "/secrets/authelia-oidc-forgejo/forgejo-id" }}'
+          client_secret:
+            path: /secrets/authelia-oidc-forgejo/forgejo-digest
+          authorization_policy: development
+          require_pkce: true
+          pkce_challenge_method: S256
+          redirect_uris:
+            - https://git.raft.lutris.house/user/oauth2/Authelia/callback
+          scopes:
+            - openid
+            - profile
+            - email
+            - groups
+          access_token_signed_response_alg: none
+          userinfo_signed_response_alg: none
+
+        - client_name: cryptpad
+          client_id: '{{ secret "/secrets/authelia-oidc-cryptpad/cryptpad-id" }}'
+          client_secret:
+            path: /secrets/authelia-oidc-cryptpad/cryptpad-digest
+          authorization_policy: cloud
+          redirect_uris:
+            - https://cryptpad.raft.lutris.house/ssoauth
+          scopes:
+            - openid
+            - profile
+            - email
+            - groups
+
+        - client_name: plik
+          client_id: '{{ secret "/secrets/authelia-oidc-plik/plik-id" }}'
+          client_secret:
+            path: /secrets/authelia-oidc-plik/plik-digest
+          authorization_policy: cloud
+          redirect_uris:
+            - https://plik.raft.lutris.house/auth/oidc/callback
+          scopes:
+            - openid
+            - profile
+            - email
+            - groups
+
+        - client_name: opengist
+          client_id: '{{ secret "/secrets/authelia-oidc-opengist/opengist-id" }}'
+          client_secret:
+            path: /secrets/authelia-oidc-opengist/opengist-digest
+          authorization_policy: development
+          redirect_uris:
+            - https://gist.raft.lutris.house/oauth/openid-connect/callback
+          scopes:
+            - openid
+            - profile
+            - email
+            - groups
+          grant_types:
+            - authorization_code
+          token_endpoint_auth_method: client_secret_post
+
+  identity_validation:
+    elevated_session:
+      require_second_factor: false
+
+  authentication_backend:
+    ldap:
+      enabled: true
+      implementation: lldap
+      address: ldap://authelia-lldap-ldap:3890
+      base_dn: dc=raft,dc=lutris,dc=house
+      user: uid=authelia,ou=people,dc=raft,dc=lutris,dc=house
+      password:
+        secret_name: lldap-credentials
+        path: authelia-password
+
+  access_control:
+    rules:
+      - domain: '*.raft.lutris.house'
+        policy: one_factor
+        subject:
+          - group:development
+      - domain: '*.raft.lutris.house'
+        policy: one_factor
+        subject:
+          - group:cloud
+      - domain: '*.raft.lutris.house'
+        policy: one_factor
+        subject:
+          - group:media
+      - domain: '*.raft.lutris.house'
+        policy: two_factor
+        subject:
+          - group:cluster_admin
+
+  notifier:
+    smtp:
+      enabled: true
+      address: submissions://smtp.gmail.com
+      sender: 'Lutris.house Authentication <noreply@lutris.house>'
+      identifier: gmail.com
+      username: alicelutris@gmail.com
+      password:
+        secret_name: authelia-config
+        path: smtp-password
+
+  session:
+    expiration: 4 hours
+    remember_me: 3 months
+    cookies:
+      - domain: raft.lutris.house
+        subdomain: auth
+
+    encryption_key:
+      secret_name: authelia-sessions-key
+      path: password
+
+    redis:
+      enabled: true
+      host: authelia-valkey
+      username: default
+      password:
+        secret_name: authelia-sessions-password
+        path: password
+
+  storage:
+    encryption_key:
+      secret_name: authelia-config
+      path: storage-key
+
+    postgres:
+      enabled: true
+      address: tcp://authelia-storage-rw:5432
+      database: app
+      username: app
+      password:
+        secret_name: authelia-storage-app
+        path: password

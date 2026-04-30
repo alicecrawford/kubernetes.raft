@@ -1,0 +1,19 @@
+---
+replica:
+  enabled: true
+  replicas: 2
+  persistence:
+    size: 5Gi
+    storageClass: longhorn
+auth:
+  enabled: true
+  usersExistingSecret: authelia-sessions-password
+  aclUsers:
+    default:
+      permissions: '~* &* +@all'
+      passwordKey: password
+
+metrics:
+  enabled: true
+  serviceMonitor:
+    enabled: true
