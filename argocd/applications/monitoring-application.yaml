@@ -25,236 +25,20 @@ spec:
       path: .
       targetRevision: 4.53.1
       helm:
-        valuesObject:
-          prometheus:
-            podMonitor:
-              enabled: true
-              relabelings:
-                - sourceLabels: [__meta_kubernetes_pod_node_name]
-                  targetLabel: instance
-                  action: replace
-                  replacement: $1
-                - targetLabel: job
-                  action: replace
-                  replacement: node-exporter
+        valueFiles:
+          - $values/monitoring/values/values-node-exporter.yaml
     - repoURL: oci://ghcr.io/prometheus-community/charts/prometheus-smartctl-exporter
       path: .
       targetRevision: 0.16.0
       helm:
-        valuesObject:
-          serviceMonitor:
-            enabled: true
-            relabelings:
-              - sourceLabels: [__meta_kubernetes_pod_node_name]
-                targetLabel: instance
-                action: replace
-                replacement: $1
+        valueFiles:
+          - $values/monitoring/values/values-smartctl-exporter.yaml
     - repoURL: oci://ghcr.io/prometheus-community/charts/kube-prometheus-stack
       path: .
       targetRevision: 83.4.1
       helm:
-        valuesObject:
-          nodeExporter:
-            enabled: false
-
-          defaultRules:
-            create: false
-
-          prometheusOperator:
-            serviceMonitor:
-              relabelings:
-                - sourceLabels: [__meta_kubernetes_pod_node_name]
-                  targetLabel: instance
-                  action: replace
-                  replacement: $1
-            service:
-              ipDualStack:
-                enabled: true
-
-          prometheus:
-            serviceMonitor:
-              relabelings:
-                - sourceLabels: [__meta_kubernetes_pod_node_name]
-                  targetLabel: instance
-                  action: replace
-                  replacement: $1
-            service:
-              ipDualStack:
-                enabled: true
-            prometheusSpec:
-              replicas: 2
-              replicaExternalLabelName: prometheus_replica
-              podAntiAffinity: hard
-              additionalScrapeConfigs: |
-                - job_name: smartctl-exporter
-                  scheme: http
-                  static_configs:
-                    - targets: ['narwhal.raft.lutris.house:9633']
-                - job_name: node-exporter
-                  scheme: http
-                  static_configs:
-                    - targets: ['narwhal.raft.lutris.house:9100']
-                - job_name: nut-eaton1500
-                  metrics_path: /ups_metrics
-                  params:
-                    ups: [ 'eaton1500' ]
-                  static_configs:
-                    - targets: ['narwhal.raft.lutris.house:9199']
-                      labels:
-                        ups: "eaton1500"
-              ruleSelectorNilUsesHelmValues: false
-              serviceMonitorSelectorNilUsesHelmValues: false
-              podMonitorSelectorNilUsesHelmValues: false
-              probeSelectorNilUsesHelmValues: false
-              serviceMonitorNamespaceSelector: {}
-              podMonitorNamespaceSelector: {}
-              retention: 90d
-              retentionSize: 95GiB
-              externalUrl: https://prometheus.raft.lutris.house
-              storageSpec:
-                volumeClaimTemplate:
-                  spec:
-                    storageClassName: longhorn
-                    accessModes: ["ReadWriteOnce"]
-                    resources:
-                      requests:
-                        storage: 100Gi
-
-          grafana:
-            deploymentStrategy:
-              type: Recreate
-            plugins:
-              - victoriametrics-logs-datasource
-            additionalDataSources:
-              - name: VictoriaLogs
-                type: victoriametrics-logs-datasource
-                url: http://prometheus-stack-victoria-logs-single-server:9428
-                access: proxy
-                isDefault: false
-            envFromSecret: grafana-oidc
-            grafana.ini:
-              date_formats:
-                default_timezone: browser
-              server:
-                root_url: https://grafana.raft.lutris.house/
-              auth.generic_oauth:
-                enabled: true
-                name: Authelia
-                skip_org_role_sync: true
-                allow_assign_grafana_admin: true
-                icon: signin
-                client_id: '${GRAFANA_OIDC_ID}'
-                client_secret: '${GRAFANA_OIDC_KEY}'
-                scopes: openid profile email groups
-                empty_scopes: false
-                auth_url: https://auth.raft.lutris.house/api/oidc/authorization
-                token_url: https://auth.raft.lutris.house/api/oidc/token
-                api_url: https://auth.raft.lutris.house/api/oidc/userinfo
-                login_attribute_path: groups
-                use_pkce: true
-                auth_style: InHeader
-            serviceMonitor:
-              relabelings:
-                - sourceLabels: [__meta_kubernetes_pod_node_name]
-                  targetLabel: instance
-                  action: replace
-                  replacement: $1
-            persistence:
-              enabled: true
-              storageClassName: longhorn
-              accessModes: ["ReadWriteOnce"]
-              size: 5Gi
-            dashboardProviders:
-              dashboardproviders.yaml:
-                apiVersion: 1
-                providers:
-                  - name: default
-                    orgId: 1
-                    folder: ''
-                    type: file
-                    disableDeletion: false
-                    # Set editable to true
-                    editable: true
-                    options:
-                      path: /var/lib/grafana/dashboards/default
-
-          alertmanager:
-            serviceMonitor:
-              relabelings:
-                - sourceLabels: [__meta_kubernetes_pod_node_name]
-                  targetLabel: instance
-                  action: replace
-                  replacement: $1
-            service:
-              ipDualStack:
-                enabled: true
-            alertmanagerSpec:
-              configSecret: alertmanager-config-secret
-              replicas: 3
-              externalUrl: https://alertmanager.raft.lutris.house
-              alertmanagerConfigMatcherStrategy:
-                type: "None"
-              storage:
-                volumeClaimTemplate:
-                  spec:
-                    storageClassName: longhorn
-                    accessModes: ["ReadWriteOnce"]
-                    resources:
-                      requests:
-                        storage: 5Gi
-
-          kube-state-metrics:
-            replicas: 2
-            serviceMonitor:
-              relabelings:
-                - sourceLabels: [__meta_kubernetes_pod_node_name]
-                  targetLabel: instance
-                  action: replace
-                  replacement: $1
-
-          kubeScheduler:
-            serviceMonitor:
-              relabelings:
-                - sourceLabels: [__meta_kubernetes_pod_node_name]
-                  targetLabel: instance
-                  action: replace
-                  replacement: $1
-
-          kubeEtcd:
-            serviceMonitor:
-              relabelings:
-                - sourceLabels: [__meta_kubernetes_pod_node_name]
-                  targetLabel: instance
-                  action: replace
-                  replacement: $1
-
-          coreDns:
-            serviceMonitor:
-              relabelings:
-                - sourceLabels: [__meta_kubernetes_pod_node_name]
-                  targetLabel: instance
-                  action: replace
-                  replacement: $1
-
-          kubeControllerManager:
-            serviceMonitor:
-              relabelings:
-                - sourceLabels: [__meta_kubernetes_pod_node_name]
-                  targetLabel: instance
-                  action: replace
-                  replacement: $1
-
-          kubelet:
-            serviceMonitor:
-              relabelings:
-                - action: replace
-                  sourceLabels: [__metrics_path__]
-                  targetLabel: metrics_path
-                - sourceLabels: [__meta_kubernetes_endpoint_node_name]
-                  targetLabel: instance
-                  action: replace
-                  replacement: $1
-
+        valueFiles:
+          - $values/monitoring/values/values-kps.yaml
     - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
       path: monitoring
       targetRevision: HEAD
@@ -266,26 +50,11 @@ spec:
       targetRevision: 0.11.31
       chart: victoria-logs-single
       helm:
-        valuesObject:
-          dashboards:
-            enabled: true
-            namespace: monitoring
-          global:
-            cluster:
-              dnsDomain: polycule.raft.lutris.house
-          server:
-            persistentVolume:
-              size: 10Gi
-              storageClassName: nfs-ssd-csi
-            retentionPeriod: 7d
-            serviceMonitor:
-              enabled: true
-            mode: deployment
+        valueFiles:
+          - $values/monitoring/values/values-victorialogs.yaml
     - repoURL: https://victoriametrics.github.io/helm-charts/
       targetRevision: 0.2.15
       chart: victoria-logs-collector
       helm:
-        valuesObject:
-          remoteWrite:
-            - url: http://prometheus-stack-victoria-logs-single-server:9428
-              maxDiskUsagePerURL: 10GB
+        valueFiles:
+          - $values/monitoring/values/values-victorialogs-collector.yaml

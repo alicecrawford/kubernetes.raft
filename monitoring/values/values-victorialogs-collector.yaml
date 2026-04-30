@@ -1,0 +1,4 @@
+---
+remoteWrite:
+  - url: http://prometheus-stack-victoria-logs-single-server:9428
+    maxDiskUsagePerURL: 10GB

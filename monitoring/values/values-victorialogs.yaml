@@ -1,0 +1,15 @@
+---
+dashboards:
+  enabled: true
+  namespace: monitoring
+global:
+  cluster:
+    dnsDomain: polycule.raft.lutris.house
+server:
+  persistentVolume:
+    size: 10Gi
+    storageClassName: nfs-ssd-csi
+  retentionPeriod: 7d
+  serviceMonitor:
+    enabled: true
+  mode: deployment
