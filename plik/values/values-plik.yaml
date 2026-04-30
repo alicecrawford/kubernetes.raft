@@ -1,0 +1,19 @@
+---
+persistence:
+  enabled: true
+  storageClassName: nfs-disk-csi
+dbPersistence:
+  enabled: true
+  storageClassName: longhorn
+plikd:
+  PlikDomain: https://plik.raft.lutris.house
+  MaxFileSizeStr: unlimited
+  MaxTTLStr: 365d
+  FeatureAuthentication: forced
+  FeatureComments: disabled
+  OIDCClientID: Hii0QyEoSpaOEXHnHXMSohsF-IxyO2LeNHmcgpQD0bv0ZSRCtkZUzh02EBJNYbQH524WPGvx
+  OIDCProviderURL: https://auth.raft.lutris.house
+  OIDCProviderName: authelia
+  DefaultAdminLogin: admin
+secrets:
+  existingSecret: plik-secret
