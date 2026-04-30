@@ -11,14 +11,12 @@ spec:
       targetRevision: 0.9.3
       chart: valkey
       helm:
-        valuesObject:
-          metrics:
-            enabled: true
-            serviceMonitor:
-              enabled: true
+        valueFiles:
+          - $values/romm/values/values-valkey.yaml
     - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
       path: romm
       targetRevision: HEAD
+      ref: values
   destination:
     server: https://kubernetes.default.svc
     namespace: romm
