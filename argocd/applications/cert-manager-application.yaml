@@ -16,28 +16,9 @@ spec:
       path: .
       targetRevision: 1.20.2
       helm:
-        valuesObject:
-          installCRDs: true
-          crds:
-            enabled: true
-            keep: true
-          replicaCount: 1
-          featureGates: ""
-          namespace: "cert-manager"
-          enableCertificateOwnerRef: false
-          config:
-            apiVersion: controller.config.cert-manager.io/v1alpha1
-            kind: ControllerConfiguration
-            logging:
-              verbosity: 5
-            enableGatewayAPI: true
-            # enableGatewayAPIListenerSet: true
-          dns01RecursiveNameservers: "8.8.8.8:53,1.1.1.1:53"
-          dns01RecursiveNameserversOnly: true
-          prometheus:
-            enabled: true
-            servicemonitor:
-              enabled: true
+        valueFiles:
+          - $values/cert-manager/values/values-cert-manager.yaml
     - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
       path: cert-manager
       targetRevision: HEAD
+      ref: values
