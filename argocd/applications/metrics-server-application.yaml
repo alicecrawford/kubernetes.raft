@@ -6,20 +6,19 @@ metadata:
   namespace: argocd
 spec:
   project: system
-  source:
-    repoURL: https://kubernetes-sigs.github.io/metrics-server/
-    targetRevision: 3.13.0
-    helm:
-      valuesObject:
-        replicas: 2
-        args:
-          - --kubelet-insecure-tls
-        apiService:
-          insecureSkipTLSVerify: true
-    chart: metrics-server
   destination:
     server: https://kubernetes.default.svc
     namespace: kube-system
   syncPolicy:
     syncOptions:
       - ServerSideApply=true
+  sources:
+    - repoURL: https://kubernetes-sigs.github.io/metrics-server/
+      targetRevision: 3.13.0
+      helm:
+        valueFiles:
+          - $values/metrics-server/values/values-metrics-server.yaml
+      chart: metrics-server
+    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+      targetRevision: HEAD
+      ref: values

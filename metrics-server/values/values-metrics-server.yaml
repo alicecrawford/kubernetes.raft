@@ -1,0 +1,6 @@
+---
+replicas: 2
+args:
+  - --kubelet-insecure-tls
+apiService:
+  insecureSkipTLSVerify: true
