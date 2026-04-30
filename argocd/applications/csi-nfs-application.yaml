@@ -17,8 +17,8 @@ spec:
       chart: csi-driver-nfs
       targetRevision: 4.13.1
       helm:
-        valuesObject:
-          runOnControlPlane: true
+        valueFiles:
+          - $values/csi-nfs/values/values-csi-nfs.yaml
     - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
       path: csi-nfs
       targetRevision: HEAD
