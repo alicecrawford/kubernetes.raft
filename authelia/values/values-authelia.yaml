@@ -129,7 +129,6 @@ configMap:
             path: /secrets/authelia-oidc-argocd/argocd-digest
           redirect_uris:
             - https://argocd.raft.lutris.house/auth/callback
-            - http://localhost:8085/auth/callback
           scopes:
             - openid
             - groups
@@ -137,6 +136,23 @@ configMap:
             - profile
             - offline_access
           authorization_policy: cluster_admin
+        - client_id: 'argo-cli'
+          client_name: 'ArgoCD (CLI)'
+          public: true
+          authorization_policy: cluster_admin
+          require_pkce: true
+          pkce_challenge_method: S256
+          redirect_uris:
+            - http://localhost:8085/auth/callback
+          scopes:
+            - openid
+            - offline_acces
+            - groups
+            - email
+          grant_types:
+            - authorization_code
+            - refresh_token
+          token_endpoint_auth_method: 'none'
 
         - client_name: Grafana
           client_id: '{{ secret "/secrets/authelia-oidc-grafana/grafana-id" }}'
