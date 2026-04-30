@@ -10,12 +10,7 @@ spec:
     - repoURL: https://metallb.github.io/metallb
       targetRevision: 0.15.3
       helm:
-        valuesObject:
-          prometheus:
-            serviceMonitor:
-              enabled: true
-            serviceAccount: prometheus-stack-kube-prom-prometheus
-            namespace: monitoring
+        valueFiles:
       chart: metallb
     - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
       path: metallb
