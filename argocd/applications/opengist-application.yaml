@@ -17,24 +17,9 @@ spec:
       chart: opengist
       targetRevision: 1.1.0
       helm:
-        valuesObject:
-          controllers:
-            main:
-              containers:
-                main:
-                  env:
-                    OG_EXTERNAL_URL: https://gist.raft.lutris.house
-                    OG_OIDC_DISCOVERY_URL: https://auth.raft.lutris.house/.well-known/openid-configuration
-                    OG_OIDC_GROUP_CLAIM_NAME: groups
-                    OG_OIDC_ADMIN_GROUP: cluster_admin
-          persistence:
-            opengist:
-              enabled: true
-              storageClass: nfs-ssd-csi
-              type: persistentVolumeClaim
-              accessMode: ReadWriteOnce
-              size: 20Gi
-
+        valueFiles:
+          - $values/opengist/values/values-opengist.yaml
     - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
       path: opengist
       targetRevision: HEAD
+      ref: values
