@@ -30,19 +30,19 @@ spec:
       targetRevision: 0.6.3
       chart: lldap
       helm:
-        valuesFiles:
+        valueFiles:
           - $values/authelia/values/values-lldap.yaml
     - repoURL: https://valkey.io/valkey-helm/
       targetRevision: 0.9.4
       chart: valkey
       helm:
-        valuesFiles:
+        valueFiles:
           - $values/authelia/values/values-valkey.yaml
     - repoURL: https://charts.authelia.com
       targetRevision: 0.10.57
       chart: authelia
       helm:
-        valuesFiles:
+        valueFiles:
           - $values/authelia/values/values-authelia.yaml
     - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
       path: authelia
