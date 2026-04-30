@@ -1,0 +1,11 @@
+---
+profile: ambient
+pilot:
+  env:
+    PILOT_ENABLE_ALPHA_GATEWAY_API: true
+    ISTIO_DUAL_STACK: "true"
+  ipFamilyPolicy: RequireDualStack
+meshConfig:
+  defaultConfig:
+    proxyMetadata:
+      ISTIO_DUAL_STACK: "true"
