@@ -11,6 +11,8 @@ spec:
       jsonPointers:
         - /data/ca.crt
         - /data/ca.key
+        - /data/tls.crt
+        - /data/tls.key
   destination:
     server: https://kubernetes.default.svc
     namespace: kube-system
