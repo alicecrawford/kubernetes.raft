@@ -18,52 +18,8 @@ spec:
       path: .
       targetRevision: 2.35.0
       helm:
-        valuesObject:
-          replicaCount: 2
-          image:
-            tag: latest
-          whitelist:
-            - allydvm.com
-            - willowglenpethospital.com
-          adlists:
-            - https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
-            - https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/multi.txt
-            - https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/fake.txt
-            - https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/domains/tif.txt
-            - https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/doh-vpn-proxy-bypass.txt
-          DNS1: 8.8.8.8
-          DNS2: 1.1.1.1
-          tolerations:
-            - key: "node.kubernetes.io/unreachable"
-              operator: "Exists"
-              effect: "NoExecute"
-              tolerationSeconds: 5
-            - key: "node.kubernetes.io/not-ready"
-              operator: "Exists"
-              effect: "NoExecute"
-              tolerationSeconds: 5
-          dualStack:
-            enabled: true
-          admin:
-            existingSecret: pihole-admin
-          serviceDns:
-            mixedService: true
-            loadBalancerIP: 172.16.60.53
-            loadBalancerIPv6: 2001:5a8:4bd5:ef00::f00d:cbe:5353
-            type: LoadBalancer
-          serviceDhcp:
-            enabled: false
-          antiaff:
-            enabled: true
-          podDnsConfig:
-            enabled: true
-            policy: None
-            nameservers:
-              - 127.0.0.1
-              - 8.8.8.8
-          extraEnvVars:
-            FTLCONF_dns_listeningMode: all
-            DNSMASQ_USER: root
+        valueFiles:
+          - $values/pihole/values/values-pihole.yaml
     - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
       path: pihole
       targetRevision: HEAD
