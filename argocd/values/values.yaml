@@ -8,21 +8,25 @@ configs:
   params:
     server.insecure: true
 
+  rbac:
+    policy.csv: |
+      g, cluster_admin, role:admin
+
   cm:
     oidc.config: |
       name: Authelia
       issuer: https://auth.raft.lutris.house
       clientID: EyxwBAztTO~trz08ewnQTypUBnk-KllPKhaTf7NygQ_n2mcb6lwrVESaKz01nDYjw1Dz043X
       clientSecret: $argocd-oidc-authelia:oidc.clientSecret
-      requestedScopes: ['openid', 'offline_access']
+      requestedScopes: ['openid', 'offline_access', 'groups', 'email']
       requestedIDTokenClaims:
         argocd_claim: { essential: true }
         email: { essential: false }
         name: { essential: false }
         preferred_username: { essential: false }
+        groups: { essential: true }
       enableUserInfoGroups: true
       userInfoPath: /api/oidc/userinfo
-      userInfoCacheExpiration: '5m'
     exec.enabled: true
     statusbadge.enabled: true
     ssh:
