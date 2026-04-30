@@ -34,8 +34,6 @@ spec:
               value: "386400"
             - name: TASK_TIMEOUT
               value: "386400"
-            - name: SCAN_WORKERS
-              value: "4"
             - name: ROMM_AUTH_SECRET_KEY
               valueFrom:
                 secretKeyRef:
