@@ -1,0 +1,12 @@
+---
+clusterSize: 1
+persistentVolume:
+  enabled: true
+  storageClass: longhorn
+  size: 2Gi
+dns:
+  clusterDomainSuffix: polycule.raft.lutris.house
+couchdbConfig:
+  couchdb:
+    single_node: true
+    uuid: 5033d0c4-6da6-4135-902e-e58a5edda3ef
