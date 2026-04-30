@@ -3,6 +3,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: cat-stuff
+  namespace: argocd
 spec:
   destination:
     namespace: cat-stuff
@@ -36,4 +37,4 @@ spec:
       chart: couchdb
       helm:
         valueFiles:
-          - $values/values/values-couchdb.yaml
+          - $values/cat-stuff/values/values-couchdb.yaml
