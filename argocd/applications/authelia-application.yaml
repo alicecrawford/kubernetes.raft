@@ -39,7 +39,7 @@ spec:
         valueFiles:
           - $values/authelia/values/values-valkey.yaml
     - repoURL: https://charts.authelia.com
-      targetRevision: 0.10.57
+      targetRevision: 0.11.4
       chart: authelia
       helm:
         valueFiles:
