@@ -1,0 +1,9 @@
+---
+instances:
+  - name: "gwams"
+    repo: https://git.raft.lutris.house/soupmix/gwams.git
+
+certificate:
+  issuerRef:
+    name: letsencrypt-dns01-issuer
+    kind: ClusterIssuer

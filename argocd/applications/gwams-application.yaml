@@ -6,13 +6,20 @@ metadata:
   namespace: argocd
 spec:
   project: default
-  source:
-    repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
-    path: gwams
-    targetRevision: HEAD
   destination:
     server: https://kubernetes.default.svc
     namespace: gwams
   syncPolicy:
     syncOptions:
       - ServerSideApply=true
+  sources:
+    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+      path: gwams
+      targetRevision: HEAD
+      ref: values
+    - repoURL: https://git.raft.lutris.house/api/packages/the_raft/helm/
+      chart: cat-web
+      targetRevision: 0.1.0
+      helm:
+        valueFiles:
+          - $values/gwams/values/values-gwams.yaml
