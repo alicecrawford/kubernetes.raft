@@ -2,6 +2,8 @@
 instances:
   - name: "gwams"
     repo: https://git.raft.lutris.house/soupmix/gwams.git
+  - name: "gwids"
+    repo: https://git.raft.lutris.house/soupmix/gwids.git
 
 certificate:
   issuerRef:
