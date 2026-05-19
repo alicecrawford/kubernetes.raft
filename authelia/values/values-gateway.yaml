@@ -1,0 +1,20 @@
+gateways:
+  - name: authelia
+    hostnames:
+      - auth.raft.lutris.house
+      - lldap.raft.lutris.house
+    listeners:
+      - name: https
+        port: 443
+        protocol: HTTPS
+        routes:
+          - name: alertmanager
+            service: authelia
+            port: 80
+            hostnames:
+              - auth.raft.lutris.house
+          - name: lldap
+            service: authelia-lldap-http
+            port: 17170
+            hostnames:
+              - lldap.raft.lutris.house
