@@ -23,3 +23,9 @@ spec:
       path: immich
       targetRevision: HEAD
       ref: values
+    - repoURL: https://git.raft.lutris.house/api/packages/the_raft/helm/
+      chart: gw-helper
+      targetRevision: 0.1.3
+      helm:
+        valueFiles:
+          - $values/immich/values/values-gateway.yaml

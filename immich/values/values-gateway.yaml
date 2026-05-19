@@ -1,0 +1,12 @@
+gateways:
+  - name: immich
+    hostnames:
+      - immich.raft.lutris.house
+    listeners:
+      - name: https
+        port: 443
+        protocol: HTTPS
+        routes:
+          - name: immich
+            service: immich-server
+            port: 2283
