@@ -14,7 +14,7 @@ spec:
       - ServerSideApply=true
   sources:
     - repoURL: https://charts.longhorn.io/
-      targetRevision: 1.11.1
+      targetRevision: 1.11.2
       chart: longhorn
     - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
       path: longhorn
