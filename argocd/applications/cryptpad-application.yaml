@@ -16,3 +16,9 @@ spec:
       repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
       targetRevision: HEAD
       ref: values
+    - repoURL: https://git.raft.lutris.house/api/packages/the_raft/helm/
+      chart: gw-helper
+      targetRevision: 0.1.4
+      helm:
+        valueFiles:
+          - $values/cryptpad/values/values-gateway.yaml
