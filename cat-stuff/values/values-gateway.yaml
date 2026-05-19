@@ -1,0 +1,14 @@
+gateways:
+  - name: cat-stuff
+    hostnames:
+      - cat-couchdb.raft.lutris.house
+    listeners:
+      - name: https
+        port: 5984
+        protocol: HTTPS
+        routes:
+          - name: couch
+            service: cat-stuff-svc-couchdb
+            port: 5984
+            hostnames:
+              - cat-couchdb.raft.lutris.house
