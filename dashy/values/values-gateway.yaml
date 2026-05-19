@@ -1,13 +1,13 @@
 gateways:
-  - name: plik
+  - name: dashy
     hostnames:
-      - plik.raft.lutris.house
+      - dashy.raft.lutris.house
     listeners:
       - name: https
         port: 443
         protocol: HTTPS
         routes:
-          - name: plik
-            service: plik
+          - name: dashy
+            service: dashy
             port: 8080
             hostnames: []
