@@ -18,9 +18,8 @@ spec:
         fsGroup: 4001
       containers:
         - name: cryptpad
-          securityContext:
-            {}
-          image: "cryptpad/cryptpad:version-2026.2.2"
+          securityContext: {}
+          image: "cryptpad/cryptpad:version-2026.5.0"
           imagePullPolicy: IfNotPresent
           env:
             - name: CPAD_MAIN_DOMAIN
@@ -64,8 +63,7 @@ spec:
             periodSeconds: 10
             failureThreshold: 25
             successThreshold: 1
-          resources:
-            {}
+          resources: {}
           volumeMounts:
             - name: cryptpad-plugins
               mountPath: /cryptpad/lib/plugins
