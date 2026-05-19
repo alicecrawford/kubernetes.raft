@@ -1,0 +1,19 @@
+gateways:
+  - name: forgejo
+    hostnames:
+      - git.raft.lutris.house
+    listeners:
+      - name: https
+        port: 443
+        protocol: HTTPS
+        routes:
+          - name: http
+            service: forgejo-http
+            port: 3000
+      - name: ssh
+        port: 22
+        protocol: TCP
+        routes:
+          - name: ssh
+            service: forgejo-ssh
+            port: 22
