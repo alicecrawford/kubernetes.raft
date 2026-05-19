@@ -1,0 +1,19 @@
+gateways:
+  - name: cryptpad
+    hostnames:
+      - cryptpad.raft.lutris.house
+    listeners:
+      - name: https
+        port: 443
+        protocol: HTTPS
+        routes:
+          - name: cryptpad
+            service: cryptpad
+            port: 3000
+      - name: ws
+        port: 3003
+        protocol: HTTPS
+        routes:
+          - name: cryptpad-ws
+            service: cryptpad
+            port: 3003
