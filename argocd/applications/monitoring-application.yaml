@@ -58,3 +58,9 @@ spec:
       helm:
         valueFiles:
           - $values/monitoring/values/values-victorialogs-collector.yaml
+    - repoURL: https://git.raft.lutris.house/api/packages/the_raft/helm/
+      chart: gw-helper
+      targetRevision: 0.1.3
+      helm:
+        valueFiles:
+          - $values/monitoring/values/values-gateway.yaml

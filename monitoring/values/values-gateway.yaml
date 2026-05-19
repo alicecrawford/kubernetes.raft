@@ -1,0 +1,32 @@
+gateways:
+  - name: monitoring
+    hostnames:
+      - alertmanager.raft.lutris.house
+      - grafana.raft.lutris.house
+      - logs.raft.lutris.house
+      - prometheus.raft.lutris.house
+    listeners:
+      - name: https
+        port: 443
+        protocol: HTTPS
+        routes:
+          - name: alertmanager
+            service: prometheus-stack-kube-prom-alertmanager
+            port: 9093
+            hostnames:
+              - alertmanager.raft.lutris.house
+          - name: grafana
+            service: prometheus-stack-grafana
+            port: 80
+            hostnames:
+              - grafana.raft.lutris.house
+          - name: logs
+            service: prometheus-stack-victoria-logs-single-server
+            port: 9428
+            hostnames:
+              - logs.raft.lutris.house
+          - name: prometheus
+            service: prometheus-stack-kube-prom-prometheus
+            port: 9090
+            hostnames:
+              - prometheus.raft.lutris.house
