@@ -7,7 +7,7 @@ spec:
   destination:
     namespace: cryptpad
     server: https://kubernetes.default.svc
-  project: system
+  project: default
   syncPolicy:
     syncOptions:
       - ServerSideApply=true
