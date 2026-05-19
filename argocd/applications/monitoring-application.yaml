@@ -23,13 +23,13 @@ spec:
   sources:
     - repoURL: oci://ghcr.io/prometheus-community/charts/prometheus-node-exporter
       path: .
-      targetRevision: 4.53.1
+      targetRevision: 4.55.0
       helm:
         valueFiles:
           - $values/monitoring/values/values-node-exporter.yaml
     - repoURL: oci://ghcr.io/prometheus-community/charts/prometheus-smartctl-exporter
       path: .
-      targetRevision: 0.16.0
+      targetRevision: 0.16.1
       helm:
         valueFiles:
           - $values/monitoring/values/values-smartctl-exporter.yaml
