@@ -1,0 +1,12 @@
+gateways:
+  - name: longhorn
+    hostnames:
+      - longhorn.raft.lutris.house
+    listeners:
+      - name: https
+        port: 443
+        protocol: HTTPS
+        routes:
+          - name: longhorn
+            service: longhorn-frontend
+            port: 80

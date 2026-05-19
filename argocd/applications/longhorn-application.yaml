@@ -6,6 +6,12 @@ metadata:
   namespace: argocd
 spec:
   project: system
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: longhorn-system
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
   sources:
     - repoURL: https://charts.longhorn.io/
       targetRevision: 1.11.1
@@ -14,9 +20,9 @@ spec:
       path: longhorn
       targetRevision: HEAD
       ref: values
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: longhorn-system
-  syncPolicy:
-    syncOptions:
-      - ServerSideApply=true
+    - repoURL: https://git.raft.lutris.house/api/packages/the_raft/helm/
+      chart: gw-helper
+      targetRevision: 0.1.3
+      helm:
+        valueFiles:
+          - $values/longhorn/values/values-gateway.yaml
