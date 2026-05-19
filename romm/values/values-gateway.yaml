@@ -1,0 +1,13 @@
+gateways:
+  - name: romm
+    hostnames:
+      - romm.raft.lutris.house
+    listeners:
+      - name: https
+        port: 443
+        protocol: HTTPS
+        routes:
+          - name: romm
+            service: romm-www
+            port: 8080
+            hostnames: []

@@ -6,6 +6,12 @@ metadata:
   namespace: argocd
 spec:
   project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: romm
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
   sources:
     - repoURL: https://valkey.io/valkey-helm/
       targetRevision: 0.9.3
@@ -17,9 +23,9 @@ spec:
       path: romm
       targetRevision: HEAD
       ref: values
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: romm
-  syncPolicy:
-    syncOptions:
-      - ServerSideApply=true
+    - repoURL: https://git.raft.lutris.house/api/packages/the_raft/helm/
+      chart: gw-helper
+      targetRevision: 0.1.0
+      helm:
+        valueFiles:
+          - $values/romm/values/values-gateway.yaml
