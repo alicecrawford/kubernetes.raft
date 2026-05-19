@@ -53,7 +53,7 @@ spec:
         valueFiles:
           - $values/monitoring/values/values-victorialogs.yaml
     - repoURL: https://victoriametrics.github.io/helm-charts/
-      targetRevision: 0.2.15
+      targetRevision: 0.3.3
       chart: victoria-logs-collector
       helm:
         valueFiles:
