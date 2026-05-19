@@ -1,0 +1,19 @@
+gateways:
+  - name: opengist
+    hostnames:
+      - gist.raft.lutris.house
+    listeners:
+      - name: https
+        port: 443
+        protocol: HTTPS
+        routes:
+          - name: gist-www
+            service: opengist
+            port: 80
+      - name: ssh
+        port: 22
+        protocol: TCP
+        routes:
+          - name: gist-ssh
+            service: opengist
+            port: 22

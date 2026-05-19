@@ -23,3 +23,9 @@ spec:
       path: opengist
       targetRevision: HEAD
       ref: values
+    - repoURL: https://git.raft.lutris.house/api/packages/the_raft/helm/
+      chart: gw-helper
+      targetRevision: 0.1.1
+      helm:
+        valueFiles:
+          - $values/opengist/values/values-gateway.yaml
