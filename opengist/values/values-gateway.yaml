@@ -17,3 +17,5 @@ gateways:
           - name: gist-ssh
             service: opengist
             port: 22
+            hostnames:
+              - gist.raft.lutris.house
