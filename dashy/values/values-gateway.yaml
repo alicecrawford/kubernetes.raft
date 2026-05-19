@@ -1,0 +1,13 @@
+gateways:
+  - name: plik
+    hostnames:
+      - plik.raft.lutris.house
+    listeners:
+      - name: https
+        port: 443
+        protocol: HTTPS
+        routes:
+          - name: plik
+            service: plik
+            port: 8080
+            hostnames: []

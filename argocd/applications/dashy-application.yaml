@@ -7,11 +7,18 @@ spec:
   destination:
     namespace: dashy
     server: https://kubernetes.default.svc
-  source:
-    path: dashy
-    repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
-    targetRevision: HEAD
   project: system
   syncPolicy:
     syncOptions:
       - ServerSideApply=true
+  sources:
+    - path: dashy
+      repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+      targetRevision: HEAD
+      ref: values
+    - repoURL: https://git.raft.lutris.house/api/packages/the_raft/helm/
+      chart: gw-helper
+      targetRevision: 0.1.3
+      helm:
+        valueFiles:
+          - $values/dashy/values/values-gateway.yaml
