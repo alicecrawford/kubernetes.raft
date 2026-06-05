@@ -19,7 +19,7 @@ spec:
       ref: values
     - repoURL: https://git.raft.lutris.house/api/packages/the_raft/helm/
       chart: cat-web
-      targetRevision: 0.1.0
+      targetRevision: 0.1.1
       helm:
         valueFiles:
           - $values/gwams/values/values-gwams.yaml
