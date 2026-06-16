@@ -7,7 +7,7 @@ metadata:
 spec:
   instances: 3
   storage:
-    size: 8Gi
+    size: 16Gi
     storageClass: longhorn
   bootstrap:
     initdb:
