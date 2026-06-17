@@ -11,6 +11,7 @@ spec:
         - record: cnpg_expected_replicas
           expr: sum by (label_cnpg_io_cluster, instance, namespace)
             (kube_pod_labels{label_cnpg_io_instance_role="replica"})
+
         - record: cnpg_actual_replicas
           expr: >
             sum by (namespace, pod, label_cnpg_io_cluster) (
@@ -18,3 +19,16 @@ spec:
             group_left(label_cnpg_io_cluster)  max by (namespace, pod,
             label_cnpg_io_cluster)
             (kube_pod_labels{label_cnpg_io_instance_role="primary"}))
+
+        - alert: CnpgReplicaCountMismatch
+          annotations:
+            description: cnpg cluster {{ $labels.label_cnpg_io_cluster }} in namespace {{
+              $labels.namespace }} does not have the expected count of active
+              replicas syncing.
+            summary: cnpg cluster has a mismatch in active replicas
+          expr: |-
+            cnpg_actual_replicas < on(namespace, label_cnpg_io_cluster) group_left()
+            cnpg_expected_replicas
+          for: 1m
+          labels:
+            severity: critical
