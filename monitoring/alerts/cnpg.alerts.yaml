@@ -8,11 +8,13 @@ spec:
   groups:
     - name: cn-postgres
       rules:
-        - record: cnpg_expected_replicas
-          expr: sum by (label_cnpg_io_cluster, instance)
+        - record: cnpg_expected_replica_count
+          expr: sum by (label_cnpg_io_cluster, instance, namespace)
             (kube_pod_labels{label_cnpg_io_instance_role="replica"})
-        - record: cnpg_actual_replicas
+        - record: cnpg_actual_replica_count
           expr: >
-            cnpg_pg_replication_slots_active and on(label_cnpg_io_cluster,
-            instance, pod)
-            kube_pod_labels{label_cnpg_io_instance_role="primary"}
+            sum by (namespace, pod, label_cnpg_io_cluster) (
+            cnpg_pg_replication_slots_active  * on(namespace, pod)
+            group_left(label_cnpg_io_cluster)  max by (namespace, pod,
+            label_cnpg_io_cluster)
+            (kube_pod_labels{label_cnpg_io_instance_role="primary"}))
