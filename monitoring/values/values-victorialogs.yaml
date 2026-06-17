@@ -9,7 +9,7 @@ server:
   persistentVolume:
     size: 10Gi
     storageClassName: nfs-ssd-csi
-  retentionPeriod: 7d
+  retentionPeriod: 90d
   serviceMonitor:
     enabled: true
   mode: deployment
