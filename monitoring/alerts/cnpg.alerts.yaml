@@ -27,8 +27,8 @@ spec:
               replicas syncing.
             summary: cnpg cluster has a mismatch in active replicas
           expr: |-
-            cnpg_actual_replicas < on(namespace, label_cnpg_io_cluster) group_left()
-            cnpg_expected_replicas
+            cnpg_actual_replicas < on(namespace, label_cnpg_io_cluster) group_left() 
+            max by (namespace, label_cnpg_io_cluster) (cnpg_expected_replicas)
           for: 1m
           labels:
             severity: critical
