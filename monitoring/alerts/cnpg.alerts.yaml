@@ -11,3 +11,8 @@ spec:
         - record: cnpg_expected_replicas
           expr: sum by (label_cnpg_io_cluster, instance)
             (kube_pod_labels{label_cnpg_io_instance_role="replica"})
+        - record: cnpg_actual_replicas
+          expr: >
+            cnpg_pg_replication_slots_active and on(label_cnpg_io_cluster,
+            instance, pod)
+            kube_pod_labels{label_cnpg_io_instance_role="primary"}
