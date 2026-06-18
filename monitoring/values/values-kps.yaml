@@ -153,6 +153,7 @@ kube-state-metrics:
     - --metric-labels-allowlist=nodes=[*],pods=[*],persistentvolumeclaims=[*],deployments=[*],statefulsets=[*],configmaps=[*],secrets=[*],services=[*],replicasets=[*]
   replicas: 2
   serviceMonitor:
+    interval: 2m
     relabelings:
       - sourceLabels: [__meta_kubernetes_pod_node_name]
         targetLabel: instance
