@@ -11,9 +11,14 @@ spec:
   syncPolicy:
     syncOptions:
       - ServerSideApply=true
-  source:
-    repoURL: https://cloudnative-pg.github.io/charts
-    chart: cloudnative-pg
-    targetRevision: 0.28.3
-    helm:
-      valuesObject: {}
+  sources:
+    - repoURL: https://cloudnative-pg.github.io/charts
+      chart: cloudnative-pg
+      targetRevision: 0.28.3
+      helm:
+        valueFiles:
+          - $values/cnpg/values/values-cnpg.yaml
+    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+      path: cnpg
+      targetRevision: HEAD
+      ref: values
