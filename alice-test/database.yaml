@@ -1,0 +1,11 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: alicetest-db
+  namespace: alice-test
+spec:
+  instances: 3
+  storage:
+    size: 1Gi
+    storageClass: longhorn
