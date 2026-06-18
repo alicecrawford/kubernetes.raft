@@ -1,0 +1,39 @@
+---
+rbac:
+  create: true
+
+sources:
+  - service
+  - gateway-httproute
+  - gateway-grpcroute
+  - gateway-tcproute
+  - gateway-udproute
+
+serviceMonitor:
+  enabled: true
+
+registry: txt
+
+txtOwnerId: k8s
+
+txtPrefix: external-dns-
+
+policy: sync
+
+provider:
+  name: rfc2136
+
+extraArgs:
+  - --rfc2136-host=172.16.62.253
+  - --rfc2136-port=53
+  - --rfc2136-zone=raft.lutris.house
+  - --rfc2136-tsig-secret-alg=hmac-sha256
+  - --rfc2136-keyname=zone_update.key
+  - --rfc2136-tsig-axfr
+
+env:
+  - name: EXTERNAL_DNS_RFC2136_TSIG_SECRET
+    valueFrom:
+      secretKeyRef:
+        name: external-dns
+        key: secret

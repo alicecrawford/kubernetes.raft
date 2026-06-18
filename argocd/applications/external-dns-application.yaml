@@ -7,11 +7,18 @@ spec:
   destination:
     namespace: external-dns
     server: https://kubernetes.default.svc
-  source:
-    path: external-dns
-    repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
-    targetRevision: HEAD
   project: system
   syncPolicy:
     syncOptions:
       - ServerSideApply=true
+  sources:
+    - path: external-dns
+      repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+      targetRevision: HEAD
+      ref: values
+    - repoURL: https://kubernetes-sigs.github.io/external-dns
+      targetRevision: 1.20.0
+      chart: external-dns
+      helm:
+        valueFiles:
+          - $values/external-dns/values/values-external-dns.yaml
