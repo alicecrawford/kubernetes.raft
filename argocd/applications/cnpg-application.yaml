@@ -12,8 +12,8 @@ spec:
     syncOptions:
       - ServerSideApply=true
   source:
-    repoURL: https://cloudnative-pg.github.io/chart
+    repoURL: https://cloudnative-pg.github.io/charts
     chart: cloudnative-pg
-    targetRevision: 0.27.0
+    targetRevision: 0.28.3
     helm:
       valuesObject: {}
