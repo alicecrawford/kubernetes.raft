@@ -32,6 +32,7 @@ extraArgs:
   - --rfc2136-tsig-keyname=zone_update.key
   - --rfc2136-tsig-axfr
   - --no-exclude-unschedulable
+  - --expose-internal-ipv6=true
 
 env:
   - name: EXTERNAL_DNS_RFC2136_TSIG_SECRET
