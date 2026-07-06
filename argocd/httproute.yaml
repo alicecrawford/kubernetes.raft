@@ -8,14 +8,14 @@ spec:
   parentRefs:
     - name: argocd-gateway
       kind: Gateway
-      sectionName: http
+      sectionName: https
       group: gateway.networking.k8s.io
   hostnames:
     - argocd.raft.lutris.house
   rules:
     - backendRefs:
         - name: argocd-server
-          port: 80
+          port: 443
           kind: Service
           group: ""
           weight: 1
