@@ -1,0 +1,31 @@
+# -- Toggle to allow this last version of helm-chart
+knownLastVersion: true
+
+runner:
+  config:
+    create: true
+    name: runner-test
+    token: JPdF4zFAUNdAJXuP3pvWM506QrUVNrlUgXKeOH8uLXz
+    instance: https://git.raft.lutris.house
+    file:
+      runner:
+        labels:
+          - self-hosted
+          - linux
+          - amd64
+          - docker
+          - ubuntu-latest
+        envs:
+          DOCKER_HOST: "tcp://localhost:2375"
+        #  DOCKER_TLS_VERIFY: "0"
+      container:
+        privileged: true
+
+volumes:
+  - name: docker-data
+    emptyDir: {}
+
+# 3. Mount that volume to /var/lib/docker inside the container
+volumeMounts:
+  - name: docker-data
+    mountPath: /var/lib/docker
