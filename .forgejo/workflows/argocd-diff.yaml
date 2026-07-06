@@ -4,6 +4,9 @@ on:
   pull_request:
     branches:
       - main
+  push:
+    branches:
+      - '**'
 
 jobs:
   argocd-diff:
@@ -14,13 +17,18 @@ jobs:
 
       - name: Install Tools (ArgoCD CLI & yq)
         run: |
-          # Download and install ArgoCD CLI
-          curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
-          sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
+          mkdir -p $HOME/.local/bin
 
-          # Install yq (to parse your Application YAMLs)
-          sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
-          sudo chmod +x /usr/local/bin/yq
+          # Download and install ArgoCD CLI locally
+          curl -sSL -o $HOME/.local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+          chmod +x $HOME/.local/bin/argocd
+
+          # Download and install yq locally
+          wget -qO $HOME/.local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          chmod +x $HOME/.local/bin/yq
+
+          # Expose this directory to the PATH for all subsequent steps in this job
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       - name: Run ArgoCD Diff
         env:
