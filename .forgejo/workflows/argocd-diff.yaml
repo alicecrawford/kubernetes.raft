@@ -1,0 +1,56 @@
+---
+name: ArgoCD PR Diff and Dry Run
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  argocd-diff:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR Code
+        uses: actions/checkout@v4
+
+      - name: Install Tools (ArgoCD CLI & yq)
+        run: |
+          # Download and install ArgoCD CLI
+          curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+          sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
+
+          # Install yq (to parse your Application YAMLs)
+          sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          sudo chmod +x /usr/local/bin/yq
+
+      - name: Run ArgoCD Diff
+        env:
+          ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
+          ARGOCD_TOKEN: ${{ secrets.ARGOCD_AUTH_TOKEN }}
+        run: |
+          echo "Starting ArgoCD diff process..."
+
+          # Loop through all Application manifests
+          for app_file in argocd/applications/*.yaml; do
+            # Skip if no yaml files exist
+            [ -e "$app_file" ] || continue
+            
+            # Extract the App Name and the Monorepo Path from the YAML
+            APP_NAME=$(yq e '.metadata.name' "$app_file")
+            APP_PATH=$(yq e '.spec.source.path' "$app_file")
+
+            echo "=================================================="
+            echo "🔍 Diffing App: $APP_NAME"
+            echo "📂 Source Path: $APP_PATH"
+            echo "=================================================="
+
+            # Note: We use || true because 'argocd app diff' returns exit code 1 
+            # if there is a diff. We want to see the diff, not fail the pipeline.
+            # We use --grpc-web to avoid HTTP/2 routing issues in CI environments.
+            
+            argocd app diff "$APP_NAME" \
+              --local "$APP_PATH" \
+              --server "$ARGOCD_SERVER" \
+              --auth-token "$ARGOCD_TOKEN" \
+              --grpc-web || true
+              
+          done
