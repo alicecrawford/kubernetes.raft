@@ -13,12 +13,6 @@ spec:
     syncOptions:
       - ServerSideApply=true
   sources:
-    - repoURL: https://valkey.io/valkey-helm/
-      targetRevision: 0.9.3
-      chart: valkey
-      helm:
-        valueFiles:
-          - $values/romm/values/values-valkey.yaml
     - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
       path: romm
       targetRevision: HEAD
@@ -29,3 +23,9 @@ spec:
       helm:
         valueFiles:
           - $values/romm/values/values-gateway.yaml
+    - repoURL: https://valkey.io/valkey-helm/
+      targetRevision: 0.9.3
+      chart: valkey
+      helm:
+        valueFiles:
+          - $values/romm/values/values-valkey.yaml
