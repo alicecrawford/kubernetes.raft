@@ -147,6 +147,7 @@ configMap:
           scopes:
             - openid
             - offline_access
+            - profile
             - groups
             - email
           grant_types:
