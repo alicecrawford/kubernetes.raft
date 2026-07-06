@@ -146,7 +146,7 @@ configMap:
             - http://localhost:8085/auth/callback
           scopes:
             - openid
-            - offline_acces
+            - offline_access
             - groups
             - email
           grant_types:
