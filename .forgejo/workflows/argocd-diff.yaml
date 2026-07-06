@@ -54,11 +54,24 @@ jobs:
             # Note: We use || true because 'argocd app diff' returns exit code 1 
             # if there is a diff. We want to see the diff, not fail the pipeline.
             # We use --grpc-web to avoid HTTP/2 routing issues in CI environments.
-            
+            set +e
             argocd app diff "$APP_NAME" \
               --local "$APP_PATH" \
               --server "$ARGOCD_SERVER" \
               --auth-token "$ARGOCD_TOKEN" \
-              --grpc-web || true
+              --server-side-generate \
+              --grpc-web
+
+            EXIT_CODE=$?
+            set -e
+
+            if [ $EXIT_CODE -eq 0 ]; then
+              echo "✅ No differences found for $APP_NAME."
+            elif [ $EXIT_CODE -eq 1 ]; then
+              echo "⚠️ Differences found for $APP_NAME. (Pipeline continuing)"
+            else
+              echo "❌ FATAL: ArgoCD command failed with exit code $EXIT_CODE."
+              exit $EXIT_CODE # This will actually fail your Forgejo Action
+            fi
               
           done
