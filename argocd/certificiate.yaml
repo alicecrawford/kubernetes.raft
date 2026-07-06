@@ -7,6 +7,7 @@ metadata:
 spec:
   dnsNames:
     - argocd.raft.lutris.house
+    - argocd-cli.raft.lutris.house
   secretName: argocd-certificate
   issuerRef:
     name: letsencrypt-dns01-issuer
