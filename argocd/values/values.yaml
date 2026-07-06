@@ -11,12 +11,20 @@ configs:
   rbac:
     policy.csv: |
       g, cluster_admin, role:admin
+      p, role:cluster-ci-role, applications, *, */*, allow
+      p, role:cluster-ci-role, projects, *, */*, allow
+      p, role:cluster-ci-role, applicationsets, *, */*, allow
+      p, role:cluster-ci-role, clusters, *, */*, allow
+      p, role:cluster-ci-role, repositories, *, */*, allow
+      g, cluster-ci, role:cluster-ci-role
 
   cm:
+    accounts.cluster-ci: apiKey
     oidc.config: |
       name: Authelia
       issuer: https://auth.raft.lutris.house
       clientID: EyxwBAztTO~trz08ewnQTypUBnk-KllPKhaTf7NygQ_n2mcb6lwrVESaKz01nDYjw1Dz043X
+      cliClientID: argo-cli
       clientSecret: $argocd-oidc-authelia:oidc.clientSecret
       requestedScopes: ['openid', 'offline_access', 'groups', 'email']
       requestedIDTokenClaims:
