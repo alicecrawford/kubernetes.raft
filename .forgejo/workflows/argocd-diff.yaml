@@ -47,7 +47,8 @@ jobs:
             # Extract the App Name and the Monorepo Path from the YAML
             APP_NAME=$(yq e '.metadata.name' "$app_file")
 
-            argocd app get $APP_NAME --refresh
+            argocd app get $APP_NAME --refresh \
+                --auth-token "$ARGOCD_TOKEN"
 
             HAS_SOURCES=$(yq eval '.spec.sources | select(. != null) | env(APP_NAME)' "$app_file")
             echo "HAS_SOURCES value: ${HAS_SOURCES}"
@@ -60,7 +61,6 @@ jobs:
             # Note: We use || true because 'argocd app diff' returns exit code 1 
             # if there is a diff. We want to see the diff, not fail the pipeline.
             # We use --grpc-web to avoid HTTP/2 routing issues in CI environments.
-            set +e
             argocd app diff "$APP_NAME" \
               --local "$APP_PATH" \
               --server "$ARGOCD_SERVER" \
@@ -68,7 +68,6 @@ jobs:
               --server-side-generate
 
             EXIT_CODE=$?
-            set -e
 
             if [ $EXIT_CODE -eq 0 ]; then
               echo "✅ No differences found for $APP_NAME."
