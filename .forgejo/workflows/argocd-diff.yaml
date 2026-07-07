@@ -89,7 +89,7 @@ jobs:
               --server-side-generate  > ${OUTPUT_DIR}/"${APP_NAME}.diff" 2> ${OUTPUT_DIR}/"${APP_NAME}_diff.stderr"
 
             ls
-            ls $OUTPUT_DIR
+            ls -l $OUTPUT_DIR
 
             if [ $? -eq 1 ]; then
               echo "diff found in $APP_NAME -- running dryrun sync"
@@ -97,7 +97,7 @@ jobs:
                 --server "$ARGOCD_SERVER" \
                 --auth-token "$ARGOCD_TOKEN" \
                 --server-side --dry-run  > ${OUTPUT_DIR}/"${APP_NAME}.sync" 2>&1
-            elif [ $? -ne 0 ]; then
+            elif [ $? -gt 1 ]; then
               echo "ERROR: argocd cli was unable to diff exit code $?"
               ARGOCD_ERROR=$?
               continue
