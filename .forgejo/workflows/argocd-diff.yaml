@@ -52,7 +52,9 @@ jobs:
 
             APP_NAME=$(yq e '.metadata.name' "$app_file")
 
+            echo ""
             echo "Checking $APP_NAME in $app_file"
+            echo ""
 
             argocd app get $APP_NAME --refresh \
                 --auth-token "$ARGOCD_TOKEN" \
@@ -109,7 +111,8 @@ jobs:
               ARGOCD_ERROR=$?
               continue
             fi
-              
+
+            echo ""
           done
 
           find "$OUTPUT_DIR" -type f -empty -delete
