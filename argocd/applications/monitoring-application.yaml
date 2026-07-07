@@ -21,6 +21,10 @@ spec:
       jsonPointers:
         - /spec/template/metadata/annotations/checksum~1secret
   sources:
+    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+      path: monitoring
+      targetRevision: HEAD
+      ref: values
     - repoURL: oci://ghcr.io/prometheus-community/charts/prometheus-node-exporter
       path: .
       targetRevision: 4.55.0
@@ -39,10 +43,6 @@ spec:
       helm:
         valueFiles:
           - $values/monitoring/values/values-kps.yaml
-    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
-      path: monitoring
-      targetRevision: HEAD
-      ref: values
     - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
       path: monitoring/alerts
       targetRevision: HEAD

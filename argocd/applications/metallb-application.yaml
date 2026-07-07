@@ -6,20 +6,20 @@ metadata:
   namespace: argocd
 spec:
   project: system
-  sources:
-    - repoURL: https://metallb.github.io/metallb
-      targetRevision: 0.15.3
-      helm:
-        valueFiles:
-          - $values/metallb/values/values-metallb.yaml
-      chart: metallb
-    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
-      path: metallb
-      targetRevision: HEAD
-      ref: values
   destination:
     server: https://kubernetes.default.svc
     namespace: metallb-system
   syncPolicy:
     syncOptions:
       - ServerSideApply=true
+  sources:
+    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+      path: metallb
+      targetRevision: HEAD
+      ref: values
+    - repoURL: https://metallb.github.io/metallb
+      targetRevision: 0.15.3
+      helm:
+        valueFiles:
+          - $values/metallb/values/values-metallb.yaml
+      chart: metallb

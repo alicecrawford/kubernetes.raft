@@ -20,13 +20,13 @@ spec:
     syncOptions:
       - ServerSideApply=true
   sources:
+    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+      path: cilium
+      targetRevision: HEAD
+      ref: values
     - repoURL: https://helm.cilium.io/
       targetRevision: 1.19.4
       helm:
         valueFiles:
           - $values/cilium/values/values-cilium.yaml
       chart: cilium
-    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
-      path: cilium
-      targetRevision: HEAD
-      ref: values

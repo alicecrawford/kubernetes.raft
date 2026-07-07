@@ -13,16 +13,16 @@ spec:
     syncOptions:
       - ServerSideApply=true
   sources:
+    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+      path: immich
+      targetRevision: HEAD
+      ref: values
     - repoURL: oci://ghcr.io/immich-app/immich-charts/immich
       path: .
       targetRevision: 0.11.1
       helm:
         valueFiles:
           - $values/immich/values/values-immich.yaml
-    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
-      path: immich
-      targetRevision: HEAD
-      ref: values
     - repoURL: https://git.raft.lutris.house/api/packages/the_raft/helm/
       chart: gw-helper
       targetRevision: 0.1.4

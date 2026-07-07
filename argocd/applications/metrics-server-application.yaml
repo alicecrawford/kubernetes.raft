@@ -13,12 +13,13 @@ spec:
     syncOptions:
       - ServerSideApply=true
   sources:
+    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+      targetRevision: HEAD
+      path: metrics-server
+      ref: values
     - repoURL: https://kubernetes-sigs.github.io/metrics-server/
       targetRevision: 3.13.0
       helm:
         valueFiles:
           - $values/metrics-server/values/values-metrics-server.yaml
       chart: metrics-server
-    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
-      targetRevision: HEAD
-      ref: values

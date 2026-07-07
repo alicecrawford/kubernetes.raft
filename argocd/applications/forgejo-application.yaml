@@ -17,16 +17,16 @@ spec:
       jsonPointers:
         - /data
   sources:
+    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+      path: forgejo
+      targetRevision: HEAD
+      ref: values
     - repoURL: oci://code.forgejo.org/forgejo-helm/forgejo
       targetRevision: 17.1.1
       path: .
       helm:
         valueFiles:
           - $values/forgejo/values/values-forgejo.yaml
-    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
-      path: forgejo
-      targetRevision: HEAD
-      ref: values
     - repoURL: https://git.raft.lutris.house/api/packages/the_raft/helm/
       chart: gw-helper
       targetRevision: 0.1.4

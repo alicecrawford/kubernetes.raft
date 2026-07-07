@@ -12,13 +12,13 @@ spec:
     syncOptions:
       - ServerSideApply=true
   sources:
+    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+      path: cert-manager
+      targetRevision: HEAD
+      ref: values
     - repoURL: oci://quay.io/jetstack/charts/cert-manager
       path: .
       targetRevision: 1.20.2
       helm:
         valueFiles:
           - $values/cert-manager/values/values-cert-manager.yaml
-    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
-      path: cert-manager
-      targetRevision: HEAD
-      ref: values

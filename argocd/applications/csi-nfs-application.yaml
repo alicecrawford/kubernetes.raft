@@ -13,13 +13,13 @@ spec:
     syncOptions:
       - ServerSideApply=true
   sources:
+    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+      path: csi-nfs
+      targetRevision: HEAD
+      ref: values
     - repoURL: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
       chart: csi-driver-nfs
       targetRevision: 4.13.1
       helm:
         valueFiles:
           - $values/csi-nfs/values/values-csi-nfs.yaml
-    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
-      path: csi-nfs
-      targetRevision: HEAD
-      ref: values

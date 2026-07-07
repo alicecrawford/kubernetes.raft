@@ -26,6 +26,10 @@ spec:
         - .spec.volumeClaimTemplates[].apiVersion
         - .spec.volumeClaimTemplates[].kind
   sources:
+    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+      path: authelia
+      targetRevision: HEAD
+      ref: values
     - repoURL: https://djjudas21.github.io/charts/
       targetRevision: 0.6.4
       chart: lldap
@@ -44,10 +48,6 @@ spec:
       helm:
         valueFiles:
           - $values/authelia/values/values-authelia.yaml
-    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
-      path: authelia
-      targetRevision: HEAD
-      ref: values
     - repoURL: https://git.raft.lutris.house/api/packages/the_raft/helm/
       chart: gw-helper
       targetRevision: 0.1.4
