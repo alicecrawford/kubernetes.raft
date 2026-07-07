@@ -179,10 +179,14 @@ jobs:
           DIFFS=""
           CODE_BLOCK='```'
 
-          for f in artifacts/*.diff; do
-            FILE_CONTENTS=$(cat $f)
-            DIFFS="${DIFFS}\n${CODE_BLOCK}diff\n${FILE_CONTENTS}\n${CODE_BLOCK}"
-          done
+          if [ -z "$(ls artifacts/*.diff)" ]; then
+            DIFFS="No diffs found."
+          else
+            for f in artifacts/*.diff; do
+              FILE_CONTENTS=$(cat $f)
+              DIFFS="${DIFFS}\n${CODE_BLOCK}diff\n${FILE_CONTENTS}\n${CODE_BLOCK}"
+            done
+          fi
 
           if [ -z "${DIFFS}" ]; then
             DIFFS="No diffs found."
