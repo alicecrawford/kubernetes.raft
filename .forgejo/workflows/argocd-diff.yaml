@@ -178,6 +178,9 @@ jobs:
           COMMIT_SHA: ${{ github.sha }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
           EVENT_NAME: ${{ github.event_name }}
+          ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
+          ARGOCD_TOKEN: ${{ secrets.ARGOCD_AUTH_TOKEN }}
+          REF_NAME: ${{ github.head_ref || github.ref_name || github.sha }}
         run: |
           python3 .forgejo/scripts/argocd-differ.py
           DIFFS=""
