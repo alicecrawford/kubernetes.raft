@@ -169,15 +169,16 @@ jobs:
 
       - name: Add diff to comment
         env:
-          AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           API_URL: ${{ github.api_url }}
-          REPO: ${{ github.repository }}
-          COMMIT_SHA: ${{ github.sha }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-          EVENT_NAME: ${{ github.event_name }}
           ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
           ARGOCD_TOKEN: ${{ secrets.ARGOCD_AUTH_TOKEN }}
+          ARTIFACT_DIR: ".artifacts"
+          AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COMMIT_SHA: ${{ github.sha }}
+          EVENT_NAME: ${{ github.event_name }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
           REF_NAME: ${{ github.head_ref || github.ref_name || github.sha }}
+          REPO: ${{ github.repository }}
           REPO_URL: ${{ github.server_url }}/${{ github.repository }}
         run: |
           python3 .forgejo/scripts/argocd-differ.py
