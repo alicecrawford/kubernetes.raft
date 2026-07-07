@@ -27,51 +27,30 @@ class Forgejo:
         self._api_url = api_url
         self._token = token
 
-    def add_pr_comment(self, repo, pr_number, comment):
-        j = json.dumps({"body": comment})
+    def _send_request(self, url, data):
         h = {
             "Authorization": "token " + self._token,
             "Content-Type": "application/json",
         }
-        url = f"{self._api_url}/repos/{repo}/issues/{pr_number}/comments"
-        r = requests.post(url, headers=h, data=j)
+        r = requests.post(url, headers=h, data=data)
 
-        print("Response:")
-        for k in dir(r):
-            v = getattr(r, k)
-            print(f"{k}: {v}")
+        r.raise_for_status()
+
+    def add_pr_comment(self, repo, pr_number, comment):
+        j = json.dumps({"body": comment})
+        url = f"{self._api_url}/repos/{repo}/issues/{pr_number}/comments"
+        self._send_request(url, j)
 
     def add_commit_comment(self, repo, commit, comment):
         j = json.dumps({"message": comment})
-        h = {
-            "Authorization": "token " + self._token,
-            "Content-Type": "application/json",
-        }
         url = f"{self._api_url}/repos/{repo}/git/notes/{commit}"
-        r = requests.post(url, headers=h, data=j)
-
-        print("Response:")
-        for k in dir(r):
-            v = getattr(r, k)
-            print(f"{k}: {v}")
+        self._send_request(url, j)
 
 
 def main():
     forgejo = Forgejo(os.environ["API_URL"], os.environ["AUTH_TOKEN"])
-    # argocd = Argocd(os.environ["ARGOCD_SERVER"], os.environ["AROGCD_TOKEN"])
-
-    cmt = """
-  this is a big comment
-  with big comment things
-  """
-    if os.environ["EVENT_NAME"] == "pull_request":
-        forgejo.add_pr_comment(
-            os.environ["REPO"], os.environ["PR_NUMBER"], cmt + "it's a pr"
-        )
-    else:
-        forgejo.add_commit_comment(
-            os.environ["REPO"], os.environ["COMMIT_SHA"], cmt + "it's a commit"
-        )
+    argocd = Argocd(os.environ["ARGOCD_SERVER"], os.environ["ARGOCD_TOKEN"])
+    print(os.environ["REPO_URL"])
 
 
 if __name__ == "__main__":
