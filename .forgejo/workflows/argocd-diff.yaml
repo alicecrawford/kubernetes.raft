@@ -11,6 +11,8 @@ on:
 jobs:
   argocd-diff:
     runs-on: ubuntu-latest
+    container:
+      image: python:3.14-slim
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
