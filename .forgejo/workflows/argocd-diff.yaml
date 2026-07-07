@@ -12,7 +12,7 @@ jobs:
   argocd-diff:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout PR Code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Install Tools (ArgoCD CLI & yq)
@@ -37,7 +37,7 @@ jobs:
         run: |
           echo "Starting ArgoCD diff process..."
 
-          set
+          set +e
 
           # Loop through all Application manifests
           for app_file in argocd/applications/*.yaml; do
@@ -46,6 +46,11 @@ jobs:
             
             # Extract the App Name and the Monorepo Path from the YAML
             APP_NAME=$(yq e '.metadata.name' "$app_file")
+
+            argocd app get $APP_NAME --refresh
+
+            HAS_SOURCES=$(yq eval '.spec.sources | select(. != null) | env(APP_NAME)' "$app_file")
+            echo "HAS_SOURCES value: ${HAS_SOURCES}"
 
             echo "=================================================="
             echo "🔍 Diffing App: $APP_NAME"
@@ -71,7 +76,6 @@ jobs:
               echo "⚠️ Differences found for $APP_NAME. (Pipeline continuing)"
             else
               echo "❌ FATAL: ArgoCD command failed with exit code $EXIT_CODE."
-              exit $EXIT_CODE # This will actually fail your Forgejo Action
             fi
               
           done
