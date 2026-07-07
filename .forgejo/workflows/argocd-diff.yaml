@@ -34,22 +34,17 @@ jobs:
         env:
           ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
           ARGOCD_TOKEN: ${{ secrets.ARGOCD_AUTH_TOKEN }}
+          REF_NAME: ${{ github.head_ref || github.ref_name || github.sha }}
         run: |
           echo "Starting ArgoCD diff process..."
 
           set +e
-          set -x
 
           OUTPUT_DIR="artifacts"
           mkdir -p $OUTPUT_DIR
 
           TEST_REPO=${FORGEJO_SERVER_URL}/${FORGEJO_REPOSITORY}
-          REF_NAME=${FORGEJO_REF_NAME}
 
-          if [ "${REF_NAME}" == "" ]; then
-            REF_NAME=${FORGEJO_SHA}
-            echo "Warning: REF_NAME was not set, replacing with FORGEJO_SHA: ${REF_NAME}"
-          fi
           echo "Working on git ref: '${REF_NAME}'"
 
           ARGOCD_ERROR=0
@@ -69,7 +64,9 @@ jobs:
             --auth-token "$ARGOCD_TOKEN" \
             --server-side-generate  > ${OUTPUT_DIR}/"${APP_NAME}.diff" 2> ${OUTPUT_DIR}/"${APP_NAME}_diff.stderr"
 
-          if [ $? -eq 1 ]; then
+          ERROR_CODE=$?
+
+          if [ $ERROR_CODE -eq 1 ]; then
             echo "diff found in $APP_NAME"
 
             cat ${OUTPUT_DIR}/"${APP_NAME}.diff"
@@ -78,16 +75,15 @@ jobs:
               --server "$ARGOCD_SERVER" \
               --auth-token "$ARGOCD_TOKEN" \
               --server-side --dry-run  > ${OUTPUT_DIR}/"${APP_NAME}.sync" 2>&1
-          elif [ $? -gt 1 ]; then
-            echo "ERROR: argocd cli was unable to diff exit code $?"
+          elif [ $ERROR_CODE -gt 1 ]; then
+            echo "ERROR: argocd cli was unable to diff exit code $ERROR_CODE"
             echo ""
             echo "stdout:"
             cat ${OUTPUT_DIR}/"${APP_NAME}.diff"
             echo ""
             echo "stderr:"
-            cat ${OUTPUT_DIR}/"${APP_NAME}.stderr"
-            ARGOCD_ERROR=$?
-            continue
+            cat ${OUTPUT_DIR}/"${APP_NAME}_diff.stderr"
+            ARGOCD_ERROR=$ERROR_CODE
           fi
 
           for app_file in argocd/applications/*.yaml; do
@@ -103,9 +99,10 @@ jobs:
                 --auth-token "$ARGOCD_TOKEN" \
                 --server "$ARGOCD_SERVER" > /dev/null 2> $OUTPUT_DIR/"${APP_NAME}_refresh.stderr"
 
-            if [ $? -ne 0 ]; then
+            ERROR_CODE=$?
+            if [ $ERROR_CODE -ne 0 ]; then
               echo "ERROR: argocd cli was unable to refresh"
-              ARGOCD_ERROR=$?
+              ARGOCD_ERROR=$ERROR_CODE
               continue
             fi
 
@@ -134,7 +131,9 @@ jobs:
               --auth-token "$ARGOCD_TOKEN" \
               --server-side-generate  > ${OUTPUT_DIR}/"${APP_NAME}.diff" 2> ${OUTPUT_DIR}/"${APP_NAME}_diff.stderr"
 
-            if [ $? -eq 1 ]; then
+            ERROR_CODE=$?
+
+            if [ $ERROR_CODE -eq 1 ]; then
               echo "diff found in $APP_NAME"
 
               cat ${OUTPUT_DIR}/"${APP_NAME}.diff"
@@ -143,15 +142,15 @@ jobs:
                 --server "$ARGOCD_SERVER" \
                 --auth-token "$ARGOCD_TOKEN" \
                 --server-side --dry-run  > ${OUTPUT_DIR}/"${APP_NAME}.sync" 2>&1
-            elif [ $? -gt 1 ]; then
-              echo "ERROR: argocd cli was unable to diff exit code $?"
+            elif [ $ERROR_CODE -gt 1 ]; then
+              echo "ERROR: argocd cli was unable to diff exit code $ERROR_CODE"
               echo ""
               echo "stdout:"
               cat ${OUTPUT_DIR}/"${APP_NAME}.diff"
               echo ""
               echo "stderr:"
-              cat ${OUTPUT_DIR}/"${APP_NAME}.stderr"
-              ARGOCD_ERROR=$?
+              cat ${OUTPUT_DIR}/"${APP_NAME}_diff.stderr"
+              ARGOCD_ERROR=$ERROR_CODE
               continue
             fi
 
