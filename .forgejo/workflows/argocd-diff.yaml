@@ -28,7 +28,7 @@ jobs:
           chmod +x $HOME/.local/bin/yq
 
           apt-get update
-          apt-get install -y jq
+          apt-get install -y jq python3 python3-pip
 
           pip3 install requests pyyaml
 
