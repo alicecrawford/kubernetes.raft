@@ -193,7 +193,7 @@ jobs:
             done
           fi
           set -e
-          set +x
+          set -x
 
           if [ -z "${DIFFS}" ]; then
             DIFFS="No diffs found."
@@ -205,12 +205,12 @@ jobs:
           echo "$JSON_BODY"
 
           if [ "$EVENT_NAME" == "pull_request" ]; then
-            curl -X POST "$API_URL/api/v1/repos/$REPO/issues/$PR_NUMBER/comments" \
+            curl -X POST "$API_URL/repos/$REPO/issues/$PR_NUMBER/comments" \
               -H "Authorization: token $AUTH_TOKEN" \
               -H "Content-Type: application/json" \
               -d "{\"body\": $JSON_BODY}"
           else
-            curl -X POST "$API_URL/api/v1/repos/$REPO/commits/$COMMIT_SHA/comments" \
+            curl -X POST "$API_URL/repos/$REPO/commits/$COMMIT_SHA/comments" \
               -H "Authorization: token $AUTH_TOKEN" \
               -H "Content-Type: application/json" \
               -d "{\"body\": $JSON_BODY}"
