@@ -44,6 +44,7 @@ jobs:
           REPO_URL: ${{ github.server_url }}/${{ github.repository }}
         run: |
           python3 .forgejo/scripts/argocd-differ.py
+          ls -a
 
       - name: Upload artifacts
         if: always()

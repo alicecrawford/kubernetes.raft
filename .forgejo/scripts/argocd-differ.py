@@ -164,6 +164,7 @@ class Forgejo:
 
 
 def main():
+    logging.basicConfig(level=logging.INFO)
     logger.info("Argocd diff check starting up")
     forgejo = Forgejo(os.environ["API_URL"], os.environ["AUTH_TOKEN"])
     argocd = Argocd(
