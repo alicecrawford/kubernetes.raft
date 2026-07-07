@@ -15,7 +15,7 @@ spec:
   rules:
     - backendRefs:
         - name: argocd-server
-          port: 80
+          port: 443
           kind: Service
           group: ""
           weight: 1
