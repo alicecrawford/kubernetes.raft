@@ -56,7 +56,7 @@ jobs:
 
             argocd app get $APP_NAME --refresh \
                 --auth-token "$ARGOCD_TOKEN" \
-                --server "$ARGOCD_SERVER"
+                --server "$ARGOCD_SERVER" > /dev/null 2> $OUTPUT_DIR/"${APP_NAME}_refresh.stderr"
 
             if [ $? -ne 0 ]; then
               echo "ERROR: argocd cli was unable to refresh"
@@ -64,19 +64,14 @@ jobs:
               continue
             fi
 
-            echo a
-
             HAS_SOURCES=$(yq eval '.spec.sources | select(. != null)' "$app_file")
             if [ -z "$HAS_SOURCES" ]; then
               # when i get time i should figure out what to do if i don't use sources
               continue
             fi
-            echo b
 
             SOURCES_COUNT=$(yq eval '.spec.sources | length' "$app_file")
             REV_FLAGS=""
-
-            echo c
 
             for ((i=0; i < SOURCES_COUNT; i++)); do
               POSITION=$((i + 1))
@@ -88,27 +83,32 @@ jobs:
               fi
 
             done
-            echo d
 
             argocd app diff "$APP_NAME" ${REV_FLAGS} \
               --server "$ARGOCD_SERVER" \
               --auth-token "$ARGOCD_TOKEN" \
               --server-side-generate  > ${OUTPUT_DIR}/"${APP_NAME}.diff" 2> ${OUTPUT_DIR}/"${APP_NAME}_diff.stderr"
 
-            echo e
-
             if [ $? -eq 1 ]; then
-              echo "diff found in $APP_NAME -- running dryrun sync"
+              echo "diff found in $APP_NAME"
+
+              cat ${OUTPUT_DIR}/"${APP_NAME}.diff"
+
               argocd app sync "$APP_NAME" ${REV_FLAGS} \
                 --server "$ARGOCD_SERVER" \
                 --auth-token "$ARGOCD_TOKEN" \
                 --server-side --dry-run  > ${OUTPUT_DIR}/"${APP_NAME}.sync" 2>&1
             elif [ $? -gt 1 ]; then
               echo "ERROR: argocd cli was unable to diff exit code $?"
+              echo ""
+              echo "stdout:"
+              cat ${OUTPUT_DIR}/"${APP_NAME}.diff"
+              echo ""
+              echo "stderr:"
+              cat ${OUTPUT_DIR}/"${APP_NAME}.stderr"
               ARGOCD_ERROR=$?
               continue
             fi
-            echo f
               
           done
 
