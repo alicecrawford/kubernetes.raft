@@ -38,6 +38,7 @@ jobs:
           echo "Starting ArgoCD diff process..."
 
           set +e
+          set -x
 
           OUTPUT_DIR="artifacts"
           mkdir -p $OUTPUT_DIR
@@ -47,6 +48,7 @@ jobs:
 
           if [ "${REF_NAME}" == "" ]; then
             REF_NAME=${FORGEJO_SHA}
+            echo "Warning: REF_NAME was not set, replacing with FORGEJO_SHA: ${REF_NAME}"
           fi
 
           ARGOCD_ERROR=0
@@ -58,6 +60,8 @@ jobs:
           argocd app get $APP_NAME --refresh \
             --auth-token "$ARGOCD_TOKEN" \
             --server "$ARGOCD_SERVER" > /dev/null 2> $OUTPUT_DIR/"${APP_NAME}_refresh.stderr"
+
+          REV_FLAGS="--source-positions 1 --revisions ${REF_NAME}"
 
           argocd app diff "$APP_NAME" ${REV_FLAGS} \
             --server "$ARGOCD_SERVER" \
