@@ -44,12 +44,10 @@ jobs:
           REPO_URL: ${{ github.server_url }}/${{ github.repository }}
         run: |
           python3 .forgejo/scripts/argocd-differ.py
-          ls -la
-          ls -la .artifacts
 
       - name: Upload artifacts
         if: always()
         uses: actions/upload-artifact@v3
         with:
           name: argocd-application-diffs
-          path: .artifacts/
+          path: .artifacts/*
