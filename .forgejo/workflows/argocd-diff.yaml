@@ -38,6 +38,7 @@ jobs:
           echo "Starting ArgoCD diff process..."
 
           set +e
+          set -x
 
           TEST_REPO=${FORGEJO_SERVER_URL}/${FORGEJO_REPOSITORY}
           REF_NAME=${FORGEJO_REF_NAME:-$FORGEJO_SHA}
@@ -48,7 +49,8 @@ jobs:
             APP_NAME=$(yq e '.metadata.name' "$app_file")
 
             argocd app get $APP_NAME --refresh \
-                --auth-token "$ARGOCD_TOKEN"
+                --auth-token "$ARGOCD_AUTH_TOKEN" \
+                --server "$ARGOCD_SERVER"
 
             HAS_SOURCES=$(yq eval '.spec.sources | select(. != null)' "$app_file")
             if [ -z "$HAS_SOURCES" ]; then
@@ -70,21 +72,10 @@ jobs:
 
             done
 
-            echo "rev flags: ${REV_FLAGS}"
-
-            echo "=================================================="
-            echo "🔍 Diffing App: $APP_NAME"
-            echo "📂 Source Path: $APP_PATH"
-            echo "=================================================="
-
-            # Note: We use || true because 'argocd app diff' returns exit code 1 
-            # if there is a diff. We want to see the diff, not fail the pipeline.
-            # We use --grpc-web to avoid HTTP/2 routing issues in CI environments.
-            argocd app diff "$APP_NAME" \
-              --local "$APP_PATH" \
+            argocd app diff "$APP_NAME" ${REV_FLAGS} \
               --server "$ARGOCD_SERVER" \
-              --auth-token "$ARGOCD_TOKEN" \
-              --server-side-generate
+              --auth-token "$ARGOCD_AUTH_TOKEN" \
+              --server-side-generate 
 
             EXIT_CODE=$?
 
