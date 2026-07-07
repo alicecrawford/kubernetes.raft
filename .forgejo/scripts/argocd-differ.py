@@ -38,7 +38,7 @@ class Forgejo:
 
         print("Response:")
         for k in dir(r):
-            v = getattr(k, r)
+            v = getattr(r, k)
             print(f"{k}: {v}")
 
     def add_commit_comment(self, repo, commit, comment):
@@ -52,7 +52,7 @@ class Forgejo:
 
         print("Response:")
         for k in dir(r):
-            v = getattr(k, r)
+            v = getattr(r, k)
             print(f"{k}: {v}")
 
 
