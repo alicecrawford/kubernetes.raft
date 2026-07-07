@@ -52,6 +52,9 @@ jobs:
           ARGOCD_ERROR=0
 
           APP_NAME=applications-raft
+          echo ""
+          echo "Checking $APP_NAME in $app_file"
+          echo ""
           argocd app get $APP_NAME --refresh \
             --auth-token "$ARGOCD_TOKEN" \
             --server "$ARGOCD_SERVER" > /dev/null 2> $OUTPUT_DIR/"${APP_NAME}_refresh.stderr"
