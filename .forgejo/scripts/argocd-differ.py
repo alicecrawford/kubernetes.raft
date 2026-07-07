@@ -7,19 +7,24 @@ import subprocess
 
 
 class Argocd:
-    def __init__(self, server, token, argocd="argocd"):
+    def __init__(self, server, token, repo_url, ref_name, argocd="argocd"):
         self._server = server
         self._token = token
         self._argocd = argocd
+        self._repo_url = repo_url
+        self._ref_name = ref_name
 
         self._auth = ["--server", server, "--auth-token", token]
 
     def get_apps(self):
-        cmd = [self._argocd, "app", "list", "-o", "name"]
+        cmd = [self._argocd, "app", "list", "-o", "json"]
         p = subprocess.run(cmd + self._auth, capture_output=True)
 
         if p.returncode != 0:
             raise RuntimeError()
+
+        apps = json.loads(p.stdout.decode("utf-8"))
+        return apps
 
 
 class Forgejo:
@@ -49,8 +54,15 @@ class Forgejo:
 
 def main():
     forgejo = Forgejo(os.environ["API_URL"], os.environ["AUTH_TOKEN"])
-    argocd = Argocd(os.environ["ARGOCD_SERVER"], os.environ["ARGOCD_TOKEN"])
-    print(os.environ["REPO_URL"])
+    argocd = Argocd(
+        os.environ["ARGOCD_SERVER"],
+        os.environ["ARGOCD_TOKEN"],
+        os.environ["REPO_URL"],
+        os.environ["REF_NAME"],
+    )
+    from pprint import pprint
+
+    pprint(argocd.get_apps())
 
 
 if __name__ == "__main__":

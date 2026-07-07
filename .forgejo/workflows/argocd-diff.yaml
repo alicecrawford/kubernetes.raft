@@ -181,6 +181,7 @@ jobs:
           REPO_URL: ${{ github.server_url }}/${{ github.repository }}
         run: |
           python3 .forgejo/scripts/argocd-differ.py
+          exit 0
           DIFFS=""
           CODE_BLOCK='```'
           CR=$(echo -e "\n")
