@@ -205,15 +205,3 @@ jobs:
 
           JSON_BODY="$(jq -n --arg body "${REPORT_BODY}" '{body: $body}')"
           echo "$JSON_BODY"
-
-          if [ "$EVENT_NAME" == "pull_request" ]; then
-            curl -X POST "$API_URL/repos/$REPO/issues/$PR_NUMBER/comments" \
-              -H "Authorization: token $AUTH_TOKEN" \
-              -H "Content-Type: application/json" \
-              -d "$JSON_BODY"
-          else
-            curl -X POST "$API_URL/repos/$REPO/statuses/$COMMIT_SHA/comments" \
-              -H "Authorization: token $AUTH_TOKEN" \
-              -H "Content-Type: application/json" \
-              -d "$JSON_BODY"
-          fi
