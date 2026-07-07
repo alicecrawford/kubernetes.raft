@@ -24,7 +24,7 @@ jobs:
           chmod +x $HOME/.local/bin/argocd
 
           apt-get update
-          apt-get install -y jq yq python3 python3-yaml python3-requests
+          apt-get install -y python3 python3-yaml python3-requests
 
           # Expose this directory to the PATH for all subsequent steps in this job
           echo "$HOME/.local/bin" >> $GITHUB_PATH
