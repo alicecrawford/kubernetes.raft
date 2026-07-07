@@ -27,6 +27,9 @@ jobs:
           wget -qO $HOME/.local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
           chmod +x $HOME/.local/bin/yq
 
+          apt-get update
+          apt-get install -y jq
+
           # Expose this directory to the PATH for all subsequent steps in this job
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
@@ -179,7 +182,9 @@ jobs:
           DIFFS=""
           CODE_BLOCK='```'
 
-          if [ -z "$(ls artifacts/*.diff)" ]; then
+          set +e
+          ARTIFACTS="$(ls artifacts/*.diff)"
+          if [ -z "$ARTIFACTS" ]; then
             DIFFS="No diffs found."
           else
             for f in artifacts/*.diff; do
@@ -187,6 +192,7 @@ jobs:
               DIFFS="${DIFFS}\n${CODE_BLOCK}diff\n${FILE_CONTENTS}\n${CODE_BLOCK}"
             done
           fi
+          set -e
 
           if [ -z "${DIFFS}" ]; then
             DIFFS="No diffs found."
