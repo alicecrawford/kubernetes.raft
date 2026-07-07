@@ -214,7 +214,7 @@ def main():
             comment += f"in project {project}\n"
             comment += "\n```diff\n"
             comment += res["diff"]["diff"].strip()
-            comment += "```\n"
+            comment += "\n```\n\n"
 
     if not ct:
         comment += "\nNo diffs found.\n"
