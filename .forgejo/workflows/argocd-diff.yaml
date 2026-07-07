@@ -179,7 +179,7 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number }}
           EVENT_NAME: ${{ github.event_name }}
         run: |
-          ls -lR
+          ls -laR
           DIFFS=""
           CODE_BLOCK='```'
           CR=$(echo -e "\n")
