@@ -211,7 +211,7 @@ jobs:
               -H "Content-Type: application/json" \
               -d "$JSON_BODY"
           else
-            curl -X POST "$API_URL/repos/$REPO/commits/$COMMIT_SHA/comments" \
+            curl -X POST "$API_URL/repos/$REPO/statuses/$COMMIT_SHA/comments" \
               -H "Authorization: token $AUTH_TOKEN" \
               -H "Content-Type: application/json" \
               -d "$JSON_BODY"
