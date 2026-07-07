@@ -52,12 +52,15 @@ class Argocd:
         }
 
         revision_args = []
+        ct = 0
         if "source" in app["spec"]:
             if app["spec"]["source"]["repoURL"] == self._repo_url:
                 revision_args += ["--revision", self._ref_name]
+                ct += 1
         elif "sources" in app["spec"]:
             for i, src in enumerate(app["spec"]["sources"]):
                 if src["repoURL"] == self._repo_url:
+                    ct += 1
                     pos = i + 1
                     revision_args += [
                         "--source-positions",
@@ -66,7 +69,7 @@ class Argocd:
                         self._ref_name,
                     ]
 
-        logger.info("app %s has %d references to this repo", name, len(revision_args))
+        logger.info("app %s has %d references to this repo", name, ct)
 
         cmd = [self._argocd, "app", "diff", name, "--server-side-generate"]
         cmd += self._auth

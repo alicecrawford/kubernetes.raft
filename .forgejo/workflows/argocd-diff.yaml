@@ -34,7 +34,7 @@ jobs:
           API_URL: ${{ github.api_url }}
           ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
           ARGOCD_TOKEN: ${{ secrets.ARGOCD_AUTH_TOKEN }}
-          ARTIFACT_DIR: ".artifacts"
+          ARTIFACT_DIR: "artifacts"
           AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COMMIT_SHA: ${{ github.sha }}
           EVENT_NAME: ${{ github.event_name }}
@@ -50,4 +50,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: argocd-application-diffs
-          path: .artifacts/*
+          path: artifacts/
