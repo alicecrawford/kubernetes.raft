@@ -61,18 +61,20 @@ class Forgejo:
 
 
 def main():
-    forgejo = Forgejo(sys.env["API_URL"], sys.env["AUTH_TOKEN"])
-    argocd = Argocd(sys.env["ARGOCD_SERVER"], sys.env["AROGCD_TOKEN"])
+    forgejo = Forgejo(os.environ["API_URL"], os.environ["AUTH_TOKEN"])
+    argocd = Argocd(os.environ["ARGOCD_SERVER"], os.environ["AROGCD_TOKEN"])
 
     cmt = """
   this is a big comment
   with big comment things
   """
-    if sys.env["EVENT_NAME"] == "pull_request":
-        forgejo.add_pr_comment(sys.env["REPO"], sys.env["PR_NUMBER"], cmt + "it's a pr")
+    if os.environ["EVENT_NAME"] == "pull_request":
+        forgejo.add_pr_comment(
+            os.environ["REPO"], os.environ["PR_NUMBER"], cmt + "it's a pr"
+        )
     else:
         forgejo.add_commit_comment(
-            sys.env["REPO"], sys.env["COMMIT_SHA"], cmt + "it's a commit"
+            os.environ["REPO"], os.environ["COMMIT_SHA"], cmt + "it's a commit"
         )
 
 
