@@ -193,6 +193,7 @@ jobs:
             done
           fi
           set -e
+          set +x
 
           if [ -z "${DIFFS}" ]; then
             DIFFS="No diffs found."
@@ -201,6 +202,7 @@ jobs:
           REPORT_BODY="Argocd diff report:\n${DIFFS}"
 
           JSON_BODY="$(jq -rn --arg body "${REPORT_BODY}" '$body')"
+          echo "$JSON_BODY"
 
           if [ "$EVENT_NAME" == "pull_request" ]; then
             curl -X POST "$API_URL/api/v1/repos/$REPO/issues/$PR_NUMBER/comments" \
