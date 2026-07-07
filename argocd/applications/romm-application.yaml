@@ -24,7 +24,7 @@ spec:
         valueFiles:
           - $values/romm/values/values-gateway.yaml
     - repoURL: https://valkey.io/valkey-helm/
-      targetRevision: 0.9.3
+      targetRevision: 0.9.4
       chart: valkey
       helm:
         valueFiles:
