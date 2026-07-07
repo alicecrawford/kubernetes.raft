@@ -181,7 +181,7 @@ jobs:
         run: |
           DIFFS=""
           CODE_BLOCK='```'
-          CR=$(echo)
+          CR=$(echo -e "\n")
 
           set +e
           ARTIFACTS="$(ls artifacts/*.diff)"
