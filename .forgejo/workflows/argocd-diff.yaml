@@ -50,12 +50,13 @@ jobs:
             REF_NAME=${FORGEJO_SHA}
             echo "Warning: REF_NAME was not set, replacing with FORGEJO_SHA: ${REF_NAME}"
           fi
+          echo "Working on git ref: '${REF_NAME}'"
 
           ARGOCD_ERROR=0
 
           APP_NAME=applications-raft
           echo ""
-          echo "Checking $APP_NAME in $app_file"
+          echo "Checking $APP_NAME"
           echo ""
           argocd app get $APP_NAME --refresh \
             --auth-token "$ARGOCD_TOKEN" \
