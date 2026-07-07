@@ -43,7 +43,7 @@ jobs:
           OUTPUT_DIR="artifacts"
           mkdir -p $OUTPUT_DIR
 
-          TEST_REPO=${FORGEJO_SERVER_URL}/${FORGEJO_REPOSITORY}
+          TEST_REPO=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}
 
           echo "Working on git ref: '${REF_NAME}'"
 
@@ -166,3 +166,40 @@ jobs:
         with:
           name: argocd-application-diffs
           path: artifacts/
+
+      - name: Add diff to comment
+        env:
+          AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          API_URL: ${{ github.api_url }}
+          REPO: ${{ github.repository }}
+          COMMIT_SHA: ${{ github.sha }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          DIFFS=""
+          CODE_BLOCK='```'
+
+          for f in artifacts/*.diff; do
+            FILE_CONTENTS=$(cat $f)
+            DIFFS="${DIFFS}\n${CODE_BLOCK}diff\n${FILE_CONTENTS}\n${CODE_BLOCK}"
+          done
+
+          if [ -z "${DIFFS}" ]; then
+            DIFFS="No diffs found."
+          fi
+
+          REPORT_BODY="Argocd diff report:\n${DIFFS}"
+
+          JSON_BODY="$(jq -rn --arg body "${REPORT_BODY}" '$body')"
+
+          if [ "$EVENT_NAME" == "pull_request" ]; then
+            curl -X POST "$API_URL/api/v1/repos/$REPO/issues/$PR_NUMBER/comments" \
+              -H "Authorization: token $AUTH_TOKEN" \
+              -H "Content-Type: application/json" \
+              -d "{\"body\": $JSON_BODY}"
+          else
+            curl -X POST "$API_URL/api/v1/repos/$REPO/commits/$COMMIT_SHA/comments" \
+              -H "Authorization: token $AUTH_TOKEN" \
+              -H "Content-Type: application/json" \
+              -d "{\"body\": $JSON_BODY}"
+          fi
