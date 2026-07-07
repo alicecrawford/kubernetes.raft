@@ -38,7 +38,6 @@ jobs:
           echo "Starting ArgoCD diff process..."
 
           set +e
-          set -x
 
           OUTPUT_DIR="artifacts"
           mkdir -p $OUTPUT_DIR
@@ -88,9 +87,6 @@ jobs:
               --auth-token "$ARGOCD_TOKEN" \
               --server-side-generate  > ${OUTPUT_DIR}/"${APP_NAME}.diff" 2> ${OUTPUT_DIR}/"${APP_NAME}_diff.stderr"
 
-            ls
-            ls -l $OUTPUT_DIR
-
             if [ $? -eq 1 ]; then
               echo "diff found in $APP_NAME -- running dryrun sync"
               argocd app sync "$APP_NAME" ${REV_FLAGS} \
@@ -110,7 +106,7 @@ jobs:
 
       - name: Upload artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: argocd-application-diffs
           path: artifacts/
