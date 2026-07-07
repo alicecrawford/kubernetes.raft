@@ -62,7 +62,7 @@ class Forgejo:
 
 def main():
     forgejo = Forgejo(os.environ["API_URL"], os.environ["AUTH_TOKEN"])
-    argocd = Argocd(os.environ["ARGOCD_SERVER"], os.environ["AROGCD_TOKEN"])
+    # argocd = Argocd(os.environ["ARGOCD_SERVER"], os.environ["AROGCD_TOKEN"])
 
     cmt = """
   this is a big comment
