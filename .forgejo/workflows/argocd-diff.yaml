@@ -57,6 +57,7 @@ jobs:
             fi
 
             SOURCES_COUNT=$(yq eval '.spec.sources | length' "$app_file")
+            REV_FLAGS=""
 
             for ((i=0; i < SOURCES_COUNT; i++)); do
               POSITION=$((i + 1))
