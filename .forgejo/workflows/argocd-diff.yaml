@@ -38,6 +38,7 @@ jobs:
           echo "Starting ArgoCD diff process..."
 
           set +e
+          set -x
 
           OUTPUT_DIR="artifacts"
           mkdir -p $OUTPUT_DIR
@@ -87,6 +88,9 @@ jobs:
               --auth-token "$ARGOCD_TOKEN" \
               --server-side-generate  > ${OUTPUT_DIR}/"${APP_NAME}.diff" 2> ${OUTPUT_DIR}/"${APP_NAME}_diff.stderr"
 
+            ls
+            ls $OUTPUT_DIR
+
             if [ $? -eq 1 ]; then
               echo "diff found in $APP_NAME -- running dryrun sync"
               argocd app sync "$APP_NAME" ${REV_FLAGS} \
@@ -94,13 +98,15 @@ jobs:
                 --auth-token "$ARGOCD_TOKEN" \
                 --server-side --dry-run  > ${OUTPUT_DIR}/"${APP_NAME}.sync" 2>&1
             elif [ $? -ne 0 ]; then
-              echo "ERROR: argocd cli was unable to diff"
+              echo "ERROR: argocd cli was unable to diff exit code $?"
+              ARGOCD_ERROR=$?
               continue
             fi
               
           done
 
           find "$OUTPUT_DIR" -type f -empty -delete
+          exit $ARGOCD_ERROR
 
       - name: Upload artifacts
         if: always()
