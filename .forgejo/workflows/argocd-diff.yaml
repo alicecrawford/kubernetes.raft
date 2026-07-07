@@ -49,7 +49,7 @@ jobs:
             APP_NAME=$(yq e '.metadata.name' "$app_file")
 
             argocd app get $APP_NAME --refresh \
-                --auth-token "$ARGOCD_AUTH_TOKEN" \
+                --auth-token "$ARGOCD_TOKEN" \
                 --server "$ARGOCD_SERVER"
 
             HAS_SOURCES=$(yq eval '.spec.sources | select(. != null)' "$app_file")
@@ -74,7 +74,7 @@ jobs:
 
             argocd app diff "$APP_NAME" ${REV_FLAGS} \
               --server "$ARGOCD_SERVER" \
-              --auth-token "$ARGOCD_AUTH_TOKEN" \
+              --auth-token "$ARGOCD_TOKEN" \
               --server-side-generate 
 
             EXIT_CODE=$?
