@@ -181,6 +181,7 @@ jobs:
         run: |
           DIFFS=""
           CODE_BLOCK='```'
+          CR=$(echo)
 
           set +e
           ARTIFACTS="$(ls artifacts/*.diff)"
@@ -189,7 +190,7 @@ jobs:
           else
             for f in artifacts/*.diff; do
               FILE_CONTENTS=$(cat $f)
-              DIFFS="${DIFFS}\n${CODE_BLOCK}diff\n${FILE_CONTENTS}\n${CODE_BLOCK}"
+              DIFFS="${DIFFS}${CR}${CODE_BLOCK}diff${CR}${FILE_CONTENTS}${CR}${CODE_BLOCK}"
             done
           fi
           set -e
@@ -199,7 +200,7 @@ jobs:
             DIFFS="No diffs found."
           fi
 
-          REPORT_BODY="Argocd diff report:\n${DIFFS}"
+          REPORT_BODY="Argocd diff report:${CR}${DIFFS}"
 
           JSON_BODY="$(jq -n --arg body "${REPORT_BODY}" '{body: $body}')"
           echo "$JSON_BODY"
