@@ -4,10 +4,6 @@ import json
 import os
 import requests
 import subprocess
-import sys
-
-
-from urllib.parse import urljoin
 
 
 class Argocd:
@@ -37,7 +33,7 @@ class Forgejo:
             "Authorization": "token " + self._token,
             "Content-Type": "application/json",
         }
-        url = urljoin(self._api_url, "repos", repo, "issues", pr_number, "comments")
+        url = f"{self._api_url}/repos/{repo}/issues/{pr_number}/comments"
         r = requests.post(url, headers=h, data=j)
 
         print("Response:")
@@ -51,7 +47,7 @@ class Forgejo:
             "Authorization": "token " + self._token,
             "Content-Type": "application/json",
         }
-        url = urljoin(self._api_url, "repos", repo, "git/notes", commit)
+        url = f"{self._api_url}/repos/{repo}/git/notes/{commit}"
         r = requests.post(url, headers=h, data=j)
 
         print("Response:")
