@@ -30,6 +30,9 @@ jobs:
           apt-get update
           apt-get install -y jq
 
+          python3 -m pip install --upgrade pip
+          pip3 install requests pyyaml
+
           # Expose this directory to the PATH for all subsequent steps in this job
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
