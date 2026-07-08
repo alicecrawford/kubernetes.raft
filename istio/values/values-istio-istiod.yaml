@@ -14,13 +14,16 @@ meshConfig:
       envoyExtAuthzHttp:
         service: authelia.authelia.svc.polycule.raft.lutris.house
         port: 80
-        pathPrefix: /api/authz/ext-authz
+        pathPrefix: '/api/authz/ext-authz?rd=https://auth.raft.lutris.house/'
         includeRequestHeadersInCheck:
           - accept
           - cookie
           - location
           - authorization
           - proxy-authorization
+          - x-forwarded-host
+          - x-forwarded-proto
+          - x-forwarded-for
         headersToUpstreamOnAllow:
           - 'remote-*'
           - 'authelia-*'
