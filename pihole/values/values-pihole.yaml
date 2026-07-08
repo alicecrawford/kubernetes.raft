@@ -5,6 +5,8 @@ image:
 whitelist:
   - allydvm.com
   - willowglenpethospital.com
+  - regex: '.*\.zg-api\.com'
+  - regex: '.*\.split\.io'
 adlists:
   - https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
   - https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/multi.txt
