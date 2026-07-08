@@ -20,9 +20,3 @@ spec:
     - repoURL: https://charts.longhorn.io/
       targetRevision: 1.11.2
       chart: longhorn
-    - repoURL: https://git.raft.lutris.house/api/packages/the_raft/helm/
-      chart: gw-helper
-      targetRevision: 0.1.4
-      helm:
-        valueFiles:
-          - $values/longhorn/values/values-gateway.yaml
