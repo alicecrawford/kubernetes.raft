@@ -5,9 +5,6 @@ pilot:
     PILOT_ENABLE_ALPHA_GATEWAY_API: true
     ISTIO_DUAL_STACK: "true"
   ipFamilyPolicy: RequireDualStack
-global:
-  proxy:
-    clusterDomain: polycule.raft.lutris.house
 meshConfig:
   defaultConfig:
     proxyMetadata:
