@@ -5,6 +5,9 @@ pilot:
     PILOT_ENABLE_ALPHA_GATEWAY_API: true
     ISTIO_DUAL_STACK: "true"
   ipFamilyPolicy: RequireDualStack
+global:
+  proxy:
+    clusterDomain: polycule.raft.lutris.house
 meshConfig:
   defaultConfig:
     proxyMetadata:
@@ -14,16 +17,13 @@ meshConfig:
       envoyExtAuthzHttp:
         service: authelia.authelia.svc.polycule.raft.lutris.house
         port: 80
-        pathPrefix: '/api/authz/ext-authz?rd=https://auth.raft.lutris.house/'
+        pathPrefix: '/api/authz/ext-authz'
         includeRequestHeadersInCheck:
           - accept
           - cookie
           - location
           - authorization
           - proxy-authorization
-          - x-forwarded-host
-          - x-forwarded-proto
-          - x-forwarded-for
         headersToUpstreamOnAllow:
           - 'remote-*'
           - 'authelia-*'
