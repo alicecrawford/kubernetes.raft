@@ -284,6 +284,8 @@ configMap:
 
   access_control:
     rules:
+      - domain: longhorn.raft.lutris.house
+        policy: one_factor
       - domain: '*.raft.lutris.house'
         policy: one_factor
         subject:
