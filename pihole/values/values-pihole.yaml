@@ -5,8 +5,8 @@ image:
 whitelist:
   - allydvm.com
   - willowglenpethospital.com
-  - regex: '.*\.zg-api\.com'
-  - regex: '.*\.split\.io'
+  - "*.zg-api.com"
+  - "*.split.io"
 adlists:
   - https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
   - https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/multi.txt
@@ -46,3 +46,6 @@ podDnsConfig:
 extraEnvVars:
   FTLCONF_dns_listeningMode: all
   DNSMASQ_USER: root
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
