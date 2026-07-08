@@ -12,9 +12,9 @@ meshConfig:
   extensionProviders:
     - name: 'authelia'
       envoyExtAuthzHttp:
-        service: authelia.authelia.svc.polycule.raft.lutris.house
+        service: authelia/authelia
         port: 80
-        pathPrefix: /api/verify
+        pathPrefix: /api/authz/ext-authz
         includeRequestHeadersInCheck:
           - accept
           - cookie
