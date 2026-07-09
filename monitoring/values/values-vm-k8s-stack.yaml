@@ -64,9 +64,13 @@ alertmanager:
     externalURL: https://alertmanager.raft.lutris.house
     routePrefix: /
 
-    extraSecretMounts:
-      - name: webhook-secret-mount
-        secretName: alertmanager-webhooks
+    additionalVolumes:
+      - name: webhook-secret-volume
+        secret:
+          secretName: alertmanager-webhooks
+
+    additionalVolumeMounts:
+      - name: webhook-secret-volume
         mountPath: /etc/alertmanager/secrets
         readOnly: true
 
