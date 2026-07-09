@@ -1,7 +1,7 @@
 ---
 replicaCount: 2
 image:
-  tag: 2026.07.1
+  tag: 2026.07.2
 whitelist:
   - allydvm.com
   - willowglenpethospital.com
