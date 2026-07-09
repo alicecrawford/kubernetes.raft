@@ -29,7 +29,6 @@ meshConfig:
           - 'authelia-*'
         includeAdditionalHeadersInCheck:
           X-Forwarded-Proto: '%REQ(:SCHEME)%'
-          X-Authelia-Url: 'https://auth.raft.lutris.house/'
         headersToDownstreamOnDeny:
           - 'set-cookie'
         headersToDownstreamOnAllow:
