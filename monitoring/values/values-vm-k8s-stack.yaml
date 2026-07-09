@@ -74,15 +74,15 @@ alertmanager:
       - name: 'null'
       - name: 'discord-info'
         webhook_configs:
-          - urlFile: /etc/alertmanager/secrets/discord-alert-url
+          - url_file: /etc/alertmanager/secrets/discord-alert-url
             send_resolved: true
       - name: 'discord-warning'
         webhook_configs:
-          - urlFile: /etc/alertmanager/secrets/discord-alert-url
+          - url_file: /etc/alertmanager/secrets/discord-alert-url
             send_resolved: true
       - name: 'discord-critical'
         webhook_configs:
-          - urlFile: /etc/alertmanager/secrets/discord-alert-url
+          - url_file: /etc/alertmanager/secrets/discord-alert-url
             send_resolved: true
       - name: 'fallback'
         discord_configs:
