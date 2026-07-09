@@ -17,10 +17,10 @@ vlsingle:
   enabled: true
   spec:
     storage:
-      volumeClaimTemplate:
-        spec:
-          storageClassName: nfs-ssd-csi
-          size: 20Gi
+      storageClassName: nfs-ssd-csi
+      resources:
+        requests:
+          storage: 50Gi
     retentionPeriod: 90d
 
 vlagent:
