@@ -190,9 +190,6 @@ def main():
         argocd.refresh_app(app)
         logger.info("checking for diff in app %s", res["name"])
         res["diff"] = argocd.get_diff(app)
-        if res["diff"]["return"] == 1:
-            logger.info("diff found in %s, perforing dry-run", res["name"])
-            res["dry_run"] = argocd.dry_run(app)
 
         results.append(res)
 
