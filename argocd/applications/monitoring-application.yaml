@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: prometheus-stack
+  name: monitoring
   namespace: argocd
 spec:
   project: default
@@ -12,52 +12,23 @@ spec:
   syncPolicy:
     syncOptions:
       - ServerSideApply=true
-  ignoreDifferences:
-    - kind: Secret
-      jsonPointers:
-        - /data
-    - group: '*'
-      kind: Deployment
-      jsonPointers:
-        - /spec/template/metadata/annotations/checksum~1secret
   sources:
     - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
       path: monitoring
       targetRevision: HEAD
       ref: values
-    - repoURL: oci://ghcr.io/prometheus-community/charts/prometheus-node-exporter
-      path: .
-      targetRevision: 4.55.0
+    - repoURL: https://victoriametrics.github.io/helm-charts/
+      chart: victoria-metrics-k8s-stack
+      targetRevision: 0.86.0
       helm:
         valueFiles:
-          - $values/monitoring/values/values-node-exporter.yaml
+          - $values/monitoring/values/values-vm-k8s-stack.yaml
     - repoURL: oci://ghcr.io/prometheus-community/charts/prometheus-smartctl-exporter
       path: .
       targetRevision: 0.16.1
       helm:
         valueFiles:
           - $values/monitoring/values/values-smartctl-exporter.yaml
-    - repoURL: oci://ghcr.io/prometheus-community/charts/kube-prometheus-stack
-      path: .
-      targetRevision: 85.1.3
-      helm:
-        valueFiles:
-          - $values/monitoring/values/values-kps.yaml
-    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
-      path: monitoring/alerts
-      targetRevision: HEAD
-    - repoURL: https://victoriametrics.github.io/helm-charts/
-      targetRevision: 0.12.4
-      chart: victoria-logs-single
-      helm:
-        valueFiles:
-          - $values/monitoring/values/values-victorialogs.yaml
-    - repoURL: https://victoriametrics.github.io/helm-charts/
-      targetRevision: 0.3.3
-      chart: victoria-logs-collector
-      helm:
-        valueFiles:
-          - $values/monitoring/values/values-victorialogs-collector.yaml
     - repoURL: https://git.raft.lutris.house/api/packages/the_raft/helm/
       chart: gw-helper
       targetRevision: 0.1.4
