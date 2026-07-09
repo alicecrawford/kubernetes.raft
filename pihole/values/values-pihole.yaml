@@ -218,7 +218,7 @@ tolerations:
 dualStack:
   enabled: true
 admin:
-  existingSecret: pihole-admin
+  adminPassword: ""
 serviceDns:
   mixedService: true
   loadBalancerIP: 172.16.60.53
