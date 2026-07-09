@@ -1,0 +1,242 @@
+---
+global:
+  clusterLabel: polycule
+  cluster:
+    dnsDomain: polycule.raft.lutris.house.
+
+victoria-metrics-operator:
+  enabled: true
+
+defaultDashboards:
+  enabled: true
+
+defaultRules:
+  enabled: true
+
+vlsingle:
+  enabled: true
+  spec:
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: nfs-ssd-csi
+          size: 20Gi
+    retentionPeriod: 90d
+
+vlagent:
+  enabled: true
+
+vmsingle:
+  enabled: false
+
+vmcluster:
+  enabled: true
+  spec:
+    retentionPeriod: 90d
+    replicationFactor: 2
+    vmstorage:
+      replicaCount: 2
+      storage:
+        volumeClaimTemplate:
+          spec:
+            storageClassName: longhorn
+            resources:
+              requests:
+                storage: 100Gi
+    vmselect:
+      enabled: true
+      replicaCount: 2
+      storage:
+        volumeClaimTemplate:
+          spec:
+            storageClassName: longhorn
+            resources:
+              requests:
+                storage: 2Gi
+    vminsert:
+      enabled: true
+      replicaCount: 2
+
+alertmanager:
+  enabled: true
+  spec:
+    replicaCount: 2
+    externalURL: https://alertmanager.raft.lutris.house
+    routePrefix: /
+
+    extraSecretMounts:
+      - name: webhook-secret-mount
+        secretName: alertmanager-webhooks
+        mountPath: /etc/alertmanager/secrets
+        readOnly: true
+
+  useManagedConfig: false
+
+  config:
+    receivers:
+      - name: 'null'
+      - name: 'discord-info'
+        webhook_configs:
+          - urlFile: /etc/alertmanager/secrets/discord-alert-url
+            send_resolved: true
+      - name: 'discord-warning'
+        webhook_configs:
+          - urlFile: /etc/alertmanager/secrets/discord-alert-url
+            send_resolved: true
+      - name: 'discord-critical'
+        webhook_configs:
+          - urlFile: /etc/alertmanager/secrets/discord-alert-url
+            send_resolved: true
+      - name: 'fallback'
+        discord_configs:
+          - webhook_url_file: /etc/alertmanager/secrets/discord-fallback-url
+            send_resolved: true
+    route:
+      receiver: discord-info
+      group_by:
+        - alertname
+        - job
+      repeat_interval: 365d
+      routes:
+        - receiver: 'fallback'
+          matchers:
+            - routing_priority = "high"
+          continue: true
+        - receiver: 'null'
+          matchers:
+            - alertname =~ "Watchdog|InfoInhibitor"
+        - receiver: 'discord-critical'
+          matchers:
+            - severity =~ "critical|page"
+          group_by: ['alertname', 'job']
+          repeat_interval: 2h
+        - receiver: 'discord-warning'
+          matchers:
+            - severity =~ "warning"
+          group_by: ['alertname', 'job']
+          repeat_interval: 1d
+
+vmalert:
+  enabled: true
+
+vmauth:
+  enabled: false
+
+vmagent:
+  enabled: true
+
+defaultDatasources:
+  victoriametrics:
+    datasources:
+      - name: VictoriaMetrics
+        type: prometheus
+        access: proxy
+        uid: VictoriaMetrics
+        isDefault: true
+      - name: VictoriaMetrics (DS)
+        isDefault: false
+        access: proxy
+        uid: VictoriaMetricsDS
+        type: victoriametrics-metrics-datasource
+  victorialogs:
+    datasources:
+      - name: VictoriaLogs (DS)
+        access: proxy
+        uid: VictoriaLogs
+        type: victoriametrics-logs-datasource
+  alertmanager:
+    datasources:
+      - name: Alertmanager
+        access: proxy
+        uid: Alertmanager
+        jsonData:
+          implementation: prometheus
+
+grafana:
+  enabled: true
+
+  deploymentStrategy:
+    type: Recreate
+
+  persistence:
+    type: pvc
+    enabled: true
+    storageClassName: longhorn
+    size: 10Gi
+
+  plugins:
+    - victoriametrics-metrics-datasource
+    - victoriametrics-logs-datasource
+
+  envFromSecret: grafana-oidc
+
+  grafana.ini:
+    date_formats:
+      default_timezone: browser
+    server:
+      root_url: https://grafana.raft.lutris.house/
+    auth.generic_oauth:
+      enabled: true
+      name: Authelia
+      skip_org_role_sync: true
+      allow_assign_grafana_admin: true
+      icon: signin
+      client_id: '${GRAFANA_OIDC_ID}'
+      client_secret: '${GRAFANA_OIDC_KEY}'
+      scopes: openid profile email groups
+      empty_scopes: false
+      auth_url: https://auth.raft.lutris.house/api/oidc/authorization
+      token_url: https://auth.raft.lutris.house/api/oidc/token
+      api_url: https://auth.raft.lutris.house/api/oidc/userinfo
+      login_attribute_path: groups
+      use_pkce: true
+      auth_style: InHeader
+
+  vmScrape:
+    enabled: true
+
+defaultScrapeService:
+  namespace: kube-system
+
+# -- prometheus-node-exporter dependency chart configuration. For possible values check [here](https://github.com/prometheus-community/helm-charts/blob/main/charts/prometheus-node-exporter/values.yaml)
+prometheus-node-exporter:
+  enabled: true
+
+kube-state-metrics:
+  enabled: true
+  extraArgs:
+    - --metric-labels-allowlist=pods=[*],deployments=[*],nodes=[*],namespaces=[*],statefulsets=[*],daemonsets=[*],services=[*]
+  vmScrape:
+    enabled: true
+    spec:
+      endpoints:
+        - port: http
+          interval: 2m
+          scrapeTimeout: 10s
+
+# -- Component scraping the kubelets
+kubelet:
+  enabled: true
+
+kubeApiServer:
+  enabled: true
+
+# Component scraping the kube controller manager
+kubeControllerManager:
+  enabled: true
+
+# Component scraping coreDns. Use either this or kubeDns
+coreDns:
+  enabled: true
+
+# Component scraping etcd
+kubeEtcd:
+  enabled: true
+
+# Component scraping kube scheduler
+kubeScheduler:
+  enabled: true
+
+# Component scraping kube proxy
+kubeProxy:
+  enabled: true
