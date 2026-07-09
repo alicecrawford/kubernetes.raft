@@ -1,0 +1,18 @@
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: longhorn-ui
+  namespace: longhorn-system
+spec:
+  action: CUSTOM
+  provider:
+    name: authelia
+  rules:
+    - to:
+        - operation:
+            hosts:
+              - longhorn.raft.lutris.house
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: longhorn
