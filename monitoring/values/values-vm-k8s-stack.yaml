@@ -177,7 +177,6 @@ grafana:
     auth.generic_oauth:
       enabled: true
       name: Authelia
-      allow_assign_grafana_admin: true
       icon: signin
       client_id: '${GRAFANA_OIDC_ID}'
       client_secret: '${GRAFANA_OIDC_KEY}'
@@ -186,11 +185,10 @@ grafana:
       auth_url: https://auth.raft.lutris.house/api/oidc/authorization
       token_url: https://auth.raft.lutris.house/api/oidc/token
       api_url: https://auth.raft.lutris.house/api/oidc/userinfo
-      login_attribute_path: groups
       use_pkce: true
       auth_style: InHeader
-      role_attribute_path: "contains(groups, 'cluster_admin') && 'Admin' ||
-        contains(groups, 'development') && 'Editor' || 'Viewer'"
+      role_attribute_path: "contains(groups[*], 'cluster_admin') && 'Admin' ||
+        contains(groups[*], 'development') && 'Editor' || 'Viewer'"
       role_attribute_strict: true
 
   vmScrape:
