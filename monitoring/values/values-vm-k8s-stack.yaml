@@ -229,6 +229,13 @@ kubeApiServer:
 # Component scraping the kube controller manager
 kubeControllerManager:
   enabled: true
+  vmScrape:
+    spec:
+      endpoints:
+        - port: http-metrics
+          scheme: https
+          tlsConfig:
+            insecureSkipVerify: true
 
 # Component scraping coreDns. Use either this or kubeDns
 coreDns:
@@ -237,11 +244,25 @@ coreDns:
 # Component scraping etcd
 kubeEtcd:
   enabled: true
+  vmScrape:
+    spec:
+      endpoints:
+        - port: http-metrics
+          scheme: https
+          tlsConfig:
+            insecureSkipVerify: true
 
 # Component scraping kube scheduler
 kubeScheduler:
   enabled: true
+  vmScrape:
+    spec:
+      endpoints:
+        - port: http-metrics
+          scheme: https
+          tlsConfig:
+            insecureSkipVerify: true
 
 # Component scraping kube proxy
 kubeProxy:
-  enabled: true
+  enabled: false
