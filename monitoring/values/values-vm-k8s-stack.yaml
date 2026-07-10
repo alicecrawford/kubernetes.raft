@@ -25,6 +25,8 @@ vlsingle:
 
 vlagent:
   enabled: true
+  spec:
+    replicaCount: 3
 
 vmsingle:
   enabled: false
@@ -121,6 +123,8 @@ vmauth:
 
 vmagent:
   enabled: true
+  spec:
+    replicaCount: 3
 
 defaultDatasources:
   victoriametrics:
