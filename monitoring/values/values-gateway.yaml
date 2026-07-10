@@ -1,14 +1,44 @@
 gateways:
   - name: monitoring
     hostnames:
+      - alertmanager.raft.lutris.house
       - grafana.raft.lutris.house
+      - logs.raft.lutris.house
+      - vmstorage.raft.lutris.house
+      - vmagent.raft.lutris.house
+      - vmalert.raft.lutris.house
     listeners:
       - name: https
         port: 443
         protocol: HTTPS
         routes:
+          - name: alertmanager
+            service: vmalertmanager-monitoring-victoria-metrics-k8s-stack
+            port: 9093
+            hostnames:
+              - alertmanager.raft.lutris.house
           - name: grafana
             service: monitoring-grafana
             port: 80
             hostnames:
               - grafana.raft.lutris.house
+          - name: logs
+            service: vlsingle-monitoring-victoria-metrics-k8s-stack
+            port: 9428
+            hostnames:
+              - logs.raft.lutris.house
+          - name: vmstorage
+            service: vmstorage-monitoring-victoria-metrics-k8s-stack
+            port: 8482
+            hostnames:
+              - vmstorage.raft.lutris.house
+          - name: vmagent
+            service: vmagent-monitoring-victoria-metrics-k8s-stack
+            port: 8429
+            hostnames:
+              - vmagent.raft.lutris.house
+          - name: vmalert
+            service: vmalert-monitoring-victoria-metrics-k8s-stack
+            port: 8080
+            hostnames:
+              - vmalert.raft.lutris.house
