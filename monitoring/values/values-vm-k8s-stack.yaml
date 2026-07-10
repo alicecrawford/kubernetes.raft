@@ -177,7 +177,6 @@ grafana:
     auth.generic_oauth:
       enabled: true
       name: Authelia
-      skip_org_role_sync: true
       allow_assign_grafana_admin: true
       icon: signin
       client_id: '${GRAFANA_OIDC_ID}'
