@@ -187,8 +187,9 @@ grafana:
       api_url: https://auth.raft.lutris.house/api/oidc/userinfo
       use_pkce: true
       auth_style: InHeader
-      role_attribute_path: "contains(groups[*], 'cluster_admin') && 'Admin' ||
-        contains(groups[*], 'development') && 'Editor' || 'Viewer'"
+      role_attribute_path: >-
+        contains(groups[*], `cluster_admin`) && `Admin` || contains(groups[*],
+        `development`) && `Editor` || `Viewer`
       role_attribute_strict: true
 
   vmScrape:
