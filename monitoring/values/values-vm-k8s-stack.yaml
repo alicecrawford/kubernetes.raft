@@ -168,6 +168,8 @@ grafana:
   envFromSecret: grafana-oidc
 
   grafana.ini:
+    log:
+      level: debug
     date_formats:
       default_timezone: browser
     server:
