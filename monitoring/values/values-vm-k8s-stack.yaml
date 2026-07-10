@@ -254,7 +254,6 @@ kubeEtcd:
       endpoints:
         - port: http-metrics
           scheme: http
-          tlsConfig: null
 
 # Component scraping kube scheduler
 kubeScheduler:
