@@ -4,7 +4,6 @@ gateways:
       - alertmanager.raft.lutris.house
       - grafana.raft.lutris.house
       - logs.raft.lutris.house
-      - vmstorage.raft.lutris.house
       - vmagent.raft.lutris.house
       - vmalert.raft.lutris.house
     listeners:
@@ -27,11 +26,6 @@ gateways:
             port: 9428
             hostnames:
               - logs.raft.lutris.house
-          - name: vmstorage
-            service: vmstorage-monitoring-victoria-metrics-k8s-stack
-            port: 8482
-            hostnames:
-              - vmstorage.raft.lutris.house
           - name: vmagent
             service: vmagent-monitoring-victoria-metrics-k8s-stack
             port: 8429
