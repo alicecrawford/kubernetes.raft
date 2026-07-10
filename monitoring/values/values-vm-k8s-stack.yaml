@@ -253,6 +253,7 @@ kubeEtcd:
           scheme: https
           tlsConfig:
             insecureSkipVerify: true
+            caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
 
 # Component scraping kube scheduler
 kubeScheduler:
