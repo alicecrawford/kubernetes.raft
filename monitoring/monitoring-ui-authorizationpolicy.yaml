@@ -11,8 +11,10 @@ spec:
     - to:
         - operation:
             hosts:
-              - prometheus.raft.lutris.house
               - alertmanager.raft.lutris.house
+              - logs.raft.lutris.house
+              - vmagent.raft.lutris.house
+              - vmalert.raft.lutris.house
   targetRefs:
     - group: gateway.networking.k8s.io
       kind: Gateway
