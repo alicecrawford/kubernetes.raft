@@ -27,6 +27,7 @@ vlagent:
   enabled: true
   spec:
     replicaCount: 3
+    scrapeInterval: "10s"
 
 vmsingle:
   enabled: false
