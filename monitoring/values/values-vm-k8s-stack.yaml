@@ -245,15 +245,14 @@ coreDns:
 # Component scraping etcd
 kubeEtcd:
   enabled: true
+  service:
+    enabled: true
+    port: 2381
+    targetPort: 2381
   vmScrape:
     spec:
-      endpoints:
-        - port: http-metrics
-          bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
-          scheme: https
-          tlsConfig:
-            insecureSkipVerify: true
-            caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+      scheme: http
+      tlsConfig: {}
 
 # Component scraping kube scheduler
 kubeScheduler:
