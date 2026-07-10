@@ -251,8 +251,10 @@ kubeEtcd:
     targetPort: 2381
   vmScrape:
     spec:
-      scheme: http
-      tlsConfig: {}
+      endpoints:
+        - port: http-metrics
+          scheme: http
+          tlsConfig: null
 
 # Component scraping kube scheduler
 kubeScheduler:
