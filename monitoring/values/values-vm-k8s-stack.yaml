@@ -25,6 +25,8 @@ vlsingle:
 
 vlagent:
   enabled: true
+  spec:
+    replicaCount: 3
 
 vmsingle:
   enabled: false
