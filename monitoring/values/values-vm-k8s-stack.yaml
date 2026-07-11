@@ -127,7 +127,7 @@ vmagent:
     replicaCount: 1
     globalRelabelConfigs:
       - source_labels: [__address__]
-        regex: '.*:(15020|15090)'
+        regex: '.*:(15020|15021|15090)'
         action: drop
 
 defaultDatasources:
