@@ -125,11 +125,10 @@ vmagent:
   enabled: true
   spec:
     replicaCount: 1
-    extraArgs:
-      globalRelabelConfigs:
-        - source_labels: [__address__]
-          regex: '.*:(15020|15090)'
-          action: drop
+    globalRelabelConfigs:
+      - source_labels: [__address__]
+        regex: '.*:(15020|15090)'
+        action: drop
 
 defaultDatasources:
   victoriametrics:
