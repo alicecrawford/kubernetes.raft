@@ -26,7 +26,7 @@ vlsingle:
 vlagent:
   enabled: true
   spec:
-    replicaCount: 1
+    replicaCount: 3
 
 vmsingle:
   enabled: false
@@ -124,11 +124,7 @@ vmauth:
 vmagent:
   enabled: true
   spec:
-    replicaCount: 1
-    inlineRelabelConfig:
-      - source_labels: [__address__]
-        regex: '.*:(15020|15021|15090)'
-        action: drop
+    replicaCount: 3
 
 defaultDatasources:
   victoriametrics:
