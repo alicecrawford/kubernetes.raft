@@ -213,8 +213,6 @@ prometheus-node-exporter:
 
 kube-state-metrics:
   enabled: true
-  extraArgs:
-    - --metric-labels-allowlist=pods=[*],deployments=[*],nodes=[*],namespaces=[*],statefulsets=[*],daemonsets=[*],services=[*]
   vmScrape:
     enabled: true
     spec:
