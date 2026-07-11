@@ -211,11 +211,6 @@ kube-state-metrics:
   enabled: true
   vmScrape:
     enabled: true
-    spec:
-      endpoints:
-        - port: http
-          interval: 2m
-          scrapeTimeout: 10s
 
 # -- Component scraping the kubelets
 kubelet:
