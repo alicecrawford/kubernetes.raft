@@ -125,6 +125,7 @@ vmagent:
   enabled: true
   spec:
     replicaCount: 1
+  vmagentSpec:
     globalRelabelConfigs:
       - source_labels: [__address__]
         regex: '.*:(15020|15021|15090)'
