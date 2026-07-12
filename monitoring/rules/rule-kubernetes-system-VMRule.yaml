@@ -19,6 +19,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: KubeClientErrors
       annotations:
         description: Kubernetes API server client '{{ $labels.job }}/{{ $labels.instance
@@ -32,3 +33,4 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''

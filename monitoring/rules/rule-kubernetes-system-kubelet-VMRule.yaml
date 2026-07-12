@@ -19,6 +19,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: KubeNodePressure
       annotations:
         description: '{{ $labels.node }} on cluster {{ $labels.polycule }} has active
@@ -32,6 +33,7 @@ spec:
       for: 10m
       labels:
         severity: info
+      record: ''
     - alert: KubeNodeUnreachable
       annotations:
         description: '{{ $labels.node }} is unreachable and some workloads may be
@@ -44,6 +46,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: KubeletTooManyPods
       annotations:
         description: Kubelet '{{ $labels.node }}' is running at {{ $value | humanizePercentage
@@ -57,6 +60,7 @@ spec:
       for: 15m
       labels:
         severity: info
+      record: ''
     - alert: KubeNodeReadinessFlapping
       annotations:
         description: The readiness status of node {{ $labels.node }} has changed {{
@@ -69,6 +73,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: KubeNodeEviction
       annotations:
         description: Node {{ $labels.node }} on {{ $labels.polycule }} is evicting
@@ -84,6 +89,7 @@ spec:
       for: 0s
       labels:
         severity: info
+      record: ''
     - alert: KubeletPlegDurationHigh
       annotations:
         description: The Kubelet Pod Lifecycle Event Generator has a 99th percentile
@@ -96,6 +102,7 @@ spec:
       for: 5m
       labels:
         severity: warning
+      record: ''
     - alert: KubeletPodStartUpLatencyHigh
       annotations:
         description: Kubelet Pod startup 99th percentile latency is {{ $value }} seconds
@@ -109,6 +116,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: KubeletClientCertificateExpiration
       annotations:
         description: Client certificate for Kubelet on node {{ $labels.node }} expires
@@ -118,6 +126,7 @@ spec:
       expr: kubelet_certificate_manager_client_ttl_seconds < 604800
       labels:
         severity: warning
+      record: ''
     - alert: KubeletClientCertificateExpiration
       annotations:
         description: Client certificate for Kubelet on node {{ $labels.node }} expires
@@ -127,6 +136,7 @@ spec:
       expr: kubelet_certificate_manager_client_ttl_seconds < 86400
       labels:
         severity: critical
+      record: ''
     - alert: KubeletServerCertificateExpiration
       annotations:
         description: Server certificate for Kubelet on node {{ $labels.node }} expires
@@ -136,6 +146,7 @@ spec:
       expr: kubelet_certificate_manager_server_ttl_seconds < 604800
       labels:
         severity: warning
+      record: ''
     - alert: KubeletServerCertificateExpiration
       annotations:
         description: Server certificate for Kubelet on node {{ $labels.node }} expires
@@ -145,6 +156,7 @@ spec:
       expr: kubelet_certificate_manager_server_ttl_seconds < 86400
       labels:
         severity: critical
+      record: ''
     - alert: KubeletClientCertificateRenewalErrors
       annotations:
         description: Kubelet on node {{ $labels.node }} has failed to renew its client
@@ -157,6 +169,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: KubeletServerCertificateRenewalErrors
       annotations:
         description: Kubelet on node {{ $labels.node }} has failed to renew its server
@@ -168,6 +181,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: KubeletInstanceUnreachable
       annotations:
         description: A Kubelet instance has been unreachable for more than 15 minutes.
@@ -177,6 +191,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: KubeletDown
       annotations:
         description: Kubelet has disappeared from Prometheus target discovery on cluster
@@ -188,3 +203,4 @@ spec:
       for: 15m
       labels:
         severity: critical
+      record: ''

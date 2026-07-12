@@ -20,6 +20,7 @@ spec:
         long: 1h
         severity: critical
         short: 5m
+      record: ''
     - alert: KubeAPIErrorBudgetBurn
       annotations:
         description: The Kube API server is burning too much error budget on cluster
@@ -33,6 +34,7 @@ spec:
         long: 6h
         severity: critical
         short: 30m
+      record: ''
     - alert: KubeAPIErrorBudgetBurn
       annotations:
         description: The Kube API server is burning too much error budget on cluster
@@ -46,6 +48,7 @@ spec:
         long: 1d
         severity: warning
         short: 2h
+      record: ''
     - alert: KubeAPIErrorBudgetBurn
       annotations:
         description: The Kube API server is burning too much error budget on cluster
@@ -59,3 +62,4 @@ spec:
         long: 3d
         severity: warning
         short: 6h
+      record: ''

@@ -20,6 +20,7 @@ spec:
       for: 5m
       labels:
         severity: warning
+      record: ''
     - alert: KubeClientCertificateExpiration
       annotations:
         description: A client certificate used to authenticate to kubernetes apiserver
@@ -33,6 +34,7 @@ spec:
       for: 5m
       labels:
         severity: critical
+      record: ''
     - alert: KubeAggregatedAPIErrors
       annotations:
         description: Kubernetes aggregated API {{ $labels.instance }}/{{ $labels.name
@@ -45,6 +47,7 @@ spec:
       for: 10m
       labels:
         severity: warning
+      record: ''
     - alert: KubeAggregatedAPIDown
       annotations:
         description: Kubernetes aggregated API {{ $labels.name }}/{{ $labels.namespace
@@ -57,6 +60,7 @@ spec:
       for: 5m
       labels:
         severity: warning
+      record: ''
     - alert: KubeAPIDown
       annotations:
         description: KubeAPI has disappeared from Prometheus target discovery.
@@ -66,6 +70,7 @@ spec:
       for: 15m
       labels:
         severity: critical
+      record: ''
     - alert: KubeAPIInstanceUnreachable
       annotations:
         description: A KubeAPI instance has been unreachable for more than 15 minutes.
@@ -75,6 +80,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: KubeAPITerminatedRequests
       annotations:
         description: The kubernetes apiserver has terminated {{ $value | humanizePercentage
@@ -89,3 +95,4 @@ spec:
       for: 5m
       labels:
         severity: warning
+      record: ''

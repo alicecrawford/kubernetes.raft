@@ -20,6 +20,7 @@ spec:
       labels:
         severity: warning
         show_at: dashboard
+      record: ''
     - alert: ReconcileErrors
       annotations:
         dashboard: '{{ $externalURL }}/d/1H179hunk/victoriametrics-operator?ds={{
@@ -33,6 +34,7 @@ spec:
       labels:
         severity: warning
         show_at: dashboard
+      record: ''
     - alert: HighQueueDepth
       annotations:
         dashboard: '{{ $externalURL }}/d/1H179hunk/victoriametrics-operator?ds={{
@@ -46,3 +48,4 @@ spec:
       labels:
         severity: warning
         show_at: dashboard
+      record: ''

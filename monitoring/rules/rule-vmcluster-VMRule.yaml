@@ -24,6 +24,7 @@ spec:
       for: 30m
       labels:
         severity: critical
+      record: ''
     - alert: NodeBecomesReadonlyIn3Days
       annotations:
         dashboard: '{{ $externalURL }}/d/oS7Bi_0Wz?viewPanel=20&var-instance={{ $labels.instance
@@ -42,6 +43,7 @@ spec:
       for: 30m
       labels:
         severity: warning
+      record: ''
     - alert: DiskRunsOutOfSpace
       annotations:
         dashboard: '{{ $externalURL }}/d/oS7Bi_0Wz?viewPanel=20&var-instance={{ $labels.instance
@@ -57,6 +59,7 @@ spec:
       for: 30m
       labels:
         severity: critical
+      record: ''
     - alert: RequestErrorsToAPI
       annotations:
         dashboard: '{{ $externalURL }}/d/oS7Bi_0Wz?viewPanel=52&var-instance={{ $labels.instance
@@ -70,6 +73,7 @@ spec:
       labels:
         severity: warning
         show_at: dashboard
+      record: ''
     - alert: RPCErrors
       annotations:
         dashboard: '{{ $externalURL }}/d/oS7Bi_0Wz?viewPanel=44&var-instance={{ $labels.instance
@@ -86,6 +90,7 @@ spec:
       labels:
         severity: warning
         show_at: dashboard
+      record: ''
     - alert: TooHighChurnRate
       annotations:
         dashboard: '{{ $externalURL }}/d/oS7Bi_0Wz?viewPanel=102'
@@ -98,6 +103,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: TooHighChurnRate24h
       annotations:
         dashboard: '{{ $externalURL }}/d/oS7Bi_0Wz?viewPanel=102'
@@ -111,6 +117,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: TooHighSlowInsertsRate
       annotations:
         dashboard: '{{ $externalURL }}/d/oS7Bi_0Wz?viewPanel=108'
@@ -123,6 +130,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: VminsertVmstorageConnectionIsSaturated
       annotations:
         dashboard: '{{ $externalURL }}/d/oS7Bi_0Wz?viewPanel=139&var-instance={{ $labels.instance
@@ -139,6 +147,7 @@ spec:
       labels:
         severity: warning
         show_at: dashboard
+      record: ''
     - alert: MetadataCacheUtilizationIsTooHigh
       annotations:
         description: Metadata cache stores meta information about ingested time series
@@ -154,6 +163,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: MetricNameStatsCacheUtilizationIsTooHigh
       annotations:
         description: 'Metric names usage cache stores information about unique metric
@@ -174,6 +184,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: IndexDBRecordsDrop
       annotations:
         description: "VictoriaMetrics could skip registering new timeseries during\
@@ -186,6 +197,7 @@ spec:
       expr: increase(vm_indexdb_items_dropped_total[5m]) > 0
       labels:
         severity: critical
+      record: ''
     - alert: TooManyTSIDMisses
       annotations:
         description: 'Unexpected TSID misses for \"{{ $labels.job }}\" ({{ $labels.instance
@@ -203,3 +215,4 @@ spec:
       for: 15m
       labels:
         severity: critical
+      record: ''

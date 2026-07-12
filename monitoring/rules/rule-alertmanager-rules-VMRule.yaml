@@ -18,6 +18,7 @@ spec:
       for: 10m
       labels:
         severity: critical
+      record: ''
     - alert: AlertmanagerMembersInconsistent
       annotations:
         description: Alertmanager {{ $labels.namespace }}/{{ $labels.pod}} has only
@@ -31,6 +32,7 @@ spec:
       for: 15m
       labels:
         severity: critical
+      record: ''
     - alert: AlertmanagerFailedToSendAlerts
       annotations:
         description: Alertmanager {{ $labels.namespace }}/{{ $labels.pod}} failed
@@ -44,6 +46,7 @@ spec:
       for: 5m
       labels:
         severity: warning
+      record: ''
     - alert: AlertmanagerClusterFailedToSendAlerts
       annotations:
         description: The minimum notification failure rate to {{ $labels.integration
@@ -58,6 +61,7 @@ spec:
       for: 5m
       labels:
         severity: critical
+      record: ''
     - alert: AlertmanagerClusterFailedToSendAlerts
       annotations:
         description: The minimum notification failure rate to {{ $labels.integration
@@ -72,6 +76,7 @@ spec:
       for: 5m
       labels:
         severity: warning
+      record: ''
     - alert: AlertmanagerConfigInconsistent
       annotations:
         description: Alertmanager instances within the {{$labels.job}} cluster have
@@ -83,6 +88,7 @@ spec:
       for: 20m
       labels:
         severity: critical
+      record: ''
     - alert: AlertmanagerClusterDown
       annotations:
         description: '{{ $value | humanizePercentage }} of Alertmanager instances
@@ -97,6 +103,7 @@ spec:
       for: 5m
       labels:
         severity: critical
+      record: ''
     - alert: AlertmanagerClusterCrashlooping
       annotations:
         description: '{{ $value | humanizePercentage }} of Alertmanager instances
@@ -111,6 +118,7 @@ spec:
       for: 5m
       labels:
         severity: critical
+      record: ''
     - alert: AlertmanagerClusterFailedPeers
       annotations:
         description: Alertmanager {{ $labels.namespace }}/{{ $labels.pod}} has {{
@@ -122,3 +130,4 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''

@@ -18,6 +18,7 @@ spec:
       for: 10m
       labels:
         severity: warning
+      record: ''
     - alert: Watchdog
       annotations:
         description: 'This is an alert meant to ensure that the entire alerting pipeline
@@ -40,6 +41,7 @@ spec:
       expr: vector(1)
       labels:
         severity: none
+      record: ''
     - alert: InfoInhibitor
       annotations:
         description: 'This is an alert that is used to inhibit info alerts.
@@ -65,3 +67,4 @@ spec:
         == 1) by(namespace)
       labels:
         severity: none
+      record: ''

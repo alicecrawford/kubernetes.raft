@@ -23,6 +23,7 @@ spec:
       for: 1m
       labels:
         severity: critical
+      record: ''
     - alert: KubePersistentVolumeFillingUp
       annotations:
         description: Based on recent sampling, the PersistentVolume claimed by {{
@@ -41,6 +42,7 @@ spec:
       for: 1h
       labels:
         severity: warning
+      record: ''
     - alert: KubePersistentVolumeInodesFillingUp
       annotations:
         description: The PersistentVolume claimed by {{ $labels.persistentvolumeclaim
@@ -58,6 +60,7 @@ spec:
       for: 1m
       labels:
         severity: critical
+      record: ''
     - alert: KubePersistentVolumeInodesFillingUp
       annotations:
         description: Based on recent sampling, the PersistentVolume claimed by {{
@@ -77,6 +80,7 @@ spec:
       for: 1h
       labels:
         severity: warning
+      record: ''
     - alert: KubePersistentVolumeErrors
       annotations:
         description: The persistent volume {{ $labels.persistentvolume }} {{ with
@@ -89,3 +93,4 @@ spec:
       for: 5m
       labels:
         severity: critical
+      record: ''

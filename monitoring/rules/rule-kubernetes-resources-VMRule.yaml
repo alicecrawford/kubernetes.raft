@@ -24,6 +24,7 @@ spec:
       for: 10m
       labels:
         severity: warning
+      record: ''
     - alert: KubeMemoryOvercommit
       annotations:
         description: Cluster {{ $labels.polycule }} has overcommitted memory resource
@@ -41,6 +42,7 @@ spec:
       for: 10m
       labels:
         severity: warning
+      record: ''
     - alert: KubeCPUQuotaOvercommit
       annotations:
         description: Cluster {{ $labels.polycule }} has overcommitted CPU resource
@@ -53,6 +55,7 @@ spec:
       for: 5m
       labels:
         severity: warning
+      record: ''
     - alert: KubeMemoryQuotaOvercommit
       annotations:
         description: Cluster {{ $labels.polycule }} has overcommitted memory resource
@@ -65,6 +68,7 @@ spec:
       for: 5m
       labels:
         severity: warning
+      record: ''
     - alert: KubeQuotaAlmostFull
       annotations:
         description: Namespace {{ $labels.namespace }} is using {{ $value | humanizePercentage
@@ -79,6 +83,7 @@ spec:
       for: 15m
       labels:
         severity: info
+      record: ''
     - alert: KubeQuotaFullyUsed
       annotations:
         description: Namespace {{ $labels.namespace }} is using {{ $value | humanizePercentage
@@ -93,6 +98,7 @@ spec:
       for: 15m
       labels:
         severity: info
+      record: ''
     - alert: KubeQuotaExceeded
       annotations:
         description: Namespace {{ $labels.namespace }} is using {{ $value | humanizePercentage
@@ -107,6 +113,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: CPUThrottlingHigh
       annotations:
         description: '{{ $value | humanizePercentage }} throttling of CPU in namespace
@@ -122,3 +129,4 @@ spec:
       for: 15m
       labels:
         severity: info
+      record: ''

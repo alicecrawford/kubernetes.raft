@@ -20,6 +20,7 @@ spec:
       for: 15m
       labels:
         severity: critical
+      record: ''
     - alert: KubeStateMetricsWatchErrors
       annotations:
         description: kube-state-metrics is experiencing errors at an elevated rate
@@ -33,6 +34,7 @@ spec:
       for: 15m
       labels:
         severity: critical
+      record: ''
     - alert: KubeStateMetricsShardingMismatch
       annotations:
         description: kube-state-metrics pods are running with different --total-shards
@@ -45,6 +47,7 @@ spec:
       for: 15m
       labels:
         severity: critical
+      record: ''
     - alert: KubeStateMetricsShardsMissing
       annotations:
         description: kube-state-metrics shards are missing, some Kubernetes objects
@@ -57,3 +60,4 @@ spec:
       for: 15m
       labels:
         severity: critical
+      record: ''
