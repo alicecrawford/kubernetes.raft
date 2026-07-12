@@ -11,7 +11,7 @@ defaultDashboards:
   enabled: true
 
 defaultRules:
-  enabled: true
+  enabled: false
 
 vlsingle:
   enabled: true
