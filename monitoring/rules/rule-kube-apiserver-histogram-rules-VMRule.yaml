@@ -5,19 +5,21 @@ metadata:
   namespace: monitoring
 spec:
   groups:
-  - name: kube-apiserver-histogram.rules
-    rules:
-    - alert: ''
-      expr: histogram_quantile(0.99, sum(rate(apiserver_request_sli_duration_seconds_bucket{job="apiserver",verb=~"LIST|GET",subresource!~"proxy|attach|log|exec|portforward"}[5m]))
-        by(polycule,le,resource)) > 0
-      labels:
-        quantile: '0.99'
-        verb: read
-      record: cluster_quantile:apiserver_request_sli_duration_seconds:histogram_quantile
-    - alert: ''
-      expr: histogram_quantile(0.99, sum(rate(apiserver_request_sli_duration_seconds_bucket{job="apiserver",verb=~"POST|PUT|PATCH|DELETE",subresource!~"proxy|attach|log|exec|portforward"}[5m]))
-        by(polycule,le,resource)) > 0
-      labels:
-        quantile: '0.99'
-        verb: write
-      record: cluster_quantile:apiserver_request_sli_duration_seconds:histogram_quantile
+    - name: kube-apiserver-histogram.rules
+      rules:
+        - alert: ''
+          expr: histogram_quantile(0.99,
+            sum(rate(apiserver_request_sli_duration_seconds_bucket{job="apiserver",verb=~"LIST|GET",subresource!~"proxy|attach|log|exec|portforward"}[5m]))
+            by(polycule,le,resource)) > 0
+          labels:
+            quantile: '0.99'
+            verb: read
+          record: cluster_quantile:apiserver_request_sli_duration_seconds:histogram_quantile
+        - alert: ''
+          expr: histogram_quantile(0.99,
+            sum(rate(apiserver_request_sli_duration_seconds_bucket{job="apiserver",verb=~"POST|PUT|PATCH|DELETE",subresource!~"proxy|attach|log|exec|portforward"}[5m]))
+            by(polycule,le,resource)) > 0
+          labels:
+            quantile: '0.99'
+            verb: write
+          record: cluster_quantile:apiserver_request_sli_duration_seconds:histogram_quantile
