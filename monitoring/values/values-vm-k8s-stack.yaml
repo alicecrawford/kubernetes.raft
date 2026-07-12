@@ -46,6 +46,11 @@ vmcluster:
               requests:
                 storage: 100Gi
     vmselect:
+      resources:
+        limits: {}
+        requests:
+          cpu: 750m
+          memory: 500Mi
       enabled: true
       replicaCount: 2
       storage:
