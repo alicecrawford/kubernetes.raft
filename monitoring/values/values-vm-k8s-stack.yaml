@@ -37,6 +37,9 @@ vmcluster:
     retentionPeriod: 90d
     replicationFactor: 2
     vmstorage:
+      resources:
+        limits: {}
+        requests: {}
       replicaCount: 2
       storage:
         volumeClaimTemplate:
@@ -48,9 +51,7 @@ vmcluster:
     vmselect:
       resources:
         limits: {}
-        requests:
-          cpu: 750m
-          memory: 500Mi
+        requests: {}
       enabled: true
       replicaCount: 2
       storage:
@@ -63,6 +64,9 @@ vmcluster:
     vminsert:
       enabled: true
       replicaCount: 2
+      resources:
+        limits: {}
+        requests: {}
 
 alertmanager:
   enabled: true
