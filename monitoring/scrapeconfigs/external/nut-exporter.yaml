@@ -13,4 +13,5 @@ spec:
       labels:
         ups: eaton1500
       params:
-        ups: eaton1500
+        ups:
+          - eaton1500
