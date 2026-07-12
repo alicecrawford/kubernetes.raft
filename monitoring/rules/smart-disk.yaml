@@ -76,14 +76,14 @@ spec:
           record: ''
         - alert: SmartDeviceTemperatureWarning
           expr: avg_over_time(smartctl_device_temperature{temperature_type="current"}
-            [5m]) > 70
+            [5m]) > 75
           for: 0m
           labels:
             severity: warning
           annotations:
             summary: SMART device temperature warning (instance {{ $labels.instance }})
             description: "Device temperature warning on {{ $labels.instance }} drive {{
-              $labels.device }} over 60°C
+              $labels.device }} over 75°C
 
               \  VALUE = {{ $value }}
 
