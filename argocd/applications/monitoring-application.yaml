@@ -17,6 +17,9 @@ spec:
       path: monitoring
       targetRevision: HEAD
       ref: values
+    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+      path: monitoring/rules
+      targetRevision: HEAD
     - repoURL: https://victoriametrics.github.io/helm-charts/
       chart: victoria-metrics-k8s-stack
       targetRevision: 0.86.0
