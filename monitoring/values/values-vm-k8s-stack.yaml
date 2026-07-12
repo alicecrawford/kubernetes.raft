@@ -39,7 +39,9 @@ vmcluster:
     vmstorage:
       resources:
         limits: {}
-        requests: {}
+        requests:
+          cpu: "1"
+          memory: 1250Mi
       replicaCount: 2
       storage:
         volumeClaimTemplate:
@@ -51,7 +53,9 @@ vmcluster:
     vmselect:
       resources:
         limits: {}
-        requests: {}
+        requests:
+          cpu: 500m
+          memory: 500Mi
       enabled: true
       replicaCount: 2
       storage:
@@ -66,7 +70,9 @@ vmcluster:
       replicaCount: 2
       resources:
         limits: {}
-        requests: {}
+        requests:
+          cpu: 750m
+          memory: 500Mi
 
 alertmanager:
   enabled: true
