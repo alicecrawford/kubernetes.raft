@@ -140,6 +140,11 @@ vmagent:
   enabled: true
   spec:
     replicaCount: 3
+    resources:
+      limits: {}
+      requests:
+        cpu: 750m
+        memory: 500Mi
 
 defaultDatasources:
   victoriametrics:
