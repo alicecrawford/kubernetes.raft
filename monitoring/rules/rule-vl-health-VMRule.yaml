@@ -19,6 +19,7 @@ spec:
         > 2
       labels:
         severity: critical
+      record: ''
     - alert: ServiceDown
       annotations:
         description: '{{ $labels.instance }} of job {{ $labels.job }} has been down
@@ -28,6 +29,7 @@ spec:
       for: 2m
       labels:
         severity: critical
+      record: ''
     - alert: ProcessNearFDLimits
       annotations:
         description: 'Exhausting OS file descriptors limit can cause severe degradation
@@ -44,6 +46,7 @@ spec:
       for: 5m
       labels:
         severity: critical
+      record: ''
     - alert: TooHighMemoryUsage
       annotations:
         description: 'Too high memory usage may result into multiple issues such as
@@ -61,6 +64,7 @@ spec:
       for: 5m
       labels:
         severity: critical
+      record: ''
     - alert: TooHighCPUUsage
       annotations:
         description: 'Too high CPU usage may be a sign of insufficient resources and
@@ -76,6 +80,7 @@ spec:
       for: 5m
       labels:
         severity: critical
+      record: ''
     - alert: TooHighGoroutineSchedulingLatency
       annotations:
         description: 'Go runtime is unable to schedule goroutines execution in acceptable
@@ -91,6 +96,7 @@ spec:
       for: 15m
       labels:
         severity: critical
+      record: ''
     - alert: TooManyLogs
       annotations:
         description: 'Logging rate for job \"{{ $labels.job }}\" ({{ $labels.instance
@@ -105,6 +111,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: RequestErrorsToAPI
       annotations:
         description: Requests to path {{ $labels.path }} are receiving errors. Please
@@ -115,6 +122,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: RowsRejectedOnIngestion
       annotations:
         description: 'VictoriaLogs is rejecting to ingest rows on "{{ $labels.instance
@@ -124,6 +132,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: ConcurrentInsertsHitTheLimit
       annotations:
         description: 'The limit of concurrent inserts on instance {{ $labels.instance
@@ -148,3 +157,4 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''

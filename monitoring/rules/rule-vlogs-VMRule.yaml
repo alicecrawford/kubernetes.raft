@@ -20,6 +20,7 @@ spec:
       for: 30m
       labels:
         severity: critical
+      record: ''
     - alert: ConcurrentQueriesHitTheLimit
       annotations:
         description: 'The limit of concurrent queries on instance {{ $labels.instance
@@ -42,6 +43,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: TooHighQueryLoad
       annotations:
         description: 'Instance {{ $labels.instance }} ({{ $labels.job }}) is failing
@@ -73,3 +75,4 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''

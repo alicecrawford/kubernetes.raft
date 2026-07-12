@@ -16,6 +16,7 @@ spec:
       for: 15m
       labels:
         severity: critical
+      record: ''
     - alert: KubeSchedulerInstanceUnreachable
       annotations:
         description: A KubeScheduler instance has been unreachable for more than 15
@@ -26,3 +27,4 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''

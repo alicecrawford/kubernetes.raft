@@ -22,6 +22,7 @@ spec:
       for: 1h
       labels:
         severity: warning
+      record: ''
     - alert: NodeFilesystemSpaceFillingUp
       annotations:
         description: Filesystem on {{ $labels.device }}, mounted on {{ $labels.mountpoint
@@ -37,6 +38,7 @@ spec:
       for: 1h
       labels:
         severity: critical
+      record: ''
     - alert: NodeFilesystemAlmostOutOfSpace
       annotations:
         description: Filesystem on {{ $labels.device }}, mounted on {{ $labels.mountpoint
@@ -51,6 +53,7 @@ spec:
       for: 30m
       labels:
         severity: warning
+      record: ''
     - alert: NodeFilesystemAlmostOutOfSpace
       annotations:
         description: Filesystem on {{ $labels.device }}, mounted on {{ $labels.mountpoint
@@ -65,6 +68,7 @@ spec:
       for: 30m
       labels:
         severity: critical
+      record: ''
     - alert: NodeFilesystemFilesFillingUp
       annotations:
         description: Filesystem on {{ $labels.device }}, mounted on {{ $labels.mountpoint
@@ -80,6 +84,7 @@ spec:
       for: 1h
       labels:
         severity: warning
+      record: ''
     - alert: NodeFilesystemFilesFillingUp
       annotations:
         description: Filesystem on {{ $labels.device }}, mounted on {{ $labels.mountpoint
@@ -95,6 +100,7 @@ spec:
       for: 1h
       labels:
         severity: critical
+      record: ''
     - alert: NodeFilesystemAlmostOutOfFiles
       annotations:
         description: Filesystem on {{ $labels.device }}, mounted on {{ $labels.mountpoint
@@ -109,6 +115,7 @@ spec:
       for: 1h
       labels:
         severity: warning
+      record: ''
     - alert: NodeFilesystemAlmostOutOfFiles
       annotations:
         description: Filesystem on {{ $labels.device }}, mounted on {{ $labels.mountpoint
@@ -123,6 +130,7 @@ spec:
       for: 1h
       labels:
         severity: critical
+      record: ''
     - alert: NodeNetworkReceiveErrs
       annotations:
         description: '{{ $labels.instance }} interface {{ $labels.device }} has encountered
@@ -134,6 +142,7 @@ spec:
       for: 1h
       labels:
         severity: warning
+      record: ''
     - alert: NodeNetworkTransmitErrs
       annotations:
         description: '{{ $labels.instance }} interface {{ $labels.device }} has encountered
@@ -145,6 +154,7 @@ spec:
       for: 1h
       labels:
         severity: warning
+      record: ''
     - alert: NodeHighNumberConntrackEntriesUsed
       annotations:
         description: '{{ $labels.instance }} {{ $value | humanizePercentage }} of
@@ -155,6 +165,7 @@ spec:
         > 0.75
       labels:
         severity: warning
+      record: ''
     - alert: NodeTextFileCollectorScrapeError
       annotations:
         description: Node Exporter text file collector on {{ $labels.instance }} failed
@@ -164,6 +175,7 @@ spec:
       expr: node_textfile_scrape_error{job="node-exporter"} == 1
       labels:
         severity: warning
+      record: ''
     - alert: NodeClockSkewDetected
       annotations:
         description: Clock at {{ $labels.instance }} is out of sync by more than 0.05s.
@@ -176,6 +188,7 @@ spec:
       for: 10m
       labels:
         severity: warning
+      record: ''
     - alert: NodeClockNotSynchronising
       annotations:
         description: Clock at {{ $labels.instance }} is not synchronising. Ensure
@@ -187,6 +200,7 @@ spec:
       for: 10m
       labels:
         severity: warning
+      record: ''
     - alert: NodeRAIDDegraded
       annotations:
         description: RAID array '{{ $labels.device }}' at {{ $labels.instance }} is
@@ -200,6 +214,7 @@ spec:
       for: 15m
       labels:
         severity: critical
+      record: ''
     - alert: NodeRAIDDiskFailure
       annotations:
         description: At least one device in RAID array at {{ $labels.instance }} failed.
@@ -210,6 +225,7 @@ spec:
         > 0
       labels:
         severity: warning
+      record: ''
     - alert: NodeFileDescriptorLimit
       annotations:
         description: File descriptors limit at {{ $labels.instance }} is currently
@@ -221,6 +237,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: NodeFileDescriptorLimit
       annotations:
         description: File descriptors limit at {{ $labels.instance }} is currently
@@ -232,6 +249,7 @@ spec:
       for: 15m
       labels:
         severity: critical
+      record: ''
     - alert: NodeCPUHighUsage
       annotations:
         description: 'CPU usage at {{ $labels.instance }} has been above 90% for the
@@ -245,6 +263,7 @@ spec:
       for: 15m
       labels:
         severity: info
+      record: ''
     - alert: NodeSystemSaturation
       annotations:
         description: 'System load per core at {{ $labels.instance }} has been above
@@ -261,6 +280,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: NodeMemoryMajorPagesFaults
       annotations:
         description: 'Memory major pages are occurring at very high rate at {{ $labels.instance
@@ -276,6 +296,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: NodeMemoryHighUtilization
       annotations:
         description: 'Memory is filling up at {{ $labels.instance }}, has been above
@@ -289,6 +310,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: NodeDiskIOSaturation
       annotations:
         description: 'Disk IO queue (aqu-sq) is high on {{ $labels.device }} at {{
@@ -305,6 +327,7 @@ spec:
       for: 30m
       labels:
         severity: warning
+      record: ''
     - alert: NodeSystemdServiceFailed
       annotations:
         description: Systemd service {{ $labels.name }} has entered failed state at
@@ -315,6 +338,7 @@ spec:
       for: 5m
       labels:
         severity: warning
+      record: ''
     - alert: NodeSystemdServiceCrashlooping
       annotations:
         description: Systemd service {{ $labels.name }} has being restarted too many
@@ -327,6 +351,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: NodeBondingDegraded
       annotations:
         description: Bonding interface {{ $labels.master }} on {{ $labels.instance
@@ -338,3 +363,4 @@ spec:
       for: 5m
       labels:
         severity: warning
+      record: ''

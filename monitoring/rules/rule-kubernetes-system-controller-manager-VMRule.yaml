@@ -17,6 +17,7 @@ spec:
       for: 15m
       labels:
         severity: critical
+      record: ''
     - alert: KubeControllerManagerInstanceUnreachable
       annotations:
         description: A KubeControllerManager instance has been unreachable for more
@@ -27,3 +28,4 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''

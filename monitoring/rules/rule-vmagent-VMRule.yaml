@@ -20,6 +20,7 @@ spec:
       for: 10m
       labels:
         severity: critical
+      record: ''
     - alert: RejectedRemoteWriteDataBlocksAreDropped
       annotations:
         dashboard: '{{ $externalURL }}/d/G7Z9GzMGz?viewPanel=79&var-instance={{ $labels.instance
@@ -33,6 +34,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: TooManyScrapeErrors
       annotations:
         dashboard: '{{ $externalURL }}/d/G7Z9GzMGz?viewPanel=31&var-instance={{ $labels.instance
@@ -44,6 +46,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: ScrapePoolHasNoTargets
       annotations:
         description: Vmagent "{{ $labels.job }}" has scrape_pool "{{ $labels.scrape_job
@@ -56,6 +59,7 @@ spec:
       for: 30m
       labels:
         severity: warning
+      record: ''
     - alert: TooManyWriteErrors
       annotations:
         dashboard: '{{ $externalURL }}/d/G7Z9GzMGz?viewPanel=77&var-instance={{ $labels.instance
@@ -69,6 +73,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: TooManyRemoteWriteErrors
       annotations:
         dashboard: '{{ $externalURL }}/d/G7Z9GzMGz?viewPanel=61&var-instance={{ $labels.instance
@@ -81,6 +86,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: RemoteWriteConnectionIsSaturated
       annotations:
         dashboard: '{{ $externalURL }}/d/G7Z9GzMGz?viewPanel=84&var-instance={{ $labels.instance
@@ -100,6 +106,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: PersistentQueueForWritesIsSaturated
       annotations:
         dashboard: '{{ $externalURL }}/d/G7Z9GzMGz?viewPanel=98&var-instance={{ $labels.instance
@@ -113,6 +120,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: PersistentQueueForReadsIsSaturated
       annotations:
         dashboard: '{{ $externalURL }}/d/G7Z9GzMGz?viewPanel=99&var-instance={{ $labels.instance
@@ -126,6 +134,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: SeriesLimitHourReached
       annotations:
         dashboard: '{{ $externalURL }}/d/G7Z9GzMGz?viewPanel=88&var-instance={{ $labels.instance
@@ -138,6 +147,7 @@ spec:
         > 0.9
       labels:
         severity: critical
+      record: ''
     - alert: SeriesLimitDayReached
       annotations:
         dashboard: '{{ $externalURL }}/d/G7Z9GzMGz?viewPanel=90&var-instance={{ $labels.instance
@@ -150,6 +160,7 @@ spec:
         > 0.9
       labels:
         severity: critical
+      record: ''
     - alert: ConfigurationReloadFailure
       annotations:
         description: Configuration hot-reload failed for vmagent on instance {{ $labels.instance
@@ -160,6 +171,7 @@ spec:
         != 1)
       labels:
         severity: warning
+      record: ''
     - alert: StreamAggrFlushTimeout
       annotations:
         description: 'Stream aggregation process can''t keep up with the load and
@@ -171,6 +183,7 @@ spec:
       expr: increase(vm_streamaggr_flush_timeouts_total[5m]) > 0
       labels:
         severity: warning
+      record: ''
     - alert: StreamAggrDedupFlushTimeout
       annotations:
         description: 'Deduplication process can''t keep up with the load and might
@@ -182,6 +195,7 @@ spec:
       expr: increase(vm_streamaggr_dedup_flush_timeouts_total[5m]) > 0
       labels:
         severity: warning
+      record: ''
     - alert: PersistentQueueRunsOutOfSpaceIn12Hours
       annotations:
         description: RemoteWrite destination ({{ $labels.url }}) is unavailable or
@@ -198,6 +212,7 @@ spec:
       for: 10m
       labels:
         severity: warning
+      record: ''
     - alert: PersistentQueueRunsOutOfSpaceIn4Hours
       annotations:
         description: RemoteWrite destination ({{ $labels.url }}) is unavailable or
@@ -214,3 +229,4 @@ spec:
       for: 10m
       labels:
         severity: critical
+      record: ''

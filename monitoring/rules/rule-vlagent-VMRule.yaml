@@ -18,6 +18,7 @@ spec:
       for: 10m
       labels:
         severity: critical
+      record: ''
     - alert: RejectedRemoteWriteDataBlocksAreDropped
       annotations:
         description: Job "{{ $labels.job }}" on instance {{ $labels.instance }} drops
@@ -29,6 +30,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: TooManyRemoteWriteErrors
       annotations:
         description: "vlagent fails to push data via remote write protocol to destination\
@@ -39,6 +41,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: RemoteWriteConnectionIsSaturated
       annotations:
         description: "The remote write connection between vlagent \"{{ $labels.job\
@@ -56,6 +59,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: PersistentQueueForWritesIsSaturated
       annotations:
         description: Persistent queue writes for vlagent "{{ $labels.job }}" (instance
@@ -67,6 +71,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: PersistentQueueForReadsIsSaturated
       annotations:
         description: Persistent queue reads for vlagent "{{ $labels.job }}" (instance
@@ -78,6 +83,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: PersistentQueueRunsOutOfSpaceIn12Hours
       annotations:
         description: RemoteWrite destination ({{ $labels.url }}) is unavailable or
@@ -94,6 +100,7 @@ spec:
       for: 10m
       labels:
         severity: warning
+      record: ''
     - alert: PersistentQueueRunsOutOfSpaceIn4Hours
       annotations:
         description: RemoteWrite destination ({{ $labels.url }}) is unavailable or
@@ -110,3 +117,4 @@ spec:
       for: 10m
       labels:
         severity: critical
+      record: ''

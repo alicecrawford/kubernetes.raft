@@ -19,6 +19,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: KubePodNotReady
       annotations:
         description: Pod {{ $labels.namespace }}/{{ $labels.pod }} has been in a non-ready
@@ -34,6 +35,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: KubeDeploymentGenerationMismatch
       annotations:
         description: Deployment generation for {{ $labels.namespace }}/{{ $labels.deployment
@@ -46,6 +48,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: KubeDeploymentReplicasMismatch
       annotations:
         description: Deployment {{ $labels.namespace }}/{{ $labels.deployment }} has
@@ -60,6 +63,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: KubeDeploymentRolloutStuck
       annotations:
         description: Rollout of deployment {{ $labels.namespace }}/{{ $labels.deployment
@@ -72,6 +76,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: KubeStatefulSetReplicasMismatch
       annotations:
         description: StatefulSet {{ $labels.namespace }}/{{ $labels.statefulset }}
@@ -86,6 +91,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: KubeStatefulSetGenerationMismatch
       annotations:
         description: StatefulSet generation for {{ $labels.namespace }}/{{ $labels.statefulset
@@ -98,6 +104,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: KubeStatefulSetUpdateNotRolledOut
       annotations:
         description: StatefulSet {{ $labels.namespace }}/{{ $labels.statefulset }}
@@ -113,6 +120,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: KubeDaemonSetRolloutStuck
       annotations:
         description: DaemonSet {{ $labels.namespace }}/{{ $labels.daemonset }} has
@@ -132,6 +140,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: KubeContainerWaiting
       annotations:
         description: 'pod/{{ $labels.pod }} in namespace {{ $labels.namespace }} on
@@ -145,6 +154,7 @@ spec:
       for: 1h
       labels:
         severity: warning
+      record: ''
     - alert: KubeDaemonSetNotScheduled
       annotations:
         description: '{{ $value }} Pods of DaemonSet {{ $labels.namespace }}/{{ $labels.daemonset
@@ -157,6 +167,7 @@ spec:
       for: 10m
       labels:
         severity: warning
+      record: ''
     - alert: KubeDaemonSetMisScheduled
       annotations:
         description: '{{ $value }} Pods of DaemonSet {{ $labels.namespace }}/{{ $labels.daemonset
@@ -169,6 +180,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: KubeJobNotCompleted
       annotations:
         description: Job {{ $labels.namespace }}/{{ $labels.job_name }} is taking
@@ -181,6 +193,7 @@ spec:
         by(namespace,job_name,polycule)) > 43200
       labels:
         severity: warning
+      record: ''
     - alert: KubeJobFailed
       annotations:
         description: Job {{ $labels.namespace }}/{{ $labels.job_name }} failed to
@@ -192,6 +205,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: KubeHpaReplicasMismatch
       annotations:
         description: HPA {{ $labels.namespace }}/{{ $labels.horizontalpodautoscaler  }}
@@ -210,6 +224,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: KubeHpaMaxedOut
       annotations:
         description: HPA {{ $labels.namespace }}/{{ $labels.horizontalpodautoscaler  }}
@@ -224,6 +239,7 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
     - alert: KubePdbNotEnoughHealthyPods
       annotations:
         description: PDB {{ $labels.polycule }}/{{ $labels.namespace }}/{{ $labels.poddisruptionbudget
@@ -237,3 +253,4 @@ spec:
       for: 15m
       labels:
         severity: warning
+      record: ''
