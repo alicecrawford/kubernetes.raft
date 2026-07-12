@@ -1,0 +1,12 @@
+---
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMStaticScrape
+metadata:
+  name: external-smartctl-exporter
+  namespace: monitoring
+spec:
+  jobName: smartctl-exporter
+  targetEndpoints:
+    - targets:
+        - narwhal.raft.lutris.house:9633
+      scheme: http

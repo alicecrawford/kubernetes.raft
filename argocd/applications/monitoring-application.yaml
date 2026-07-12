@@ -20,6 +20,11 @@ spec:
     - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
       path: monitoring/rules
       targetRevision: HEAD
+    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+      path: monitoring/scrapeconfigs
+      targetRevision: HEAD
+      directory:
+        recurse: true
     - repoURL: https://victoriametrics.github.io/helm-charts/
       chart: victoria-metrics-k8s-stack
       targetRevision: 0.86.0

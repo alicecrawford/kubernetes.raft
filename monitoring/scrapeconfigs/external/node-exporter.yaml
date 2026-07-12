@@ -1,0 +1,12 @@
+---
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMStaticScrape
+metadata:
+  name: external-node-exporter
+  namespace: monitoring
+spec:
+  jobName: node-exporter
+  targetEndpoints:
+    - targets:
+        - narwhal.raft.lutris.house:9100
+      scheme: http
