@@ -216,7 +216,7 @@ tolerations:
     effect: "NoExecute"
     tolerationSeconds: 5
 dualStack:
-  enabled: true
+  enabled: false
 admin:
   existingSecret: pihole-admin
 serviceDns:
