@@ -16,6 +16,8 @@ defaultRules:
 vlsingle:
   enabled: true
   spec:
+    extraArgs:
+      journald.useRemoteIP: "true"
     storage:
       storageClassName: nfs-ssd-csi
       resources:
