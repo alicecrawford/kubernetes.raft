@@ -7,4 +7,3 @@ metadata:
 spec:
   addresses:
     - 172.16.60.1-172.16.60.200
-    - 2001:5a8:4bd5:ef00::f00d:cbe:0/112
