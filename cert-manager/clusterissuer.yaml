@@ -12,10 +12,7 @@ spec:
       name: letsencrypt-dns01-api-key
     solvers:
       - dns01:
-          rfc2136:
-            nameserver: 172.16.62.40:53
-            tsigKeyName: zone_update.key
-            tsigAlgorithm: HMACSHA256
-            tsigSecretSecretRef:
-              name: tsig-secret
-              key: tsig-secret-key
+          cloudflare:
+            apiTokenSecretRef:
+              name: cloudflare-api-token
+              key: api-token
