@@ -1,5 +1,5 @@
 ---
-clusterDomain: cluster.local
+clusterDomain: polycule.raft.lutris.house
 metrics:
   enabled: true
   serviceMonitor:
