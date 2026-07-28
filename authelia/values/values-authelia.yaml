@@ -1,4 +1,5 @@
 ---
+kubeDNSDomainOverride: polycule.raft.lutris.house
 pod:
   replicas: 2
   annotations:

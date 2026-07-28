@@ -1,4 +1,5 @@
 ---
+clusterDomain: cluster.local
 metrics:
   enabled: true
   serviceMonitor:

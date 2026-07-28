@@ -1,5 +1,7 @@
 ---
 replicas: 2
+tls:
+  clusterDomain: polycule.raft.lutris.house
 args:
   - --kubelet-insecure-tls
 apiService:
