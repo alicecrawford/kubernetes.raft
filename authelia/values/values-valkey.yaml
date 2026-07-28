@@ -5,6 +5,7 @@ replica:
   persistence:
     size: 5Gi
     storageClass: longhorn
+clusterDomain: polycule.raft.lutris.house
 auth:
   enabled: true
   usersExistingSecret: authelia-sessions-password
