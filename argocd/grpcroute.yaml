@@ -19,6 +19,7 @@ spec:
           kind: Service
           name: argocd-server
           port: 443
+          weight: 1
       matches:
         - headers:
             - name: Content-Type
