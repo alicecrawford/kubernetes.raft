@@ -6,7 +6,8 @@ metadata:
   namespace: argocd
 spec:
   parentRefs:
-    - name: argocd-gateway
+    - group: gateway.networking.k8s.io
+      name: argocd-gateway
       kind: Gateway
       sectionName: https
   hostnames:
@@ -14,7 +15,9 @@ spec:
     - argocd-cli.raft.lutris.house
   rules:
     - backendRefs:
-        - name: argocd-server
+        - group: ''
+          kind: Service
+          name: argocd-server
           port: 443
       matches:
         - headers:
