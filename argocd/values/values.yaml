@@ -12,10 +12,10 @@ configs:
     policy.csv: |
       g, cluster_admin, role:admin
       p, role:cluster-ci-role, applications, *, */*, allow
-      p, role:cluster-ci-role, projects, *, */*, allow
+      p, role:cluster-ci-role, projects, *, *, allow
       p, role:cluster-ci-role, applicationsets, *, */*, allow
-      p, role:cluster-ci-role, clusters, *, */*, allow
-      p, role:cluster-ci-role, repositories, *, */*, allow
+      p, role:cluster-ci-role, clusters, *, *, allow
+      p, role:cluster-ci-role, repositories, *, *, allow
       g, cluster-ci, role:cluster-ci-role
 
   cm:
