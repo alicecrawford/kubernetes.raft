@@ -6,6 +6,8 @@ global:
 
 victoria-metrics-operator:
   enabled: true
+  extraArgs:
+    labels.global: "managed-by-vm-operator=true"
 
 defaultDashboards:
   enabled: true
