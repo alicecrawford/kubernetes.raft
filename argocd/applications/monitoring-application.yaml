@@ -12,6 +12,11 @@ spec:
   syncPolicy:
     syncOptions:
       - ServerSideApply=true
+  ignoreDifferences:
+    - kind: Deployment
+      group: apps
+      jsonPointers:
+        - /spec/template/metadata/annotations/checksum~1secret
   sources:
     - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
       path: monitoring
