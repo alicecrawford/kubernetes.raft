@@ -38,7 +38,11 @@ configs:
     exec.enabled: true
     statusbadge.enabled: true
     resource.customizations.ignoreDifferences.admissionregistration.k8s.io_ValidatingWebhookConfiguration: |
-      jqPathExpression: .webhooks[].clientConfig.caBundle
+      jqPathExpressions:
+        - '.webhooks[]?.clientConfig.caBundle'
+    resource.customizations.ignoreDifferences.admissionregistration.k8s.io_MutatingWebhookConfiguration: |
+      jqPathExpressions:
+        - '.webhooks[]?.clientConfig.caBundle'
     ssh:
       extraHosts: |
         git.raft.lutris.house ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQD18PsuwW04PfpHmwvQoDJf77o86K4UbjLdU2sg96W9i+dWnBTzpmcPx1fV1+Exbze2ANKM0FO1Agn/NKcGytpfmbiOPQ8ioTAg5AQNq3MjE6hOsOPSJhSaGVgRIieRdH+vIVTf5oe7aVRuTDOFdt3BCfod9+uXA8pjokXIXuN7KASagHu4p4G0df3n+B8JKFIHanqp4fx2JiGCl+vJCORSGQUOe5tVvViVOPKLT7A8NhnU+lGBLis4xPbYLasQ4aZboAlxOaRo/AXqb+IUH08TfLQOss31mNG956o2VRJJ54SnQlUZl/VGGjwGtSaC9gBtbPWY+bEEbW6/1IhS6e3HTVWHNh3JfQQ/kcBra+ps78/h+BxSW9wp2i/SrCwRaX9lNkSrvI+Vr57VoTwGq/Cpz5Kuj4OvZBuQr9uOI0J0abcnO8n1CDXV5/Fb/6NOwzSrJgi4yZaQiOkdwD7ehhhTXWyxaWi3WcFKDZXVDXp/9h9/VrAG48ZhOxAQT7SSDvykEEr4Nmyi3LLlfgId0GUc19tufORrf9uJFrLg8P58URAq6KOxO2Cw64OtPtq+iy1Jg1Xq4Y5wfyI/XMo4D457KQhcHjMumwMlyOMGfuEQ5gzJTOS0akIHuyDp9/+tQnIUGr0GqWNHmb0np+N8Hd0294c5L9x/bR1oHwTXqvlVFw==
