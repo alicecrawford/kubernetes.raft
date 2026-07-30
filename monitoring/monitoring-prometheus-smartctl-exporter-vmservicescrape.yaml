@@ -16,6 +16,11 @@ spec:
       port: http
       scheme: http
       scrapeTimeout: 30s
+      relabelConfigs:
+        - action: replace
+          sourceLabels:
+            - __meta_kubernetes_pod_node_name
+          targetLabel: instance
   namespaceSelector:
     matchNames:
       - monitoring
