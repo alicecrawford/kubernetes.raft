@@ -1,0 +1,25 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMServiceScrape
+metadata:
+  labels:
+    app.kubernetes.io/instance: monitoring
+    app.kubernetes.io/name: prometheus-smartctl-exporter
+  name: monitoring-prometheus-smartctl-exporter
+  namespace: monitoring
+spec:
+  attach_metadata:
+    node: false
+  endpoints:
+    - attach_metadata: {}
+      interval: 60s
+      path: /metrics
+      port: http
+      scheme: http
+      scrapeTimeout: 30s
+  namespaceSelector:
+    matchNames:
+      - monitoring
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: monitoring
+      app.kubernetes.io/name: prometheus-smartctl-exporter
