@@ -3,4 +3,4 @@ clusterDomain: polycule.raft.lutris.house
 metrics:
   enabled: true
   serviceMonitor:
-    enabled: true
+    enabled: false

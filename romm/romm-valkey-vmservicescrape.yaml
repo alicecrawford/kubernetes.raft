@@ -1,0 +1,24 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMServiceScrape
+metadata:
+  labels:
+    app.kubernetes.io/component: service-monitor
+    app.kubernetes.io/instance: romm
+    app.kubernetes.io/name: valkey
+    app.kubernetes.io/part-of: valkey
+  name: romm-valkey
+  namespace: romm
+spec:
+  attach_metadata: {}
+  endpoints:
+    - attach_metadata: {}
+      interval: 30s
+      port: metrics
+  namespaceSelector:
+    matchNames:
+      - romm
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: metrics
+      app.kubernetes.io/instance: romm
+      app.kubernetes.io/name: valkey
