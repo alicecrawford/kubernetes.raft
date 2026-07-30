@@ -289,4 +289,4 @@ kubeScheduler:
 
 # Component scraping kube proxy
 kubeProxy:
-  enabled: false
+  enabled: true
