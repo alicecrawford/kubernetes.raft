@@ -290,3 +290,8 @@ kubeScheduler:
 # Component scraping kube proxy
 kubeProxy:
   enabled: true
+  vmScrape:
+    spec:
+      endpoints:
+        - port: http-metrics
+          scheme: http
