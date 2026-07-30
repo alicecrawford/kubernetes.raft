@@ -1,0 +1,14 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMPodScrape
+metadata:
+  name: cluster-monitor-immich
+  namespace: immich
+spec:
+  attach_metadata: {}
+  namespaceSelector: {}
+  podMetricsEndpoints:
+    - attach_metadata: {}
+      port: metrics
+  selector:
+    matchLabels:
+      cnpg.io/cluster: immichdb
