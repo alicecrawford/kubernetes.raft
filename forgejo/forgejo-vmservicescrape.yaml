@@ -1,0 +1,16 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMServiceScrape
+metadata:
+  labels:
+    name: forgejo
+  name: forgejo
+  namespace: forgejo
+spec:
+  attach_metadata: {}
+  endpoints:
+    - attach_metadata: {}
+      port: http
+  namespaceSelector: {}
+  selector:
+    matchLabels:
+      app: forgejo
