@@ -32,7 +32,7 @@ machine-learning:
 
 immich:
   metrics:
-    enabled: false
+    enabled: true
   persistence:
     library:
       existingClaim: immich-nfs-library-pvc
