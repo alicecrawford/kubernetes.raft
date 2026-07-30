@@ -21,14 +21,14 @@ dashboards:
 prometheus:
   enabled: true
   serviceMonitor:
-    enabled: false
+    enabled: true
 envoy:
   prometheus:
     enabled: true
     serviceMonitor:
-      enabled: false
+      enabled: true
 operator:
   prometheus:
     enabled: true
     serviceMonitor:
-      enabled: false
+      enabled: true
