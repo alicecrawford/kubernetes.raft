@@ -71,7 +71,7 @@ configMap:
     metrics:
       enabled: true
       serviceMonitor:
-        enabled: true
+        enabled: false
 
   default_2fa_method: totp
 
