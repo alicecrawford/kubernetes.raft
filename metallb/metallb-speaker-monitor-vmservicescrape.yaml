@@ -1,0 +1,25 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMServiceScrape
+metadata:
+  labels:
+    app.kubernetes.io/component: speaker
+    app.kubernetes.io/instance: metallb
+    app.kubernetes.io/name: metallb
+  name: metallb-speaker-monitor
+  namespace: metallb-system
+spec:
+  attach_metadata: {}
+  endpoints:
+    - attach_metadata: {}
+      honorLabels: true
+      port: metrics
+    - attach_metadata: {}
+      honorLabels: true
+      port: frrmetrics
+  jobLabel: app.kubernetes.io/name
+  namespaceSelector:
+    matchNames:
+      - metallb-system
+  selector:
+    matchLabels:
+      name: metallb-speaker-monitor-service
