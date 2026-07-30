@@ -1,0 +1,22 @@
+---
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMPodScrape
+metadata:
+  name: istio-gateways
+  namespace: istio-system
+  labels:
+    app.kubernetes.io/name: istio-gateways
+    app.kubernetes.io/instance: istio
+    app.kubernetes.io/part-of: istio
+spec:
+  namespaceSelector:
+    any: true
+
+  selector:
+    matchExpressions:
+      - key: gateway.istio.io/managed
+        operator: Exists
+
+  podMetricsEndpoints:
+    - port: metrics
+      path: /stats/prometheus
