@@ -11,7 +11,7 @@ sources:
   - node
 
 serviceMonitor:
-  enabled: true
+  enabled: false
 
 registry: txt
 

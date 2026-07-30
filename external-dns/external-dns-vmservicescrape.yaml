@@ -1,0 +1,22 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMServiceScrape
+metadata:
+  labels:
+    app.kubernetes.io/instance: external-dns
+    app.kubernetes.io/name: external-dns
+  name: external-dns
+  namespace: external-dns
+spec:
+  attach_metadata: {}
+  endpoints:
+    - attach_metadata: {}
+      path: /metrics
+      port: http
+  jobLabel: app.kubernetes.io/instance
+  namespaceSelector:
+    matchNames:
+      - external-dns
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: external-dns
+      app.kubernetes.io/name: external-dns
