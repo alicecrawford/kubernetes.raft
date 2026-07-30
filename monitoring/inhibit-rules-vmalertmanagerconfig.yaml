@@ -1,0 +1,17 @@
+---
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMAlertmanagerConfig
+metadata:
+  name: inhibit-rules-config
+  namespace: monitoring
+spec:
+  inhibit_rules:
+    - equal:
+        - instance
+        - job
+      source_matchers:
+        - alertname="NodeRAIDOperationInProgress"
+      target_matchers:
+        - alertname="NodeDiskIOSaturation"
+        - device=~"sd."
+  receivers: []
