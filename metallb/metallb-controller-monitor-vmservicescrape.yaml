@@ -1,0 +1,21 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMServiceScrape
+metadata:
+  labels:
+    app.kubernetes.io/instance: metallb
+    app.kubernetes.io/name: metallb
+  name: metallb-controller-monitor
+  namespace: metallb-system
+spec:
+  attach_metadata: {}
+  endpoints:
+    - attach_metadata: {}
+      honorLabels: true
+      port: metrics
+  jobLabel: app.kubernetes.io/name
+  namespaceSelector:
+    matchNames:
+      - metallb-system
+  selector:
+    matchLabels:
+      name: metallb-controller-monitor-service
