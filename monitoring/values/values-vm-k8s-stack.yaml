@@ -7,6 +7,7 @@ global:
 victoria-metrics-operator:
   enabled: true
   operator:
+    disable_prometheus_converter: true
     prometheus_converter_add_argocd_ignore_annotations: true
 
 defaultDashboards:
