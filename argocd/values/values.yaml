@@ -45,7 +45,7 @@ controller:
   metrics:
     enabled: true
     serviceMonitor:
-      enabled: true
+      enabled: false
 
 dex:
   metrics:
@@ -59,28 +59,28 @@ redis:
   metrics:
     enabled: true
     serviceMonitor:
-      enabled: true
+      enabled: false
 
 server:
   metrics:
     enabled: true
     serviceMonitor:
-      enabled: true
+      enabled: false
 
 applicationSet:
   metrics:
     enabled: true
     serviceMonitor:
-      enabled: true
+      enabled: false
 
 notifications:
   metrics:
     enabled: true
     serviceMonitor:
-      enabled: true
+      enabled: false
 
 repoServer:
   metrics:
     enabled: true
     serviceMonitor:
-      enabled: true
+      enabled: false
