@@ -33,4 +33,4 @@ env:
     valueFrom:
       secretKeyRef:
         name: cloudflare-api-token
-        key: apiKey
+        key: api-token
