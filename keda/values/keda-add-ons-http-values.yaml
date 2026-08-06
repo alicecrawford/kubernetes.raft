@@ -1,0 +1,118 @@
+crds:
+  install: true
+
+logging:
+  operator:
+    # -- Logging level for KEDA http-add-on operator.
+    # allowed values: `debug`, `info`, `error`, or an integer value greater than 0, specified as string
+    level: info
+    # -- Logging format for KEDA http-add-on operator.
+    # allowed values: `json` or `console`
+    format: console
+    # -- Logging time encoding for KEDA http-add-on operator.
+    # allowed values are `epoch`, `millis`, `nano`, `iso8601`, `rfc3339` or `rfc3339nano`
+    timeEncoding: rfc3339
+    # -- Display stack traces in the logs
+    stackTracesEnabled: false
+  scaler:
+    # -- Logging level for KEDA http-add-on Scaler.
+    # allowed values: `debug`, `info`, `error`, or an integer value greater than 0, specified as string
+    level: info
+    # -- Logging format for KEDA http-add-on Scaler.
+    # allowed values: `json` or `console`
+    format: console
+    # -- Logging time encoding for KEDA http-add-on Scaler.
+    # allowed values are `epoch`, `millis`, `nano`, `iso8601`, `rfc3339` or `rfc3339nano`
+    timeEncoding: rfc3339
+    # -- Display stack traces in the logs
+    stackTracesEnabled: false
+
+  interceptor:
+    # -- Logging level for KEDA http-add-on Interceptor.
+    # allowed values: `debug`, `info`, `error`, or an integer value greater than 0, specified as string
+    level: info
+    # -- Logging format for KEDA http-add-on Interceptor.
+    # allowed values: `json` or `console`
+    format: console
+    # -- Logging time encoding for KEDA http-add-on Interceptor.
+    # allowed values are `epoch`, `millis`, `nano`, `iso8601`, `rfc3339` or `rfc3339nano`
+    timeEncoding: rfc3339
+    # -- Display stack traces in the logs
+    stackTracesEnabled: false
+
+# operator-specific configuration values
+operator:
+  replicas: 1
+  resources:
+    limits:
+      cpu: 0.5
+      memory: 64Mi
+    requests:
+      cpu: 250m
+      memory: 20Mi
+  # Operator metrics endpoint configuration
+  # NOTE: Consider defaulting to secure: false, auth: false for v1 release
+  metrics:
+    # -- Enable HTTPS for the metrics endpoint
+    secure: false
+    # -- Enable authentication and authorization for the metrics endpoint
+    auth: false
+    # -- Directory containing TLS certificates (tls.crt/tls.key). If empty, self-signed certs are generated.
+    certDir: ""
+
+scaler:
+  replicas: 3
+  resources:
+    limits:
+      cpu: 0.5
+      memory: 64Mi
+    requests:
+      cpu: 250m
+      memory: 20Mi
+  metrics:
+    prometheus:
+      enabled: true
+      port: 2223
+
+interceptor:
+  replicas:
+    # -- The minimum number of interceptor replicas that should ever be running
+    min: 3
+    # -- The maximum number of interceptor replicas that should ever be running
+    max: 3
+  scaledObject:
+    # -- The interval (in milliseconds) that KEDA should poll the external scaler to fetch scaling metrics about the interceptor
+    pollingInterval: 1
+
+  # -- Time between receiving SIGTERM and closing the proxy listener. During this window the readiness probe returns 503 while the server continues serving both in-flight and new requests, giving Kubernetes time to propagate endpoint removal.
+  shutdownDelay: 5s
+  # -- Maximum time to wait for in-flight requests (including WebSocket connections) to complete after the proxy listener closes. `0` waits indefinitely (bounded only by terminationGracePeriodSeconds).
+  drainTimeout: 30s
+  # -- Time Kubernetes waits before sending SIGKILL after SIGTERM. Must be at least shutdownDelay + drainTimeout.
+  terminationGracePeriodSeconds: 45
+
+  # -- Total request lifecycle deadline. When unset, uses the code default (disabled).
+  requestTimeout: ""
+  # -- Time to wait for response headers from the backend. When unset, uses the code default (300s).
+  responseHeaderTimeout: ""
+  # -- Time to wait for the backend to become ready, e.g. scale from zero. Replaces the deprecated `interceptor.replicas.waitTimeout` fallback. When unset, uses the code default (disabled).
+  readinessTimeout: ""
+  # -- Per-attempt TCP dial timeout. When unset, uses the code default (500ms).
+  tcpConnectTimeout: ""
+  # -- The maximum number of idle connections allowed in the interceptor's in-memory connection pool. Set to 0 to indicate no limit
+  maxIdleConns: 1000
+  # -- The maximum number of idle connections allowed per host in the interceptor's in-memory connection pool
+  maxIdleConnsPerHost: 200
+  resources:
+    # -- The CPU/memory resource limit for the interceptor component
+    limits:
+      cpu: 0.5
+      memory: 64Mi
+    # -- The CPU/memory resource request for the interceptor component
+    requests:
+      cpu: 250m
+      memory: 20Mi
+
+rbac:
+  # -- Install aggregate roles for edit and view
+  aggregateToDefaultRoles: false
