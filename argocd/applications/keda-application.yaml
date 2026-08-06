@@ -1,0 +1,31 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: keda
+  namespace: argocd
+spec:
+  project: system
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: keda
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
+  sources:
+    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+      path: keda
+      targetRevision: HEAD
+      ref: values
+    - repoURL: https://kedacore.github.io/charts
+      chart: keda
+      targetRevision: 2.20.2
+      helm:
+        valueFiles:
+          - $values/keda/values/keda-values.yaml
+    - repoURL: https://kedacore.github.io/charts
+      chart: keda-add-ons-http
+      targetRevision: 0.15.0
+      helm:
+        valueFiles:
+          - $values/keda/values/keda-values.yaml
