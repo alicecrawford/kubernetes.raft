@@ -1,0 +1,20 @@
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: cryptpad-scaler
+  namespace: cryptpad
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: cryptpad
+  minReplicaCount: 0
+  maxReplicaCount: 1
+  cooldownPeriod: 900
+  triggers:
+    - type: external-push
+      metadata:
+        scalerAddress: "keda-add-ons-http-external-scaler.keda.svc.polycule.raft.lutris\
+          .house:9090"
+        interceptorRoute: cryptpad-interceptor

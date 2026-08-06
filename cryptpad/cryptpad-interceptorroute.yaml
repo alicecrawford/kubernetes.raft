@@ -1,0 +1,16 @@
+---
+apiVersion: http.keda.sh/v1beta1
+kind: InterceptorRoute
+metadata:
+  name: cryptpad-interceptor
+  namespace: cryptpad
+spec:
+  target:
+    service: cryptpad
+    port: 3000
+  rules:
+    - hosts:
+        - cryptpad.raft.lutris.house
+  scalingMetric:
+    concurrency:
+      targetValue: 100
