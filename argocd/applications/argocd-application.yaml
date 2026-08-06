@@ -12,13 +12,13 @@ spec:
     syncOptions:
       - ServerSideApply=true
   sources:
+    - repoURL: https://argoproj.github.io/argo-helm
+      chart: argo-cd
+      targetRevision: 10.2.2
+      helm:
+        valueFiles:
+          - $values/argocd/values/values.yaml
     - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
       path: argocd
       targetRevision: HEAD
       ref: values
-    - repoURL: https://argoproj.github.io/argo-helm
-      chart: argo-cd
-      targetRevision: 10.2.1
-      helm:
-        valueFiles:
-          - $values/argocd/values/values.yaml
