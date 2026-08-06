@@ -11,8 +11,8 @@ spec:
   syncPolicy:
     syncOptions:
       - ServerSideApply=true
-  sources:
-    - path: cryptpad
-      repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
-      targetRevision: HEAD
-      ref: values
+  source:
+    path: cryptpad
+    repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+    targetRevision: HEAD
+    ref: values
