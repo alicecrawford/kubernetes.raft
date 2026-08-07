@@ -16,19 +16,23 @@ runner:
           - docker
           - ubuntu-latest
         envs:
-          DOCKER_HOST: "tcp://localhost:2375"
+          DOCKER_HOST: "tcp://localhost:2376"
         #  DOCKER_TLS_VERIFY: "0"
       container:
         privileged: true
-        docker_host: ""
         valid_volumes:
-          - "/var/run/docker.sock"
+          - "**"
 
 volumes:
   - name: docker-data
     emptyDir: {}
+  - name: docker-config
+    configMap:
+      name: runner-docker-daemon
 
-# 3. Mount that volume to /var/lib/docker inside the container
 volumeMounts:
   - name: docker-data
     mountPath: /var/lib/docker
+  - name: docker-config
+    mountPath: /etc/docker/daemon.json
+    subPath: daemon.json
