@@ -25,7 +25,10 @@ meshConfig:
           - authorization
           - proxy-authorization
         headersToUpstreamOnAllow:
-          - 'remote-*'
+          - remote-name
+          - remote-user
+          - remote-email
+          - remote-groups
           - 'authelia-*'
         includeAdditionalHeadersInCheck:
           X-Forwarded-Proto: '%REQ(:SCHEME)%'
