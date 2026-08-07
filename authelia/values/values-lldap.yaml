@@ -27,6 +27,8 @@ bootstrap:
     - media
     - cloud
     - development
+    - selkies
+    - household
 
   users:
     - id: authelia

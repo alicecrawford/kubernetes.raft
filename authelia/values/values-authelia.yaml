@@ -286,7 +286,13 @@ configMap:
   access_control:
     rules:
       - domain: longhorn.raft.lutris.house
+        policy: two_factor
+        subject:
+          - group:cluster_admin
+      - domain: apps.raft.lutris.house
         policy: one_factor
+        subject:
+          - group:selkies
       - domain: '*.raft.lutris.house'
         policy: one_factor
         subject:
