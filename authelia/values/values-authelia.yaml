@@ -60,6 +60,10 @@ secret:
       items:
         - key: opengist-id
         - key: opengist-digest
+    authelia-oidc-selkies-apps:
+      items:
+        - key: selkies-apps-id
+        - key: selkies-apps-digest
 
 configMap:
   theme: auto
@@ -268,6 +272,19 @@ configMap:
             - authorization_code
           token_endpoint_auth_method: client_secret_post
 
+        - client_name: selkies-apps
+          client_id: '{{ secret "/secrets/authelia-oidc-selkies-apps/selkies-apps-id" }}'
+          client_secret:
+            path: /secrets/authelia-oidc-selkies-apps/selkies-apps-digest
+          authorization_policy: cloud
+          redirect_uris:
+            - https://apps.raft.lutris.house/callback
+          scopes:
+            - openid
+            - profile
+            - email
+            - groups
+
   identity_validation:
     elevated_session:
       require_second_factor: false
@@ -289,10 +306,6 @@ configMap:
         policy: two_factor
         subject:
           - group:cluster_admin
-      - domain: apps.raft.lutris.house
-        policy: one_factor
-        resources:
-          - '^/(?P<User>[a-zA-Z0-9_-]+)(/.*)?$'
       - domain: '*.raft.lutris.house'
         policy: one_factor
         subject:
