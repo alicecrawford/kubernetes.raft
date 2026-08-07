@@ -291,8 +291,8 @@ configMap:
           - group:cluster_admin
       - domain: apps.raft.lutris.house
         policy: one_factor
-        subject:
-          - group:selkies
+        resources:
+          - '^/(?P<User>[a-zA-Z0-9_-]+)(/.*)?$'
       - domain: '*.raft.lutris.house'
         policy: one_factor
         subject:
