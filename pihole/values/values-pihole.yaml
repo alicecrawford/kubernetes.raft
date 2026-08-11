@@ -2,6 +2,8 @@
 replicaCount: 2
 image:
   tag: 2026.07.2
+blacklist:
+  - "*.carbonads.net"
 whitelist:
   - allydvm.com
   - willowglenpethospital.com
