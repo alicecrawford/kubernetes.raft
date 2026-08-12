@@ -5,6 +5,9 @@ image:
 blacklist:
   - "*.carbonads.net"
 whitelist:
+  - click.discord.com
+  - "*.discord.com"
+  - discord.com
   - allydvm.com
   - willowglenpethospital.com
   - "*.zg-api.com"
