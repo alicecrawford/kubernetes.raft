@@ -101,6 +101,16 @@ configMap:
             - email_verified
             - preferred_username
             - name
+        selkies_app_policy:
+          selkies_app_claim:
+            - puid
+            - guid
+            - homedir
+
+      scopes:
+        selkids_app_scope:
+          claims:
+            - selkies_app_claim
 
       authorization_policies:
         development:
@@ -277,6 +287,7 @@ configMap:
           client_secret:
             path: /secrets/authelia-oidc-selkies-apps/selkies-apps-digest
           authorization_policy: cloud
+          claims_policy: selkies_app_claim
           redirect_uris:
             - https://apps.raft.lutris.house/auth/callback
           scopes:
@@ -299,6 +310,14 @@ configMap:
       password:
         secret_name: lldap-credentials
         path: authelia-password
+      attributes:
+        extra:
+          - name: puid
+            value_type: integer
+          - name: pgid
+            value_type: integer
+          - name: homedir
+            value_type: string
 
   access_control:
     rules:
