@@ -104,11 +104,11 @@ configMap:
         selkies_app_claim:
           custom_claims:
             puid:
-              attribute: puid
+              attribute: Puid
             pgid:
-              attribute: pgid
+              attribute: Pgid
             homedir:
-              attribute: homedir
+              attribute: Homedir
 
       scopes:
         selkies_app_info:
@@ -318,11 +318,11 @@ configMap:
         path: authelia-password
       attributes:
         extra:
-          - name: puid
+          - name: Puid
             value_type: integer
-          - name: pgid
+          - name: Pgid
             value_type: integer
-          - name: homedir
+          - name: Homedir
             value_type: string
 
   access_control:
