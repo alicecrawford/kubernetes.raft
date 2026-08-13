@@ -318,11 +318,14 @@ configMap:
         path: authelia-password
       attributes:
         extra:
-          - name: Puid
+          puid:
+            name: Puid
             value_type: integer
-          - name: Pgid
+          pgid:
+            name: Pgid
             value_type: integer
-          - name: Homedir
+          homedir:
+            name: Homedir
             value_type: string
 
   access_control:
