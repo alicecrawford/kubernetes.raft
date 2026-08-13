@@ -101,8 +101,8 @@ configMap:
             - email_verified
             - preferred_username
             - name
-        selkies_app_policy:
-          selkies_app_claim:
+        selkies_app_claim:
+          selkies_fields:
             - puid
             - guid
             - homedir
