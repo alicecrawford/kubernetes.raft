@@ -102,15 +102,20 @@ configMap:
             - preferred_username
             - name
         selkies_app_claim:
-          selkies_fields:
-            - puid
-            - guid
-            - homedir
+          custom_claims:
+            puid:
+              attribute: puid
+            pgid:
+              attribute: pgid
+            homedir:
+              attribute: homedir
 
       scopes:
-        selkies_app_scope:
+        selkies_app_info:
           claims:
-            - selkies_fields
+            - puid
+            - pgid
+            - homedir
 
       authorization_policies:
         development:
@@ -295,6 +300,7 @@ configMap:
             - profile
             - email
             - groups
+            - selkies_app_info
 
   identity_validation:
     elevated_session:
