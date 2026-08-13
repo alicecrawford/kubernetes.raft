@@ -278,7 +278,7 @@ configMap:
             path: /secrets/authelia-oidc-selkies-apps/selkies-apps-digest
           authorization_policy: cloud
           redirect_uris:
-            - https://apps.raft.lutris.house/callback
+            - https://apps.raft.lutris.house/auth/callback
           scopes:
             - openid
             - profile
