@@ -108,9 +108,9 @@ configMap:
             - homedir
 
       scopes:
-        selkids_app_scope:
+        selkies_app_scope:
           claims:
-            - selkies_app_claim
+            - selkies_fields
 
       authorization_policies:
         development:
