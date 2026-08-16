@@ -18,7 +18,7 @@ spec:
       targetRevision: HEAD
       ref: values
     - repoURL: https://charts.longhorn.io/
-      targetRevision: 1.11.2
+      targetRevision: 1.12.1
       chart: longhorn
     - repoURL: https://git.raft.lutris.house/api/packages/the_raft/helm/
       chart: gw-helper
