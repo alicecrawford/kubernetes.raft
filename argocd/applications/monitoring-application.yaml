@@ -32,7 +32,7 @@ spec:
         recurse: true
     - repoURL: https://victoriametrics.github.io/helm-charts/
       chart: victoria-metrics-k8s-stack
-      targetRevision: 0.87.0
+      targetRevision: 0.89.0
       helm:
         valueFiles:
           - $values/monitoring/values/values-vm-k8s-stack.yaml
