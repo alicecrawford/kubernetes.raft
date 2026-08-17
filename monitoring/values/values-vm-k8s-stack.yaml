@@ -11,7 +11,7 @@ victoria-metrics-operator:
     prometheus_converter_add_argocd_ignore_annotations: true
 
 defaultDashboards:
-  enabled: true
+  enabled: false
 
 defaultRules:
   enabled: false
