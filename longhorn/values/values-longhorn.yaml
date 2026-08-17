@@ -1,3 +1,4 @@
 ---
 networkPolicies:
   enabled: false
+  restrictInternalTraffic: false
