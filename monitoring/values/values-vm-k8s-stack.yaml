@@ -181,6 +181,10 @@ defaultDatasources:
 grafana:
   enabled: true
 
+  sidecar:
+    dashboards:
+      folderAnnotation: grafana_folder
+
   deploymentStrategy:
     type: Recreate
 
