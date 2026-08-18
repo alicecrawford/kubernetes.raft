@@ -2411,7 +2411,7 @@ data:
           "hideTimepicker": false,
           "fiscalYearStartMonth": 0
         },
-        "title": "Compute Resources / Namespace (Pods)",
+        "title": "Compute / Namespace (Pods)",
         "variables": [
           {
             "kind": "DatasourceVariable",

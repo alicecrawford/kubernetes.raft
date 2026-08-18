@@ -1199,7 +1199,7 @@ data:
           "hideTimepicker": false,
           "fiscalYearStartMonth": 0
         },
-        "title": "Compute Resources / Node (Pods)",
+        "title": "Compute / Node (Pods)",
         "variables": [
           {
             "kind": "DatasourceVariable",

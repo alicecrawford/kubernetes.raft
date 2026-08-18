@@ -2595,7 +2595,7 @@ data:
           "hideTimepicker": false,
           "fiscalYearStartMonth": 0
         },
-        "title": "Compute Resources / Cluster",
+        "title": "Compute / Cluster",
         "variables": [
           {
             "kind": "DatasourceVariable",
