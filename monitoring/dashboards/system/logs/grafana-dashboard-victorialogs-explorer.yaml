@@ -472,6 +472,7 @@ data:
             "kind": "QueryVariable",
             "spec": {
               "name": "app",
+              "allValue": ".*",
               "current": {
                 "text": "",
                 "value": ""
@@ -499,7 +500,7 @@ data:
               "definition": "{kubernetes.pod_namespace=\"$namespace\"}",
               "options": [],
               "multi": false,
-              "includeAll": false,
+              "includeAll": true,
               "allowCustomValue": true
             }
           },
@@ -507,6 +508,7 @@ data:
             "kind": "QueryVariable",
             "spec": {
               "name": "container",
+              "allValue": ".*",
               "current": {
                 "text": "",
                 "value": ""
@@ -534,7 +536,7 @@ data:
               "definition": "{kubernetes.pod_namespace=\"$namespace\"} kubernetes.pod_labels.app.kubernetes.io/name:=\"$app\"",
               "options": [],
               "multi": false,
-              "includeAll": false,
+              "includeAll": true,
               "allowCustomValue": true
             }
           },
