@@ -67,7 +67,7 @@ data:
                           },
                           "spec": {
                             "editorMode": "code",
-                            "expr": "_stream: {kubernetes.container_name=~\"$container\", kubernetes.pod_namespace=\"$namespace\"} kubernetes.pod_labels.app.kubernetes.io/name:=\"$app\" $query | sort desc | | offset $offset | limit $limit",
+                            "expr": "_stream: {kubernetes.container_name=~\"$container\", kubernetes.pod_namespace=\"$namespace\"} kubernetes.pod_labels.app.kubernetes.io/name:=\"$app\" $query | sort desc | offset $offset | limit $limit",
                             "queryType": "range"
                           }
                         },
