@@ -1632,7 +1632,7 @@ data:
           "hideTimepicker": false,
           "fiscalYearStartMonth": 0
         },
-        "title": "Compute Resources / Workload",
+        "title": "Compute / Workload",
         "variables": [
           {
             "kind": "DatasourceVariable",

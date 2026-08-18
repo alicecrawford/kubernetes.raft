@@ -625,7 +625,7 @@ data:
           "hideTimepicker": false,
           "fiscalYearStartMonth": 0
         },
-        "title": "Compute Resources / Nodes Overview",
+        "title": "Compute / Nodes Overview",
         "variables": [
           {
             "kind": "DatasourceVariable",

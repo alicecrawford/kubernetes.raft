@@ -1906,7 +1906,7 @@ data:
           "hideTimepicker": false,
           "fiscalYearStartMonth": 0
         },
-        "title": "Compute Resources / Namespace (Workloads)",
+        "title": "Compute / Namespace (Workloads)",
         "variables": [
           {
             "kind": "DatasourceVariable",

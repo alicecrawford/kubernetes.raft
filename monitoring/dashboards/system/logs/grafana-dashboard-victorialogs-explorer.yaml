@@ -67,7 +67,7 @@ data:
                           },
                           "spec": {
                             "editorMode": "code",
-                            "expr": "_stream: {kubernetes.container_name=~\"$container\", kubernetes.pod_namespace=\"$namespace\"} kubernetes.pod_labels.app.kubernetes.io/name:=\"$app\" $query | sort desc | limit $limit",
+                            "expr": "_stream: {kubernetes.container_name=~\"$container\", kubernetes.pod_namespace=\"$namespace\"} kubernetes.pod_labels.app.kubernetes.io/name:=\"$app\" $query | sort desc | | offset $offset | limit $limit",
                             "queryType": "range"
                           }
                         },
@@ -614,6 +614,19 @@ data:
               "hide": "dontHide",
               "skipUrlSync": false,
               "allowCustomValue": true
+            }
+          },
+          {
+            "kind": "TextVariable",
+            "spec": {
+              "current": {
+                "text": "0",
+                "value": "0"
+              },
+              "hide": "dontHide",
+              "name": "offset",
+              "query": "0",
+              "skipUrlSync": false
             }
           },
           {
