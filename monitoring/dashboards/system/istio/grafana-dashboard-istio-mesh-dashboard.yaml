@@ -1062,7 +1062,7 @@ data:
         "preload": false,
         "tags": [],
         "timeSettings": {
-          "timezone": "utc",
+          "timezone": "browser",
           "from": "now-30m",
           "to": "now",
           "autoRefresh": "15s",

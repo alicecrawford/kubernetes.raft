@@ -1038,7 +1038,7 @@ data:
           "vm-k8s-stack"
         ],
         "timeSettings": {
-          "timezone": "utc",
+          "timezone": "browser",
           "from": "now-15m",
           "to": "now",
           "autoRefresh": "10s",
