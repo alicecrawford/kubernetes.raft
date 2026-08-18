@@ -18,18 +18,6 @@ spec:
       jsonPointers:
         - /spec/template/metadata/annotations/checksum~1secret
   sources:
-    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
-      path: monitoring
-      targetRevision: HEAD
-      ref: values
-    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
-      path: monitoring/rules
-      targetRevision: HEAD
-    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
-      path: monitoring/scrapeconfigs
-      targetRevision: HEAD
-      directory:
-        recurse: true
     - repoURL: https://victoriametrics.github.io/helm-charts/
       chart: victoria-metrics-k8s-stack
       targetRevision: 0.89.0
@@ -48,3 +36,20 @@ spec:
       helm:
         valueFiles:
           - $values/monitoring/values/values-gateway.yaml
+    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+      path: monitoring
+      targetRevision: HEAD
+      ref: values
+    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+      path: monitoring/rules
+      targetRevision: HEAD
+    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+      path: monitoring/scrapeconfigs
+      targetRevision: HEAD
+      directory:
+        recurse: true
+    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+      path: monitoring/dashboards
+      targetRevision: HEAD
+      directory:
+        recurse: true
