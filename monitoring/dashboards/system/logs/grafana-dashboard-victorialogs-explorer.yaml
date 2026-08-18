@@ -89,12 +89,12 @@ data:
                     "dedupStrategy": "none",
                     "enableInfiniteScrolling": false,
                     "enableLogDetails": true,
-                    "prettifyLogMessage": false,
+                    "prettifyLogMessage": true,
                     "showCommonLabels": false,
                     "showLabels": false,
                     "showTime": true,
                     "sortOrder": "Descending",
-                    "wrapLogMessage": false
+                    "wrapLogMessage": true
                   },
                   "fieldConfig": {
                     "defaults": {},
