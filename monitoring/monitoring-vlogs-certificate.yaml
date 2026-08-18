@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: monitoring-vlogs
+  namespace: monitoring
+spec:
+  dnsNames:
+    - logs.raft.lutris.house
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-dns01-issuer
+  secretName: monitoring-vlogs-certificate
