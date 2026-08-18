@@ -12,7 +12,6 @@ spec:
         - operation:
             hosts:
               - alertmanager.raft.lutris.house
-              - logs.raft.lutris.house
               - vmagent.raft.lutris.house
               - vmalert.raft.lutris.house
   targetRefs:
