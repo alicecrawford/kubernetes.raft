@@ -67,7 +67,7 @@ data:
                           },
                           "spec": {
                             "editorMode": "code",
-                            "expr": "_stream: {_HOSTNAME=~\"$hostname\"} $query | sort desc | offset $offset | limit $limit",
+                            "expr": "_stream: {_HOSTNAME in ($hostname)} $query | sort desc | offset $offset | limit $limit",
                             "queryType": "range"
                           }
                         },
@@ -127,7 +127,7 @@ data:
                           },
                           "spec": {
                             "editorMode": "code",
-                            "expr": "_stream: {_HOSTNAME=~\"$hostname\"} $query | stats count()",
+                            "expr": "_stream: {_HOSTNAME in ($hostname)} $query | stats count()",
                             "legendFormat": "${hostname}",
                             "queryType": "statsRange"
                           }
@@ -243,7 +243,7 @@ data:
                           },
                           "spec": {
                             "editorMode": "code",
-                            "expr": "_stream: {_HOSTNAME=~\"$hostname\"} $query | stats by (\"$count_by\") count() c | sort by (c desc) | limit 50",
+                            "expr": "_stream: {_HOSTNAME in ($hostname)} $query | stats by (\"$count_by\") count() c | sort by (c desc) | limit 50",
                             "legendFormat": "{{$count_by}}",
                             "queryType": "stats"
                           }
@@ -355,7 +355,7 @@ data:
             "type": "link",
             "icon": "bolt",
             "tooltip": "",
-            "url": "/explore?orgId=1&left={\"datasource\":\"$DS_VICTORIALOGS\",\"queries\":[{\"expr\":\"_stream: {_HOSTNAME=~\\\"$hostname\\\"} $query\"}]}",
+            "url": "/explore?orgId=1&left={\"datasource\":\"$DS_VICTORIALOGS\",\"queries\":[{\"expr\":\"_stream: {_HOSTNAME in ($hostname)} $query\"}]}",
             "tags": [],
             "asDropdown": false,
             "targetBlank": true,
@@ -451,9 +451,9 @@ data:
               "sort": "alphabeticalAsc",
               "definition": "",
               "options": [],
-              "multi": false,
+              "multi": true,
               "includeAll": true,
-              "allValue": "..*",
+              "allValue": "*",
               "allowCustomValue": true
             }
           },
@@ -478,14 +478,14 @@ data:
                 "spec": {
                   "field": "kubernetes.container_name",
                   "limit": 25,
-                  "query": "{_HOSTNAME=~\"$hostname\"}",
+                  "query": "{_HOSTNAME in ($hostname)}",
                   "refId": "VictoriaLogsVariableQueryEditor-VariableQuery",
                   "type": "fieldName"
                 }
               },
               "regex": "/^[a-zA-Z].+/",
               "sort": "alphabeticalAsc",
-              "definition": "{_HOSTNAME=~\"$hostname\"}",
+              "definition": "{_HOSTNAME in ($hostname)}",
               "options": [],
               "multi": false,
               "includeAll": false,
