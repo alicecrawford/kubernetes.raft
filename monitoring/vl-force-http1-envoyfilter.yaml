@@ -15,7 +15,6 @@ spec:
         listener:
           portNumber: 443
           filterChain:
-            sni: logs.raft.lutris.house
             filter:
               name: envoy.filters.network.http_connection_manager
       patch:
