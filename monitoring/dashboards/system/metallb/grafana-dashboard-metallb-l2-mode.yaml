@@ -1,0 +1,1735 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-metallb-l2-mode
+  namespace: monitoring
+  labels:
+    grafana_dashboard: '1'
+  annotations: {}
+data:
+  grafana-dashboard-metallb-l2-mode.json: |-
+    {
+      "apiVersion": "dashboard.grafana.app/v2",
+      "kind": "Dashboard",
+      "metadata": {
+        "name": "metallb-l2-v4",
+        "namespace": "default"
+      },
+      "spec": {
+        "annotations": [
+          {
+            "kind": "AnnotationQuery",
+            "spec": {
+              "query": {
+                "kind": "DataQuery",
+                "group": "grafana",
+                "version": "v0",
+                "datasource": {
+                  "name": "-- Grafana --"
+                },
+                "spec": {}
+              },
+              "enable": true,
+              "hide": true,
+              "iconColor": "rgba(0,211,255,1)",
+              "name": "Annotations & Alerts",
+              "builtIn": true,
+              "legacyOptions": {
+                "type": "dashboard"
+              }
+            }
+          }
+        ],
+        "cursorSync": "Crosshair",
+        "description": "MetalLB L2 Mode \u2014 controller pool metrics + speaker ARP/NDP health, VIP-to-node ownership, failover severity ranking. Scaled for large (15+ node) clusters.",
+        "editable": true,
+        "elements": {
+          "panel-1": {
+            "kind": "Panel",
+            "spec": {
+              "id": 1,
+              "title": "Speakers Config Loaded (sum)",
+              "description": "Aggregate count of speakers with config loaded. Must equal total speaker count (= node count in L2 mode). If a broken YAML config is applied, this drops below total \u2014 speakers stop updating routing tables.",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "VictoriaMetrics"
+                          },
+                          "spec": {
+                            "expr": "sum(metallb_k8s_client_config_loaded_bool)",
+                            "legendFormat": "loaded"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "stat",
+                "version": "",
+                "spec": {
+                  "options": {
+                    "colorMode": "background",
+                    "graphMode": "none",
+                    "justifyMode": "center",
+                    "orientation": "auto",
+                    "reduceOptions": {
+                      "calcs": [
+                        "lastNotNull"
+                      ],
+                      "fields": "",
+                      "values": false
+                    },
+                    "textMode": "value_and_name"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "short",
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "value": null,
+                            "color": "red"
+                          },
+                          {
+                            "value": 1,
+                            "color": "green"
+                          }
+                        ]
+                      },
+                      "color": {
+                        "mode": "thresholds"
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-2": {
+            "kind": "Panel",
+            "spec": {
+              "id": 2,
+              "title": "Speakers Config Stale (sum)",
+              "description": "Aggregate count of speakers running stale config. Must be 0. Any value >0 means at least one speaker failed to reload the latest L2Advertisement/IPAddressPool \u2014 investigate that node immediately.",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "VictoriaMetrics"
+                          },
+                          "spec": {
+                            "expr": "sum(metallb_k8s_client_config_stale_bool)",
+                            "legendFormat": "stale"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "stat",
+                "version": "",
+                "spec": {
+                  "options": {
+                    "colorMode": "background",
+                    "graphMode": "none",
+                    "justifyMode": "center",
+                    "orientation": "auto",
+                    "reduceOptions": {
+                      "calcs": [
+                        "lastNotNull"
+                      ],
+                      "fields": "",
+                      "values": false
+                    },
+                    "textMode": "value_and_name"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "short",
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "value": null,
+                            "color": "green"
+                          },
+                          {
+                            "value": 1,
+                            "color": "red"
+                          }
+                        ]
+                      },
+                      "color": {
+                        "mode": "thresholds"
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-20": {
+            "kind": "Panel",
+            "spec": {
+              "id": 20,
+              "title": "ARP/NDP Requests Received (per VIP)",
+              "description": "Tracks per-second rate of incoming Layer 2 discovery broadcasts (ARP requests for IPv4 / NDP requests for IPv6) targeting MetalLB-managed LoadBalancer IPs.\n\nWhat it means:\n\u2022 Spikes: new client machines joining the network, expired router ARP caches, or potential network loops/storms.\n\u2022 Baseline: healthy, quiet networks show very low fractional decimal values (m req/s = milli-requests/sec), meaning external clients have already cached the node's MAC address and rarely re-query.\n\nHealthy target: sustained baseline under ~100 m req/s (0.1 req/s) per VIP. Sustained values above 1 req/s per VIP warrant investigation for ARP storms or flapping upstream switches.\n\nMetric: metallb_layer2_requests_received",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "VictoriaMetrics"
+                          },
+                          "spec": {
+                            "expr": "rate(metallb_layer2_requests_received[$__rate_interval])",
+                            "legendFormat": "{{ip}}"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "timeseries",
+                "version": "",
+                "spec": {
+                  "options": {
+                    "legend": {
+                      "calcs": [
+                        "mean",
+                        "max"
+                      ],
+                      "displayMode": "table",
+                      "placement": "bottom",
+                      "showLegend": true
+                    },
+                    "tooltip": {
+                      "mode": "multi",
+                      "sort": "desc"
+                    }
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "reqps",
+                      "decimals": 1,
+                      "color": {
+                        "mode": "palette-classic"
+                      },
+                      "custom": {
+                        "axisLabel": "req/s",
+                        "drawStyle": "line",
+                        "fillOpacity": 15,
+                        "gradientMode": "opacity",
+                        "lineInterpolation": "smooth",
+                        "lineWidth": 2,
+                        "showPoints": "never",
+                        "spanNulls": false,
+                        "stacking": {
+                          "group": "A",
+                          "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                          "mode": "off"
+                        }
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-21": {
+            "kind": "Panel",
+            "spec": {
+              "id": 21,
+              "title": "ARP/NDP Responses Sent (per VIP)",
+              "description": "Tracks per-second rate of outgoing Layer 2 answers (ARP replies for IPv4 / NDP neighbor advertisements for IPv6) sent by MetalLB.\n\nWhat it means:\n\u2022 Healthy state: this metric should exactly match Requests Received. A 1-to-1 ratio proves the cluster is acknowledging all network queries.\n\u2022 Drops/discrepancies: if this value drops below the request rate, the speaker pod is failing to answer network queries \u2014 this WILL break external ingress traffic for that VIP.\n\nMetric: metallb_layer2_responses_sent",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "VictoriaMetrics"
+                          },
+                          "spec": {
+                            "expr": "rate(metallb_layer2_responses_sent[$__rate_interval])",
+                            "legendFormat": "{{ip}}"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "timeseries",
+                "version": "",
+                "spec": {
+                  "options": {
+                    "legend": {
+                      "calcs": [
+                        "mean",
+                        "max"
+                      ],
+                      "displayMode": "table",
+                      "placement": "bottom",
+                      "showLegend": true
+                    },
+                    "tooltip": {
+                      "mode": "multi",
+                      "sort": "desc"
+                    }
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "reqps",
+                      "decimals": 1,
+                      "color": {
+                        "mode": "palette-classic"
+                      },
+                      "custom": {
+                        "axisLabel": "resp/s",
+                        "drawStyle": "line",
+                        "fillOpacity": 15,
+                        "gradientMode": "opacity",
+                        "lineInterpolation": "smooth",
+                        "lineWidth": 2,
+                        "showPoints": "never",
+                        "spanNulls": false,
+                        "stacking": {
+                          "group": "A",
+                          "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                          "mode": "off"
+                        }
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-22": {
+            "kind": "Panel",
+            "spec": {
+              "id": 22,
+              "title": "Gratuitous ARP/NDP Rate (per VIP)",
+              "description": "Tracks per-second rate of unsolicited Layer 2 network updates (Gratuitous ARP for IPv4 / unsolicited NDP advertisement for IPv6) sent by MetalLB, per VIP.\n\nWhat it means:\n\u2022 Baseline (m pps): small fractional values = standard background tick keeping physical switch MAC tables fresh.\n\u2022 Spikes: heavy spikes = failover or cluster update, where a service migrates to a new leader node and forces the network to redirect traffic.\n\nReal-world scenarios:\n\u2022 Normal ops: steady ~12 mp/s \u2014 cluster stable, just reminder packets.\n\u2022 Active failover: sharp spike to 500+ mp/s then drops back to baseline \u2014 node crashed/maintained, new leader elected, switch flooded once to redirect traffic without dropping connections.\n\u2022 Flapping (critical): continuous erratic mountain-shaped spikes that never return to baseline \u2014 split-brain, two+ nodes fighting over the same VIP. Severe internal cluster networking issue.\n\nMetric: metallb_layer2_gratuitous_sent",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "VictoriaMetrics"
+                          },
+                          "spec": {
+                            "expr": "rate(metallb_layer2_gratuitous_sent[$__rate_interval])",
+                            "legendFormat": "{{ip}}"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "timeseries",
+                "version": "",
+                "spec": {
+                  "options": {
+                    "legend": {
+                      "calcs": [
+                        "mean",
+                        "max"
+                      ],
+                      "displayMode": "table",
+                      "placement": "bottom",
+                      "showLegend": true
+                    },
+                    "tooltip": {
+                      "mode": "multi",
+                      "sort": "desc"
+                    }
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "pps",
+                      "decimals": 2,
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "value": null,
+                            "color": "green"
+                          },
+                          {
+                            "value": 0.5,
+                            "color": "orange"
+                          },
+                          {
+                            "value": 2,
+                            "color": "red"
+                          }
+                        ]
+                      },
+                      "color": {
+                        "mode": "palette-classic"
+                      },
+                      "custom": {
+                        "axisLabel": "pkt/s",
+                        "drawStyle": "line",
+                        "fillOpacity": 20,
+                        "gradientMode": "opacity",
+                        "lineInterpolation": "smooth",
+                        "lineWidth": 2,
+                        "showPoints": "never",
+                        "spanNulls": false,
+                        "stacking": {
+                          "group": "A",
+                          "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                          "mode": "line+area",
+                          "steps": [
+                            {
+                              "color": "transparent"
+                            },
+                            {
+                              "color": "orange",
+                              "value": 1
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-24": {
+            "kind": "Panel",
+            "spec": {
+              "id": 24,
+              "title": "Gratuitous / Requests Ratio % (traffic-gated) \u2014 gaps = too quiet to judge, line >50% = real instability",
+              "description": "FIXED v2: gated to avoid divide-by-near-zero blowup. Old formula (100 * grat_rate / (req_rate + 0.001)) produced fake values like 133,000% whenever request_rate was near-zero \u2014 pure math artifact, not real instability, because most L2 VIPs naturally get near-zero ARP traffic once clients cache the MAC.\n\nThis version only computes the ratio when request_rate is non-trivial (> 0.01 req/s, i.e. real client traffic present). When traffic is below that floor, the panel returns no data instead of a misleading huge percentage \u2014 gaps in the line are expected and mean 'too quiet to judge', not an error.\n\nHow to read it now:\n\u2022 No line / gap: VIP is quiet, normal for L2 \u2014 ratio is not meaningful here, ignore.\n\u2022 Line present, <50%: healthy \u2014 gratuitous sends are a small fraction of real traffic.\n\u2022 Line present, >50% sustained: real instability \u2014 leader is re-announcing far more than client demand justifies. Investigate pod crash-looping or split-brain on that VIP.\n\nFor raw instability regardless of traffic level, trust the 'Total Gratuitous Sends Ranked' panel below instead \u2014 that one is not affected by this math issue.\n\nFormula: (req_rate > 0.01) ? 100 * grat_rate / req_rate : no data",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "VictoriaMetrics"
+                          },
+                          "spec": {
+                            "expr": "(100 * rate(metallb_layer2_gratuitous_sent[$__rate_interval]) / rate(metallb_layer2_requests_received[$__rate_interval])) and (rate(metallb_layer2_requests_received[$__rate_interval]) > 0.01)",
+                            "legendFormat": "{{ip}}"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "timeseries",
+                "version": "",
+                "spec": {
+                  "options": {
+                    "legend": {
+                      "calcs": [
+                        "mean",
+                        "max"
+                      ],
+                      "displayMode": "table",
+                      "placement": "bottom",
+                      "showLegend": true
+                    },
+                    "tooltip": {
+                      "mode": "multi",
+                      "sort": "desc"
+                    }
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "percent",
+                      "color": {
+                        "mode": "palette-classic"
+                      },
+                      "custom": {
+                        "axisLabel": "grat/req %",
+                        "drawStyle": "line",
+                        "fillOpacity": 20,
+                        "gradientMode": "opacity",
+                        "lineInterpolation": "smooth",
+                        "lineWidth": 2,
+                        "showPoints": "never",
+                        "spanNulls": false,
+                        "stacking": {
+                          "group": "A",
+                          "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                          "mode": "line+area",
+                          "steps": [
+                            {
+                              "color": "transparent"
+                            },
+                            {
+                              "color": "red",
+                              "value": 50
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-25": {
+            "kind": "Panel",
+            "spec": {
+              "id": 25,
+              "title": "MetalLB L2 Dropped/Ignored Requests (cluster-wide) \u2014 Must stay at 0",
+              "description": "Cluster-wide delta: total requests received minus total responses sent, per second. In a perfectly healthy network this line sits flat at zero.\n\nIf this value rises above 0 for a sustained period, MetalLB is ignoring network clients \u2014 external ingress is being silently dropped for at least one VIP.\n\nSuggested alert: trigger if value > 0 for more than 2 minutes.\n\nFormula: sum(rate(metallb_layer2_requests_received[$__rate_interval])) - sum(rate(metallb_layer2_responses_sent[$__rate_interval]))",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "VictoriaMetrics"
+                          },
+                          "spec": {
+                            "expr": "sum(rate(metallb_layer2_requests_received[$__rate_interval])) - sum(rate(metallb_layer2_responses_sent[$__rate_interval]))",
+                            "legendFormat": "dropped"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "timeseries",
+                "version": "",
+                "spec": {
+                  "options": {
+                    "legend": {
+                      "calcs": [
+                        "mean",
+                        "max"
+                      ],
+                      "displayMode": "list",
+                      "placement": "bottom",
+                      "showLegend": true
+                    },
+                    "tooltip": {
+                      "mode": "single",
+                      "sort": "none"
+                    }
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "reqps",
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "value": null,
+                            "color": "green"
+                          },
+                          {
+                            "value": 0.001,
+                            "color": "red"
+                          }
+                        ]
+                      },
+                      "color": {
+                        "mode": "fixed",
+                        "fixedColor": "red"
+                      },
+                      "custom": {
+                        "axisCenteredZero": true,
+                        "axisLabel": "dropped req/s",
+                        "drawStyle": "line",
+                        "fillOpacity": 25,
+                        "gradientMode": "opacity",
+                        "lineInterpolation": "smooth",
+                        "lineWidth": 2,
+                        "showPoints": "never",
+                        "spanNulls": false,
+                        "stacking": {
+                          "group": "A",
+                          "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                          "mode": "line+area",
+                          "steps": [
+                            {
+                              "color": "transparent"
+                            },
+                            {
+                              "color": "red",
+                              "value": 0.001
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-26": {
+            "kind": "Panel",
+            "spec": {
+              "id": 26,
+              "title": "Gratuitous ARP/NDP Rate (per Node) \u2014 Leadership & Failover Mapping",
+              "description": "Tracks per-second rate of gratuitous ARP/NDP sent by MetalLB, mapped directly to the hosting physical OpenShift Node (joins metallb_layer2_gratuitous_sent with kube_pod_info on pod label).\n\nWhat it emphasizes:\n\u2022 Node leadership: which physical server is actively managing traffic redirection / routing table freshness for your LoadBalancer IPs.\n\u2022 Failover dynamics: visualizes traffic migration between host machines during node reboots or cluster upgrades.\n\nTroubleshooting scenarios:\n\u2022 Stable: lines hover flat 0.01\u20130.1 pps \u2014 healthy, just keeping switch MAC tables fresh.\n\u2022 Standard pod update / micro-failover: one node briefly spikes to ~1 pps then drops back \u2014 app pod relocated, MetalLB updated switch seamlessly.\n\u2022 Complete node outage: one node's line drops to 0 pps while another simultaneously spikes 10+ pps \u2014 failed node, successful failover to survivor, which blasted the network to pull traffic.\n\u2022 Split-brain/flapping (critical): multiple node lines jumping up/down simultaneously in a chaotic zig-zag \u2014 two nodes competing for the same VIP, severe packet drops for external users.\n\nRequires kube-state-metrics (kube_pod_info) scraped in the same Prometheus.\n\nMetric: metallb_layer2_gratuitous_sent joined with kube_pod_info{namespace=\"metallb-system\"}",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "VictoriaMetrics"
+                          },
+                          "spec": {
+                            "expr": "sum by (node) (rate(metallb_layer2_gratuitous_sent[$__rate_interval]) * on(pod) group_left(node) kube_pod_info{namespace=\"metallb-system\"})",
+                            "legendFormat": "{{node}}"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "timeseries",
+                "version": "",
+                "spec": {
+                  "options": {
+                    "legend": {
+                      "calcs": [
+                        "mean",
+                        "max"
+                      ],
+                      "displayMode": "table",
+                      "placement": "bottom",
+                      "showLegend": true
+                    },
+                    "tooltip": {
+                      "mode": "multi",
+                      "sort": "desc"
+                    }
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "pps",
+                      "decimals": 2,
+                      "color": {
+                        "mode": "palette-classic"
+                      },
+                      "custom": {
+                        "axisLabel": "pkt/s",
+                        "drawStyle": "line",
+                        "fillOpacity": 20,
+                        "gradientMode": "opacity",
+                        "lineInterpolation": "smooth",
+                        "lineWidth": 2,
+                        "showPoints": "never",
+                        "spanNulls": false,
+                        "stacking": {
+                          "group": "A",
+                          "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                          "mode": "off"
+                        }
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-3": {
+            "kind": "Panel",
+            "spec": {
+              "id": 3,
+              "title": "IPs In Use",
+              "description": "Total IPs in use vs total available. From metallb-controller (allocator metrics).",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "VictoriaMetrics"
+                          },
+                          "spec": {
+                            "expr": "sum(metallb_allocator_addresses_in_use_total)",
+                            "legendFormat": "in use"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "stat",
+                "version": "",
+                "spec": {
+                  "options": {
+                    "colorMode": "value",
+                    "graphMode": "area",
+                    "justifyMode": "center",
+                    "orientation": "auto",
+                    "reduceOptions": {
+                      "calcs": [
+                        "lastNotNull"
+                      ],
+                      "fields": "",
+                      "values": false
+                    },
+                    "textMode": "auto"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "short",
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "value": null,
+                            "color": "green"
+                          }
+                        ]
+                      },
+                      "color": {
+                        "mode": "thresholds"
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-30": {
+            "kind": "Panel",
+            "spec": {
+              "id": 30,
+              "title": "Total Gratuitous Sends Ranked (per VIP) \u2014 bar length = failover severity",
+              "description": "Descending rank of raw, cumulative gratuitous packets sent by each MetalLB speaker/VIP. Immediately exposes which VIP or host node is generating the highest volume of unsolicited network table updates.\n\nHow to interpret values over 25,000 (25k):\n\u2022 Healthy (slow accumulation): if 25k took weeks of continuous uptime to reach, it's normal background maintenance behavior.\n\u2022 Critical (rapid vertical spike): if the counter reaches 25k within minutes or hours, a critical network failure is occurring.\n\nCommon causes of rapid 25k+ spikes:\n1. Micro-failover storms \u2014 an app pod crash-looping, forcing MetalLB to migrate the VIP back and forth endlessly.\n2. Split-brain routing \u2014 a physical network partition causing multiple nodes to believe they're the active leader simultaneously, fighting for control of the IP.\n\nFormula: sort_desc(metallb_layer2_gratuitous_sent)",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "VictoriaMetrics"
+                          },
+                          "spec": {
+                            "expr": "sort_desc(metallb_layer2_gratuitous_sent)",
+                            "instant": true,
+                            "legendFormat": "{{ip}}"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "bargauge",
+                "version": "",
+                "spec": {
+                  "options": {
+                    "displayMode": "gradient",
+                    "minVizHeight": 10,
+                    "minVizWidth": 0,
+                    "namePlacement": "auto",
+                    "orientation": "horizontal",
+                    "reduceOptions": {
+                      "calcs": [
+                        "lastNotNull"
+                      ],
+                      "fields": "",
+                      "values": false
+                    },
+                    "showUnfilled": true,
+                    "valueMode": "color"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "short",
+                      "min": 0,
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "value": null,
+                            "color": "green"
+                          },
+                          {
+                            "value": 5000,
+                            "color": "yellow"
+                          },
+                          {
+                            "value": 25000,
+                            "color": "red"
+                          }
+                        ]
+                      },
+                      "color": {
+                        "mode": "thresholds"
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-4": {
+            "kind": "Panel",
+            "spec": {
+              "id": 4,
+              "title": "Total Pool IPs",
+              "description": "Total usable IPs across all pools (controller allocator).",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "VictoriaMetrics"
+                          },
+                          "spec": {
+                            "expr": "sum(metallb_allocator_addresses_total)",
+                            "legendFormat": "total"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "stat",
+                "version": "",
+                "spec": {
+                  "options": {
+                    "colorMode": "value",
+                    "graphMode": "none",
+                    "justifyMode": "center",
+                    "orientation": "auto",
+                    "reduceOptions": {
+                      "calcs": [
+                        "lastNotNull"
+                      ],
+                      "fields": "",
+                      "values": false
+                    },
+                    "textMode": "auto"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "short",
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "value": null,
+                            "color": "blue"
+                          }
+                        ]
+                      },
+                      "color": {
+                        "mode": "thresholds"
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-5": {
+            "kind": "Panel",
+            "spec": {
+              "id": 5,
+              "title": "Pool Utilisation %",
+              "description": "Overall pool utilisation %. Red >90%, Yellow >70%.",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "VictoriaMetrics"
+                          },
+                          "spec": {
+                            "expr": "100 * sum(metallb_allocator_addresses_in_use_total) / sum(metallb_allocator_addresses_total)",
+                            "legendFormat": "util%"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "stat",
+                "version": "",
+                "spec": {
+                  "options": {
+                    "colorMode": "background",
+                    "graphMode": "area",
+                    "justifyMode": "center",
+                    "orientation": "auto",
+                    "reduceOptions": {
+                      "calcs": [
+                        "lastNotNull"
+                      ],
+                      "fields": "",
+                      "values": false
+                    },
+                    "textMode": "auto"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "percent",
+                      "min": 0,
+                      "max": 100,
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "value": null,
+                            "color": "green"
+                          },
+                          {
+                            "value": 70,
+                            "color": "yellow"
+                          },
+                          {
+                            "value": 90,
+                            "color": "red"
+                          }
+                        ]
+                      },
+                      "color": {
+                        "mode": "thresholds"
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-6": {
+            "kind": "Panel",
+            "spec": {
+              "id": 6,
+              "title": "Free IPs Remaining",
+              "description": "Free IPs = total - in_use. Near zero = pool exhaustion risk.",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "VictoriaMetrics"
+                          },
+                          "spec": {
+                            "expr": "sum(metallb_allocator_addresses_total) - sum(metallb_allocator_addresses_in_use_total)",
+                            "legendFormat": "free"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "stat",
+                "version": "",
+                "spec": {
+                  "options": {
+                    "colorMode": "background",
+                    "graphMode": "none",
+                    "justifyMode": "center",
+                    "orientation": "auto",
+                    "reduceOptions": {
+                      "calcs": [
+                        "lastNotNull"
+                      ],
+                      "fields": "",
+                      "values": false
+                    },
+                    "textMode": "auto"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "short",
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "value": null,
+                            "color": "red"
+                          },
+                          {
+                            "value": 3,
+                            "color": "yellow"
+                          },
+                          {
+                            "value": 10,
+                            "color": "green"
+                          }
+                        ]
+                      },
+                      "color": {
+                        "mode": "thresholds"
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-60": {
+            "kind": "Panel",
+            "spec": {
+              "id": 60,
+              "title": "Active Services Per Node \u2014 L2 Leadership Distribution",
+              "description": "Count of VIPs/services actively owned (announced) per node. In a healthy, balanced L2 cluster these bars should be roughly even. A single node with a disproportionately long bar is hogging L2 leadership \u2014 a scaling and blast-radius risk, since that node's failure would trigger a mass failover.",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "VictoriaMetrics"
+                          },
+                          "spec": {
+                            "expr": "sort_desc(sum by (node) (metallb_speaker_announced))",
+                            "instant": true,
+                            "legendFormat": "{{node}}"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "bargauge",
+                "version": "",
+                "spec": {
+                  "options": {
+                    "displayMode": "gradient",
+                    "minVizHeight": 10,
+                    "minVizWidth": 0,
+                    "namePlacement": "auto",
+                    "orientation": "horizontal",
+                    "reduceOptions": {
+                      "calcs": [
+                        "lastNotNull"
+                      ],
+                      "fields": "",
+                      "values": false
+                    },
+                    "showUnfilled": true,
+                    "valueMode": "color"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "short",
+                      "min": 0,
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "value": null,
+                            "color": "green"
+                          }
+                        ]
+                      },
+                      "color": {
+                        "mode": "thresholds"
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-61": {
+            "kind": "Panel",
+            "spec": {
+              "id": 61,
+              "title": "Node \u2192 Speaker Pod \u2192 VIP \u2192 Service (live)",
+              "description": "Live mapping of which Node and Speaker Pod currently announces which VIP, for which Service. Trimmed to operationally relevant labels only (container/endpoint/job/namespace/prometheus instance-scrape labels dropped). This answers: 'which VIP is this node serving and for which service'.",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "VictoriaMetrics"
+                          },
+                          "spec": {
+                            "expr": "metallb_speaker_announced{protocol=\"layer2\"}",
+                            "format": "table",
+                            "instant": true
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [
+                    {
+                      "kind": "Transformation",
+                      "group": "organize",
+                      "spec": {
+                        "options": {
+                          "excludeByName": {
+                            "Time": true,
+                            "Value": false,
+                            "__name__": true,
+                            "container": true,
+                            "endpoint": true,
+                            "instance": true,
+                            "job": true,
+                            "namespace": true,
+                            "prometheus": true
+                          },
+                          "indexByName": {
+                            "Announced": 5,
+                            "Node": 0,
+                            "Protocol": 4,
+                            "Service": 3,
+                            "Speaker Pod": 1,
+                            "VIP": 2
+                          },
+                          "renameByName": {
+                            "Value": "Announced",
+                            "ip": "VIP",
+                            "node": "Node",
+                            "pod": "Speaker Pod",
+                            "protocol": "Protocol",
+                            "service": "Service"
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "table",
+                "version": "",
+                "spec": {
+                  "options": {
+                    "cellHeight": "sm",
+                    "footer": {
+                      "countRows": false,
+                      "fields": "",
+                      "reducer": [
+                        "sum"
+                      ],
+                      "show": false
+                    },
+                    "showHeader": true,
+                    "sortBy": [
+                      {
+                        "desc": false,
+                        "displayName": "Node"
+                      }
+                    ]
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "short",
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "value": null,
+                            "color": "green"
+                          }
+                        ]
+                      },
+                      "color": {
+                        "mode": "thresholds"
+                      },
+                      "custom": {
+                        "align": "left",
+                        "cellOptions": {
+                          "type": "auto"
+                        },
+                        "inspect": false
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          }
+        },
+        "layout": {
+          "kind": "RowsLayout",
+          "spec": {
+            "rows": [
+              {
+                "kind": "RowsLayoutRow",
+                "spec": {
+                  "title": "\ud83d\udd35  Cluster Status \u2014 Config, Pool & Speaker Health",
+                  "collapse": false,
+                  "layout": {
+                    "kind": "GridLayout",
+                    "spec": {
+                      "items": [
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 0,
+                            "y": 0,
+                            "width": 6,
+                            "height": 4,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-1"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 6,
+                            "y": 0,
+                            "width": 6,
+                            "height": 4,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-2"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 12,
+                            "y": 0,
+                            "width": 3,
+                            "height": 4,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-3"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 15,
+                            "y": 0,
+                            "width": 3,
+                            "height": 4,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-4"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 18,
+                            "y": 0,
+                            "width": 3,
+                            "height": 4,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-5"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 21,
+                            "y": 0,
+                            "width": 3,
+                            "height": 4,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-6"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "kind": "RowsLayoutRow",
+                "spec": {
+                  "title": "\ud83d\udfe3  Node Leadership Balance \u2014 L2 VIP Distribution",
+                  "collapse": false,
+                  "layout": {
+                    "kind": "GridLayout",
+                    "spec": {
+                      "items": [
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 0,
+                            "y": 0,
+                            "width": 24,
+                            "height": 8,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-60"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "kind": "RowsLayoutRow",
+                "spec": {
+                  "title": "\ud83d\udccb  Live Node-to-Service Mapping",
+                  "collapse": false,
+                  "layout": {
+                    "kind": "GridLayout",
+                    "spec": {
+                      "items": [
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 0,
+                            "y": 0,
+                            "width": 24,
+                            "height": 9,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-61"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "kind": "RowsLayoutRow",
+                "spec": {
+                  "title": "\ud83d\udce1  L2 ARP/NDP \u2014 Requests, Responses & Drop Detection (per VIP)",
+                  "collapse": false,
+                  "layout": {
+                    "kind": "GridLayout",
+                    "spec": {
+                      "items": [
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 0,
+                            "y": 0,
+                            "width": 8,
+                            "height": 7,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-20"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 8,
+                            "y": 0,
+                            "width": 8,
+                            "height": 7,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-21"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 16,
+                            "y": 0,
+                            "width": 8,
+                            "height": 7,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-25"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "kind": "RowsLayoutRow",
+                "spec": {
+                  "title": "\ud83d\udfe1  Gratuitous ARP/NDP \u2014 Failover & Stability Signals",
+                  "collapse": false,
+                  "layout": {
+                    "kind": "GridLayout",
+                    "spec": {
+                      "items": [
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 0,
+                            "y": 0,
+                            "width": 12,
+                            "height": 8,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-22"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 12,
+                            "y": 0,
+                            "width": 12,
+                            "height": 8,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-26"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 0,
+                            "y": 8,
+                            "width": 24,
+                            "height": 7,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-24"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "kind": "RowsLayoutRow",
+                "spec": {
+                  "title": "\ud83d\udd34  Failover Severity \u2014 Cumulative Gratuitous Sends Ranked",
+                  "collapse": false,
+                  "layout": {
+                    "kind": "GridLayout",
+                    "spec": {
+                      "items": [
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 0,
+                            "y": 0,
+                            "width": 24,
+                            "height": 9,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-30"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "links": [],
+        "liveNow": false,
+        "preload": false,
+        "tags": [
+          "metallb",
+          "l2",
+          "openshift",
+          "networking",
+          "arp"
+        ],
+        "timeSettings": {
+          "timezone": "browser",
+          "from": "now-3h",
+          "to": "now",
+          "autoRefresh": "30s",
+          "autoRefreshIntervals": [
+            "5s",
+            "10s",
+            "30s",
+            "1m",
+            "5m",
+            "15m",
+            "30m",
+            "1h",
+            "2h",
+            "1d"
+          ],
+          "hideTimepicker": false,
+          "fiscalYearStartMonth": 0
+        },
+        "title": "MetalLB \u2014 L2 Mode",
+        "variables": [
+          {
+            "kind": "DatasourceVariable",
+            "spec": {
+              "name": "DS_PROMETHEUS",
+              "pluginId": "prometheus",
+              "refresh": "onDashboardLoad",
+              "regex": "",
+              "current": {
+                "text": "",
+                "value": ""
+              },
+              "options": [],
+              "multi": false,
+              "includeAll": false,
+              "label": "Datasource",
+              "hide": "dontHide",
+              "skipUrlSync": false,
+              "allowCustomValue": true
+            }
+          }
+        ]
+      }
+    }

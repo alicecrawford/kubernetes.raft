@@ -1,0 +1,2915 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-external-dns
+  namespace: monitoring
+  labels:
+    grafana_dashboard: '1'
+  annotations: {}
+data:
+  grafana-dashboard-external-dns.json: |-
+    {
+      "apiVersion": "dashboard.grafana.app/v2",
+      "kind": "Dashboard",
+      "metadata": {
+        "name": "eea5u_I7z",
+        "namespace": "default"
+      },
+      "spec": {
+        "annotations": [
+          {
+            "kind": "AnnotationQuery",
+            "spec": {
+              "query": {
+                "kind": "DataQuery",
+                "group": "datasource",
+                "version": "v0",
+                "datasource": {
+                  "name": "grafana"
+                },
+                "spec": {}
+              },
+              "enable": true,
+              "hide": true,
+              "iconColor": "rgba(0, 211, 255, 1)",
+              "name": "Annotations & Alerts",
+              "builtIn": true,
+              "legacyOptions": {
+                "type": "dashboard"
+              }
+            }
+          }
+        ],
+        "cursorSync": "Off",
+        "description": "Grafana dashboard to display external-dns metrics 0.18+",
+        "editable": true,
+        "elements": {
+          "panel-10": {
+            "kind": "Panel",
+            "spec": {
+              "id": 10,
+              "title": "Total external-dns registry errors",
+              "description": "Number of Registry errors",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "$datasource"
+                          },
+                          "spec": {
+                            "exemplar": true,
+                            "expr": "external_dns_registry_errors_total {pod=~\".*external-dns.*\",pod=~\"$pod\"}",
+                            "interval": "",
+                            "legendFormat": "{{pod}}"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "gauge",
+                "version": "10.1.5",
+                "spec": {
+                  "options": {
+                    "orientation": "auto",
+                    "reduceOptions": {
+                      "calcs": [
+                        "lastNotNull"
+                      ],
+                      "fields": "",
+                      "values": false
+                    },
+                    "showThresholdLabels": false,
+                    "showThresholdMarkers": true
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "value": null,
+                            "color": "light-red"
+                          },
+                          {
+                            "value": 80,
+                            "color": "red"
+                          }
+                        ]
+                      },
+                      "color": {
+                        "mode": "thresholds"
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-12": {
+            "kind": "Panel",
+            "spec": {
+              "id": 12,
+              "title": "Total external-dns source errors",
+              "description": "Number of Source errors",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "$datasource"
+                          },
+                          "spec": {
+                            "exemplar": true,
+                            "expr": "external_dns_source_errors_total {pod=~\".*external-dns.*\",pod=~\"$pod\"}",
+                            "interval": "",
+                            "legendFormat": "{{pod}}"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "gauge",
+                "version": "10.1.5",
+                "spec": {
+                  "options": {
+                    "orientation": "auto",
+                    "reduceOptions": {
+                      "calcs": [
+                        "lastNotNull"
+                      ],
+                      "fields": "",
+                      "values": false
+                    },
+                    "showThresholdLabels": false,
+                    "showThresholdMarkers": true
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "value": null,
+                            "color": "light-red"
+                          },
+                          {
+                            "value": 80,
+                            "color": "red"
+                          }
+                        ]
+                      },
+                      "color": {
+                        "mode": "thresholds"
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-14": {
+            "kind": "Panel",
+            "spec": {
+              "id": 14,
+              "title": "Memory Usage (w/o cache)",
+              "description": "",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "$datasource"
+                          },
+                          "spec": {
+                            "exemplar": true,
+                            "expr": "sum(container_memory_working_set_bytes{pod=~\".*external-dns.*\",pod=~\"$pod\",container!=\"\", image!=\"\"}) by (pod)",
+                            "format": "time_series",
+                            "interval": "",
+                            "intervalFactor": 2,
+                            "legendFormat": "{{pod}}",
+                            "step": 10
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    },
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "$datasource"
+                          },
+                          "spec": {
+                            "editorMode": "code",
+                            "exemplar": true,
+                            "expr": "scalar(kube_resourcequota{pod=~\".*external-dns.*\", type=\"hard\",resource=\"requests.memory\"})",
+                            "format": "time_series",
+                            "interval": "",
+                            "intervalFactor": 2,
+                            "legendFormat": "quota - requests",
+                            "range": true,
+                            "step": 10
+                          }
+                        },
+                        "refId": "B",
+                        "hidden": false
+                      }
+                    },
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "$datasource"
+                          },
+                          "spec": {
+                            "editorMode": "code",
+                            "exemplar": true,
+                            "expr": "scalar(kube_resourcequota{pod=~\".*external-dns.*\",pod=~\"$pod\",type=\"hard\",resource=\"limits.memory\"})",
+                            "format": "time_series",
+                            "interval": "",
+                            "intervalFactor": 2,
+                            "legendFormat": "quota - limits",
+                            "range": true,
+                            "step": 10
+                          }
+                        },
+                        "refId": "C",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "timeseries",
+                "version": "10.1.5",
+                "spec": {
+                  "options": {
+                    "legend": {
+                      "calcs": [],
+                      "displayMode": "list",
+                      "placement": "bottom",
+                      "showLegend": true
+                    },
+                    "tooltip": {
+                      "mode": "single",
+                      "sort": "none"
+                    }
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "bytes",
+                      "min": 0,
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "value": null,
+                            "color": "green"
+                          },
+                          {
+                            "value": 80,
+                            "color": "red"
+                          }
+                        ]
+                      },
+                      "color": {
+                        "mode": "palette-classic"
+                      },
+                      "custom": {
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "drawStyle": "line",
+                        "fillOpacity": 100,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                          "legend": false,
+                          "tooltip": false,
+                          "viz": false
+                        },
+                        "insertNulls": false,
+                        "lineInterpolation": "stepBefore",
+                        "lineWidth": 0,
+                        "pointSize": 5,
+                        "scaleDistribution": {
+                          "type": "linear"
+                        },
+                        "showPoints": "never",
+                        "spanNulls": false,
+                        "stacking": {
+                          "group": "A",
+                          "mode": "normal"
+                        },
+                        "thresholdsStyle": {
+                          "mode": "off"
+                        }
+                      }
+                    },
+                    "overrides": [
+                      {
+                        "matcher": {
+                          "id": "byName",
+                          "options": "quota - requests"
+                        },
+                        "properties": [
+                          {
+                            "id": "color",
+                            "value": {
+                              "fixedColor": "#F2495C",
+                              "mode": "fixed"
+                            }
+                          },
+                          {
+                            "id": "custom.fillOpacity",
+                            "value": 0
+                          },
+                          {
+                            "id": "custom.lineWidth",
+                            "value": 2
+                          },
+                          {
+                            "id": "custom.stacking",
+                            "value": {
+                              "group": "A",
+                              "mode": "none"
+                            }
+                          },
+                          {
+                            "id": "custom.lineStyle",
+                            "value": {
+                              "dash": [
+                                10,
+                                10
+                              ],
+                              "fill": "dash"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "matcher": {
+                          "id": "byName",
+                          "options": "quota - limits"
+                        },
+                        "properties": [
+                          {
+                            "id": "color",
+                            "value": {
+                              "fixedColor": "#FF9830",
+                              "mode": "fixed"
+                            }
+                          },
+                          {
+                            "id": "custom.fillOpacity",
+                            "value": 0
+                          },
+                          {
+                            "id": "custom.lineWidth",
+                            "value": 2
+                          },
+                          {
+                            "id": "custom.stacking",
+                            "value": {
+                              "group": "A",
+                              "mode": "none"
+                            }
+                          },
+                          {
+                            "id": "custom.lineStyle",
+                            "value": {
+                              "dash": [
+                                10,
+                                10
+                              ],
+                              "fill": "dash"
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "panel-18": {
+            "kind": "Panel",
+            "spec": {
+              "id": 18,
+              "title": "CPU Usage",
+              "description": "",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "$datasource"
+                          },
+                          "spec": {
+                            "exemplar": true,
+                            "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{pod=~\".*external-dns.*\",pod=~\"$pod\"}) by (pod)",
+                            "format": "time_series",
+                            "interval": "",
+                            "intervalFactor": 2,
+                            "legendFormat": "{{pod}}",
+                            "step": 10
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    },
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "$datasource"
+                          },
+                          "spec": {
+                            "exemplar": true,
+                            "expr": "scalar(kube_resourcequota{pod=~\".*external-dns.*\",pod=~\"$pod\", type=\"hard\",resource=\"requests.cpu\"})",
+                            "format": "time_series",
+                            "interval": "",
+                            "intervalFactor": 2,
+                            "legendFormat": "quota - requests",
+                            "step": 10
+                          }
+                        },
+                        "refId": "B",
+                        "hidden": false
+                      }
+                    },
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "$datasource"
+                          },
+                          "spec": {
+                            "exemplar": true,
+                            "expr": "scalar(kube_resourcequota{pod=~\".*external-dns.*\",pod=~\"$pod\", type=\"hard\",resource=\"limits.cpu\"})",
+                            "format": "time_series",
+                            "interval": "",
+                            "intervalFactor": 2,
+                            "legendFormat": "quota - limits",
+                            "step": 10
+                          }
+                        },
+                        "refId": "C",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "timeseries",
+                "version": "10.1.5",
+                "spec": {
+                  "options": {
+                    "legend": {
+                      "calcs": [],
+                      "displayMode": "list",
+                      "placement": "bottom",
+                      "showLegend": true
+                    },
+                    "tooltip": {
+                      "mode": "single",
+                      "sort": "none"
+                    }
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "value": null,
+                            "color": "green"
+                          },
+                          {
+                            "value": 80,
+                            "color": "red"
+                          }
+                        ]
+                      },
+                      "color": {
+                        "mode": "palette-classic"
+                      },
+                      "custom": {
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "drawStyle": "line",
+                        "fillOpacity": 100,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                          "legend": false,
+                          "tooltip": false,
+                          "viz": false
+                        },
+                        "insertNulls": false,
+                        "lineInterpolation": "stepBefore",
+                        "lineStyle": {
+                          "fill": "solid"
+                        },
+                        "lineWidth": 0,
+                        "pointSize": 5,
+                        "scaleDistribution": {
+                          "type": "linear"
+                        },
+                        "showPoints": "never",
+                        "spanNulls": false,
+                        "stacking": {
+                          "group": "A",
+                          "mode": "normal"
+                        },
+                        "thresholdsStyle": {
+                          "mode": "off"
+                        }
+                      }
+                    },
+                    "overrides": [
+                      {
+                        "matcher": {
+                          "id": "byName",
+                          "options": "quota - requests"
+                        },
+                        "properties": [
+                          {
+                            "id": "color",
+                            "value": {
+                              "fixedColor": "#F2495C",
+                              "mode": "fixed"
+                            }
+                          },
+                          {
+                            "id": "custom.fillOpacity",
+                            "value": 0
+                          },
+                          {
+                            "id": "custom.lineWidth",
+                            "value": 2
+                          },
+                          {
+                            "id": "custom.stacking",
+                            "value": {
+                              "group": "A",
+                              "mode": "none"
+                            }
+                          },
+                          {
+                            "id": "custom.lineStyle",
+                            "value": {
+                              "dash": [
+                                10,
+                                10
+                              ],
+                              "fill": "dash"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "matcher": {
+                          "id": "byName",
+                          "options": "quota - limits"
+                        },
+                        "properties": [
+                          {
+                            "id": "color",
+                            "value": {
+                              "fixedColor": "#FF9830",
+                              "mode": "fixed"
+                            }
+                          },
+                          {
+                            "id": "custom.fillOpacity",
+                            "value": 0
+                          },
+                          {
+                            "id": "custom.lineWidth",
+                            "value": 2
+                          },
+                          {
+                            "id": "custom.stacking",
+                            "value": {
+                              "group": "A",
+                              "mode": "none"
+                            }
+                          },
+                          {
+                            "id": "custom.lineStyle",
+                            "value": {
+                              "dash": [
+                                10,
+                                10
+                              ],
+                              "fill": "dash"
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "panel-20": {
+            "kind": "Panel",
+            "spec": {
+              "id": 20,
+              "title": "CPU Quota",
+              "description": "",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "$datasource"
+                          },
+                          "spec": {
+                            "exemplar": true,
+                            "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{pod=~\".*external-dns.*\",pod=~\"$pod\"}) by (pod)",
+                            "format": "table",
+                            "instant": true,
+                            "interval": "",
+                            "intervalFactor": 2,
+                            "legendFormat": "",
+                            "step": 10
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    },
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "$datasource"
+                          },
+                          "spec": {
+                            "exemplar": true,
+                            "expr": "sum(kube_pod_container_resource_requests{pod=~\".*external-dns.*\",pod=~\"$pod\",resource=\"cpu\"}) by (pod)",
+                            "format": "table",
+                            "instant": true,
+                            "interval": "",
+                            "intervalFactor": 2,
+                            "legendFormat": "",
+                            "step": 10
+                          }
+                        },
+                        "refId": "B",
+                        "hidden": false
+                      }
+                    },
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "$datasource"
+                          },
+                          "spec": {
+                            "exemplar": true,
+                            "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{pod=~\".*external-dns.*\",pod=~\"$pod\"}) by (pod) / sum(kube_pod_container_resource_requests{pod=~\".*external-dns.*\",pod=~\"$pod\",resource=\"cpu\"}) by (pod)",
+                            "format": "table",
+                            "instant": true,
+                            "interval": "",
+                            "intervalFactor": 2,
+                            "legendFormat": "",
+                            "step": 10
+                          }
+                        },
+                        "refId": "C",
+                        "hidden": false
+                      }
+                    },
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "$datasource"
+                          },
+                          "spec": {
+                            "exemplar": true,
+                            "expr": "sum(kube_pod_container_resource_limits{pod=~\".*external-dns.*\",pod=~\"$pod\",resource=\"cpu\"}) by (pod)",
+                            "format": "table",
+                            "instant": true,
+                            "interval": "",
+                            "intervalFactor": 2,
+                            "legendFormat": "",
+                            "step": 10
+                          }
+                        },
+                        "refId": "D",
+                        "hidden": false
+                      }
+                    },
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "$datasource"
+                          },
+                          "spec": {
+                            "exemplar": true,
+                            "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{pod=~\".*external-dns.*\",pod=~\"$pod\"}) by (pod) / sum(kube_pod_container_resource_limits{pod=~\".*external-dns.*\",pod=~\"$pod\",resource=\"cpu\"}) by (pod)",
+                            "format": "table",
+                            "instant": true,
+                            "interval": "",
+                            "intervalFactor": 2,
+                            "legendFormat": "",
+                            "step": 10
+                          }
+                        },
+                        "refId": "E",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [
+                    {
+                      "kind": "Transformation",
+                      "group": "merge",
+                      "spec": {
+                        "options": {
+                          "reducers": []
+                        }
+                      }
+                    }
+                  ],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "table",
+                "version": "10.1.5",
+                "spec": {
+                  "options": {
+                    "cellHeight": "sm",
+                    "footer": {
+                      "countRows": false,
+                      "fields": "",
+                      "reducer": [
+                        "sum"
+                      ],
+                      "show": false
+                    },
+                    "showHeader": true
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "displayName": "",
+                      "unit": "short",
+                      "decimals": 2,
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "value": null,
+                            "color": "green"
+                          },
+                          {
+                            "value": 80,
+                            "color": "red"
+                          }
+                        ]
+                      },
+                      "color": {
+                        "mode": "thresholds"
+                      },
+                      "custom": {
+                        "align": "auto",
+                        "cellOptions": {
+                          "type": "auto"
+                        },
+                        "inspect": false
+                      }
+                    },
+                    "overrides": [
+                      {
+                        "matcher": {
+                          "id": "byName",
+                          "options": "Time"
+                        },
+                        "properties": [
+                          {
+                            "id": "displayName",
+                            "value": "Time"
+                          },
+                          {
+                            "id": "custom.align"
+                          }
+                        ]
+                      },
+                      {
+                        "matcher": {
+                          "id": "byName",
+                          "options": "Value #A"
+                        },
+                        "properties": [
+                          {
+                            "id": "displayName",
+                            "value": "CPU Usage"
+                          },
+                          {
+                            "id": "unit",
+                            "value": "short"
+                          },
+                          {
+                            "id": "decimals",
+                            "value": 2
+                          },
+                          {
+                            "id": "custom.align"
+                          }
+                        ]
+                      },
+                      {
+                        "matcher": {
+                          "id": "byName",
+                          "options": "Value #B"
+                        },
+                        "properties": [
+                          {
+                            "id": "displayName",
+                            "value": "CPU Requests"
+                          },
+                          {
+                            "id": "unit",
+                            "value": "short"
+                          },
+                          {
+                            "id": "decimals",
+                            "value": 2
+                          },
+                          {
+                            "id": "custom.align"
+                          }
+                        ]
+                      },
+                      {
+                        "matcher": {
+                          "id": "byName",
+                          "options": "Value #C"
+                        },
+                        "properties": [
+                          {
+                            "id": "displayName",
+                            "value": "CPU Requests %"
+                          },
+                          {
+                            "id": "unit",
+                            "value": "percentunit"
+                          },
+                          {
+                            "id": "decimals",
+                            "value": 2
+                          },
+                          {
+                            "id": "custom.align"
+                          }
+                        ]
+                      },
+                      {
+                        "matcher": {
+                          "id": "byName",
+                          "options": "Value #D"
+                        },
+                        "properties": [
+                          {
+                            "id": "displayName",
+                            "value": "CPU Limits"
+                          },
+                          {
+                            "id": "unit",
+                            "value": "short"
+                          },
+                          {
+                            "id": "decimals",
+                            "value": 2
+                          },
+                          {
+                            "id": "custom.align"
+                          }
+                        ]
+                      },
+                      {
+                        "matcher": {
+                          "id": "byName",
+                          "options": "Value #E"
+                        },
+                        "properties": [
+                          {
+                            "id": "displayName",
+                            "value": "CPU Limits %"
+                          },
+                          {
+                            "id": "unit",
+                            "value": "percentunit"
+                          },
+                          {
+                            "id": "decimals",
+                            "value": 2
+                          },
+                          {
+                            "id": "custom.align"
+                          }
+                        ]
+                      },
+                      {
+                        "matcher": {
+                          "id": "byName",
+                          "options": "pod"
+                        },
+                        "properties": [
+                          {
+                            "id": "displayName",
+                            "value": "Pod"
+                          },
+                          {
+                            "id": "unit",
+                            "value": "short"
+                          },
+                          {
+                            "id": "decimals",
+                            "value": 2
+                          },
+                          {
+                            "id": "links",
+                            "value": [
+                              {
+                                "targetBlank": false,
+                                "title": "Drill down",
+                                "url": "./d/6581e46e4e5c7ba40a07646395ef7b23/k8s-resources-pod?var-datasource=$datasource&var-cluster=$cluster&var-namespace=$namespace&var-pod=$__cell"
+                              }
+                            ]
+                          },
+                          {
+                            "id": "custom.align"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "panel-22": {
+            "kind": "Panel",
+            "spec": {
+              "id": 22,
+              "title": "Memory Quota",
+              "description": "",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "$datasource"
+                          },
+                          "spec": {
+                            "exemplar": true,
+                            "expr": "sum(container_memory_working_set_bytes{pod=~\".*external-dns.*\",pod=~\"$pod\",container!=\"\", image!=\"\"}) by (pod)",
+                            "format": "table",
+                            "instant": true,
+                            "interval": "",
+                            "intervalFactor": 2,
+                            "legendFormat": "",
+                            "step": 10
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    },
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "$datasource"
+                          },
+                          "spec": {
+                            "exemplar": true,
+                            "expr": "sum(kube_pod_container_resource_requests{pod=~\".*external-dns.*\",pod=~\"$pod\",resource=\"memory\"}) by (pod)",
+                            "format": "table",
+                            "instant": true,
+                            "interval": "",
+                            "intervalFactor": 2,
+                            "legendFormat": "",
+                            "step": 10
+                          }
+                        },
+                        "refId": "B",
+                        "hidden": false
+                      }
+                    },
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "$datasource"
+                          },
+                          "spec": {
+                            "exemplar": true,
+                            "expr": "sum(container_memory_working_set_bytes{pod=~\".*external-dns.*\",pod=~\"$pod\",container!=\"\", image!=\"\"}) by (pod) / sum(kube_pod_container_resource_requests{pod=~\".*external-dns.*\",pod=~\"$pod\",resource=\"memory\"}) by (pod)",
+                            "format": "table",
+                            "instant": true,
+                            "interval": "",
+                            "intervalFactor": 2,
+                            "legendFormat": "",
+                            "step": 10
+                          }
+                        },
+                        "refId": "C",
+                        "hidden": false
+                      }
+                    },
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "$datasource"
+                          },
+                          "spec": {
+                            "exemplar": true,
+                            "expr": "sum(kube_pod_container_resource_limits{pod=~\".*external-dns.*\",pod=~\"$pod\", resource=\"memory\"}) by (pod)",
+                            "format": "table",
+                            "instant": true,
+                            "interval": "",
+                            "intervalFactor": 2,
+                            "legendFormat": "",
+                            "step": 10
+                          }
+                        },
+                        "refId": "D",
+                        "hidden": false
+                      }
+                    },
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "$datasource"
+                          },
+                          "spec": {
+                            "exemplar": true,
+                            "expr": "sum(container_memory_working_set_bytes{pod=~\".*external-dns.*\",pod=~\"$pod\",container!=\"\", image!=\"\"}) by (pod) / sum(kube_pod_container_resource_limits{pod=~\".*external-dns.*\",pod=~\"$pod\",resource=\"memory\"}) by (pod)",
+                            "format": "table",
+                            "instant": true,
+                            "interval": "",
+                            "intervalFactor": 2,
+                            "legendFormat": "",
+                            "step": 10
+                          }
+                        },
+                        "refId": "E",
+                        "hidden": false
+                      }
+                    },
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "$datasource"
+                          },
+                          "spec": {
+                            "exemplar": true,
+                            "expr": "sum(container_memory_rss{pod=~\".*external-dns.*\",pod=~\"$pod\",container!=\"\"}) by (pod)",
+                            "format": "table",
+                            "instant": true,
+                            "interval": "",
+                            "intervalFactor": 2,
+                            "legendFormat": "",
+                            "step": 10
+                          }
+                        },
+                        "refId": "F",
+                        "hidden": false
+                      }
+                    },
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "$datasource"
+                          },
+                          "spec": {
+                            "exemplar": true,
+                            "expr": "sum(container_memory_cache{pod=~\".*external-dns.*\",pod=~\"$pod\",container!=\"\"}) by (pod)",
+                            "format": "table",
+                            "instant": true,
+                            "interval": "",
+                            "intervalFactor": 2,
+                            "legendFormat": "",
+                            "step": 10
+                          }
+                        },
+                        "refId": "G",
+                        "hidden": false
+                      }
+                    },
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "$datasource"
+                          },
+                          "spec": {
+                            "exemplar": true,
+                            "expr": "sum(container_memory_swap{pod=~\".*external-dns.*\",pod=~\"$pod\",container!=\"\"}) by (pod)",
+                            "format": "table",
+                            "instant": true,
+                            "interval": "",
+                            "intervalFactor": 2,
+                            "legendFormat": "",
+                            "step": 10
+                          }
+                        },
+                        "refId": "H",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [
+                    {
+                      "kind": "Transformation",
+                      "group": "merge",
+                      "spec": {
+                        "options": {
+                          "reducers": []
+                        }
+                      }
+                    }
+                  ],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "table",
+                "version": "10.1.5",
+                "spec": {
+                  "options": {
+                    "cellHeight": "sm",
+                    "footer": {
+                      "countRows": false,
+                      "fields": "",
+                      "reducer": [
+                        "sum"
+                      ],
+                      "show": false
+                    },
+                    "showHeader": true
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "displayName": "",
+                      "unit": "short",
+                      "decimals": 2,
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "value": null,
+                            "color": "green"
+                          },
+                          {
+                            "value": 80,
+                            "color": "red"
+                          }
+                        ]
+                      },
+                      "color": {
+                        "mode": "thresholds"
+                      },
+                      "custom": {
+                        "cellOptions": {
+                          "type": "auto"
+                        },
+                        "inspect": false
+                      }
+                    },
+                    "overrides": [
+                      {
+                        "matcher": {
+                          "id": "byName",
+                          "options": "Time"
+                        },
+                        "properties": [
+                          {
+                            "id": "displayName",
+                            "value": "Time"
+                          },
+                          {
+                            "id": "custom.align"
+                          }
+                        ]
+                      },
+                      {
+                        "matcher": {
+                          "id": "byName",
+                          "options": "Value #A"
+                        },
+                        "properties": [
+                          {
+                            "id": "displayName",
+                            "value": "Memory Usage"
+                          },
+                          {
+                            "id": "unit",
+                            "value": "bytes"
+                          },
+                          {
+                            "id": "decimals",
+                            "value": 2
+                          },
+                          {
+                            "id": "custom.align"
+                          }
+                        ]
+                      },
+                      {
+                        "matcher": {
+                          "id": "byName",
+                          "options": "Value #B"
+                        },
+                        "properties": [
+                          {
+                            "id": "displayName",
+                            "value": "Memory Requests"
+                          },
+                          {
+                            "id": "unit",
+                            "value": "bytes"
+                          },
+                          {
+                            "id": "decimals",
+                            "value": 2
+                          },
+                          {
+                            "id": "custom.align"
+                          }
+                        ]
+                      },
+                      {
+                        "matcher": {
+                          "id": "byName",
+                          "options": "Value #C"
+                        },
+                        "properties": [
+                          {
+                            "id": "displayName",
+                            "value": "Memory Requests %"
+                          },
+                          {
+                            "id": "unit",
+                            "value": "percentunit"
+                          },
+                          {
+                            "id": "decimals",
+                            "value": 2
+                          },
+                          {
+                            "id": "custom.align"
+                          }
+                        ]
+                      },
+                      {
+                        "matcher": {
+                          "id": "byName",
+                          "options": "Value #D"
+                        },
+                        "properties": [
+                          {
+                            "id": "displayName",
+                            "value": "Memory Limits"
+                          },
+                          {
+                            "id": "unit",
+                            "value": "bytes"
+                          },
+                          {
+                            "id": "decimals",
+                            "value": 2
+                          },
+                          {
+                            "id": "custom.align"
+                          }
+                        ]
+                      },
+                      {
+                        "matcher": {
+                          "id": "byName",
+                          "options": "Value #E"
+                        },
+                        "properties": [
+                          {
+                            "id": "displayName",
+                            "value": "Memory Limits %"
+                          },
+                          {
+                            "id": "unit",
+                            "value": "percentunit"
+                          },
+                          {
+                            "id": "decimals",
+                            "value": 2
+                          },
+                          {
+                            "id": "custom.align"
+                          }
+                        ]
+                      },
+                      {
+                        "matcher": {
+                          "id": "byName",
+                          "options": "Value #F"
+                        },
+                        "properties": [
+                          {
+                            "id": "displayName",
+                            "value": "Memory Usage (RSS)"
+                          },
+                          {
+                            "id": "unit",
+                            "value": "bytes"
+                          },
+                          {
+                            "id": "decimals",
+                            "value": 2
+                          },
+                          {
+                            "id": "custom.align"
+                          }
+                        ]
+                      },
+                      {
+                        "matcher": {
+                          "id": "byName",
+                          "options": "Value #G"
+                        },
+                        "properties": [
+                          {
+                            "id": "displayName",
+                            "value": "Memory Usage (Cache)"
+                          },
+                          {
+                            "id": "unit",
+                            "value": "bytes"
+                          },
+                          {
+                            "id": "decimals",
+                            "value": 2
+                          },
+                          {
+                            "id": "custom.align"
+                          }
+                        ]
+                      },
+                      {
+                        "matcher": {
+                          "id": "byName",
+                          "options": "Value #H"
+                        },
+                        "properties": [
+                          {
+                            "id": "displayName",
+                            "value": "Memory Usage (Swap)"
+                          },
+                          {
+                            "id": "unit",
+                            "value": "bytes"
+                          },
+                          {
+                            "id": "decimals",
+                            "value": 2
+                          },
+                          {
+                            "id": "custom.align"
+                          }
+                        ]
+                      },
+                      {
+                        "matcher": {
+                          "id": "byName",
+                          "options": "pod"
+                        },
+                        "properties": [
+                          {
+                            "id": "displayName",
+                            "value": "Pod"
+                          },
+                          {
+                            "id": "unit",
+                            "value": "short"
+                          },
+                          {
+                            "id": "decimals",
+                            "value": 2
+                          },
+                          {
+                            "id": "links",
+                            "value": [
+                              {
+                                "targetBlank": false,
+                                "title": "Drill down",
+                                "url": "./d/6581e46e4e5c7ba40a07646395ef7b23/k8s-resources-pod?var-datasource=$datasource&var-cluster=$cluster&var-namespace=$namespace&var-pod=$__cell"
+                              }
+                            ]
+                          },
+                          {
+                            "id": "custom.align"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "panel-24": {
+            "kind": "Panel",
+            "spec": {
+              "id": 24,
+              "title": "Timestamp of last successful sync with the DNS provider",
+              "description": "Timestamp of last successful sync with the DNS provider",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "$datasource"
+                          },
+                          "spec": {
+                            "editorMode": "code",
+                            "exemplar": true,
+                            "expr": "1000 * (external_dns_controller_last_sync_timestamp_seconds{pod=~\".*external-dns.*\",pod=~\"$pod\"})",
+                            "interval": "",
+                            "legendFormat": "{{pod}}",
+                            "range": true
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "bargauge",
+                "version": "10.1.5",
+                "spec": {
+                  "options": {
+                    "displayMode": "lcd",
+                    "minVizHeight": 10,
+                    "minVizWidth": 0,
+                    "orientation": "horizontal",
+                    "reduceOptions": {
+                      "calcs": [
+                        "lastNotNull"
+                      ],
+                      "fields": "",
+                      "values": false
+                    },
+                    "showUnfilled": true,
+                    "text": {
+                      "valueSize": 24
+                    },
+                    "valueMode": "color"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "dateTimeAsLocal",
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "value": null,
+                            "color": "purple"
+                          }
+                        ]
+                      },
+                      "color": {
+                        "mode": "thresholds"
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-28": {
+            "kind": "Panel",
+            "spec": {
+              "id": 28,
+              "title": "Number of Endpoints in the registry",
+              "description": "Number of Endpoints in the registry",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "$datasource"
+                          },
+                          "spec": {
+                            "exemplar": true,
+                            "expr": "external_dns_registry_endpoints_total {pod=~\".*external-dns.*\",pod=~\"$pod\"}",
+                            "interval": "",
+                            "legendFormat": "{{pod}}"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "timeseries",
+                "version": "",
+                "spec": {
+                  "options": {
+                    "legend": {
+                      "calcs": [],
+                      "displayMode": "list",
+                      "placement": "bottom",
+                      "showLegend": true
+                    },
+                    "tooltip": {
+                      "mode": "single",
+                      "sort": "none"
+                    }
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "value": null,
+                            "color": "green"
+                          },
+                          {
+                            "value": 80,
+                            "color": "red"
+                          }
+                        ]
+                      },
+                      "color": {
+                        "mode": "palette-classic"
+                      },
+                      "custom": {
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "drawStyle": "line",
+                        "fillOpacity": 18,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                          "legend": false,
+                          "tooltip": false,
+                          "viz": false
+                        },
+                        "insertNulls": false,
+                        "lineInterpolation": "linear",
+                        "lineWidth": 5,
+                        "pointSize": 5,
+                        "scaleDistribution": {
+                          "type": "linear"
+                        },
+                        "showPoints": "auto",
+                        "spanNulls": false,
+                        "stacking": {
+                          "group": "A",
+                          "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                          "mode": "off"
+                        }
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-30": {
+            "kind": "Panel",
+            "spec": {
+              "id": 30,
+              "title": "Number of Endpoints in all sources",
+              "description": "Number of Endpoints in all sources",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "$datasource"
+                          },
+                          "spec": {
+                            "editorMode": "code",
+                            "exemplar": true,
+                            "expr": "external_dns_source_endpoints_total {pod=~\".*external-dns.*\",pod=~\"$pod\"}",
+                            "interval": "",
+                            "legendFormat": "{{pod}}",
+                            "range": true
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "timeseries",
+                "version": "",
+                "spec": {
+                  "options": {
+                    "legend": {
+                      "calcs": [],
+                      "displayMode": "list",
+                      "placement": "bottom",
+                      "showLegend": true
+                    },
+                    "tooltip": {
+                      "mode": "single",
+                      "sort": "none"
+                    }
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "value": null,
+                            "color": "green"
+                          },
+                          {
+                            "value": 80,
+                            "color": "red"
+                          }
+                        ]
+                      },
+                      "color": {
+                        "mode": "palette-classic"
+                      },
+                      "custom": {
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "drawStyle": "line",
+                        "fillOpacity": 18,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                          "legend": false,
+                          "tooltip": false,
+                          "viz": false
+                        },
+                        "insertNulls": false,
+                        "lineInterpolation": "linear",
+                        "lineWidth": 5,
+                        "pointSize": 5,
+                        "scaleDistribution": {
+                          "type": "linear"
+                        },
+                        "showPoints": "auto",
+                        "spanNulls": false,
+                        "stacking": {
+                          "group": "A",
+                          "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                          "mode": "off"
+                        }
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-31": {
+            "kind": "Panel",
+            "spec": {
+              "id": 31,
+              "title": "Number of DNS AAAA-records that exists both in source and registry",
+              "description": "Number of DNS AAAA-records that exists both in source and registry",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "$datasource"
+                          },
+                          "spec": {
+                            "editorMode": "code",
+                            "exemplar": true,
+                            "expr": "external_dns_controller_verified_records {pod=~\".*external-dns.*\",pod=~\"$pod\" , record_type=\"aaaa\"}",
+                            "interval": "",
+                            "legendFormat": "{{pod}}",
+                            "range": true
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "gauge",
+                "version": "10.1.5",
+                "spec": {
+                  "options": {
+                    "orientation": "auto",
+                    "reduceOptions": {
+                      "calcs": [
+                        "lastNotNull"
+                      ],
+                      "fields": "",
+                      "values": false
+                    },
+                    "showThresholdLabels": false,
+                    "showThresholdMarkers": true
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "value": null,
+                            "color": "light-blue"
+                          },
+                          {
+                            "value": 80,
+                            "color": "red"
+                          }
+                        ]
+                      },
+                      "color": {
+                        "mode": "thresholds"
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-32": {
+            "kind": "Panel",
+            "spec": {
+              "id": 32,
+              "title": "Number of A records in registry",
+              "description": "Number of A records in registry",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "$datasource"
+                          },
+                          "spec": {
+                            "editorMode": "code",
+                            "exemplar": true,
+                            "expr": "external_dns_registry_records {pod=~\".*external-dns.*\",pod=~\"$pod\", record_type=\"a\"}",
+                            "interval": "",
+                            "legendFormat": "{{pod}}",
+                            "range": true
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "gauge",
+                "version": "10.1.5",
+                "spec": {
+                  "options": {
+                    "orientation": "auto",
+                    "reduceOptions": {
+                      "calcs": [
+                        "lastNotNull"
+                      ],
+                      "fields": "",
+                      "values": false
+                    },
+                    "showThresholdLabels": false,
+                    "showThresholdMarkers": true
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "value": null,
+                            "color": "light-blue"
+                          },
+                          {
+                            "value": 80,
+                            "color": "red"
+                          }
+                        ]
+                      },
+                      "color": {
+                        "mode": "thresholds"
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-33": {
+            "kind": "Panel",
+            "spec": {
+              "id": 33,
+              "title": "Number of AAAA records in registry",
+              "description": "Number of AAAA records in registry",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "$datasource"
+                          },
+                          "spec": {
+                            "editorMode": "code",
+                            "exemplar": true,
+                            "expr": "external_dns_registry_records {pod=~\".*external-dns.*\",pod=~\"$pod\" ,record_type=\"aaaa\"}",
+                            "interval": "",
+                            "legendFormat": "{{pod}}",
+                            "range": true
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "gauge",
+                "version": "10.1.5",
+                "spec": {
+                  "options": {
+                    "orientation": "auto",
+                    "reduceOptions": {
+                      "calcs": [
+                        "lastNotNull"
+                      ],
+                      "fields": "",
+                      "values": false
+                    },
+                    "showThresholdLabels": false,
+                    "showThresholdMarkers": true
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "value": null,
+                            "color": "light-blue"
+                          },
+                          {
+                            "value": 80,
+                            "color": "red"
+                          }
+                        ]
+                      },
+                      "color": {
+                        "mode": "thresholds"
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-34": {
+            "kind": "Panel",
+            "spec": {
+              "id": 34,
+              "title": "Number of A records in source",
+              "description": "Number of A records in source",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "$datasource"
+                          },
+                          "spec": {
+                            "editorMode": "code",
+                            "exemplar": true,
+                            "expr": "external_dns_source_records {pod=~\".*external-dns.*\",pod=~\"$pod\" ,record_type=\"a\"}",
+                            "interval": "",
+                            "legendFormat": "{{pod}}",
+                            "range": true
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "gauge",
+                "version": "10.1.5",
+                "spec": {
+                  "options": {
+                    "orientation": "auto",
+                    "reduceOptions": {
+                      "calcs": [
+                        "lastNotNull"
+                      ],
+                      "fields": "",
+                      "values": false
+                    },
+                    "showThresholdLabels": false,
+                    "showThresholdMarkers": true
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "value": null,
+                            "color": "light-blue"
+                          },
+                          {
+                            "value": 80,
+                            "color": "red"
+                          }
+                        ]
+                      },
+                      "color": {
+                        "mode": "thresholds"
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-35": {
+            "kind": "Panel",
+            "spec": {
+              "id": 35,
+              "title": "Number of AAAA records in source",
+              "description": "Number of AAAA records in source",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "$datasource"
+                          },
+                          "spec": {
+                            "editorMode": "code",
+                            "exemplar": true,
+                            "expr": "external_dns_source_records {pod=~\".*external-dns.*\",pod=~\"$pod\" ,record_type=\"aaaa\"}",
+                            "interval": "",
+                            "legendFormat": "{{pod}}",
+                            "range": true
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "gauge",
+                "version": "10.1.5",
+                "spec": {
+                  "options": {
+                    "orientation": "auto",
+                    "reduceOptions": {
+                      "calcs": [
+                        "lastNotNull"
+                      ],
+                      "fields": "",
+                      "values": false
+                    },
+                    "showThresholdLabels": false,
+                    "showThresholdMarkers": true
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "value": null,
+                            "color": "light-blue"
+                          },
+                          {
+                            "value": 80,
+                            "color": "red"
+                          }
+                        ]
+                      },
+                      "color": {
+                        "mode": "thresholds"
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-36": {
+            "kind": "Panel",
+            "spec": {
+              "id": 36,
+              "title": "Timestamp of last attempted sync with the DNS provider",
+              "description": "Timestamp of last attempted sync with the DNS provider",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "$datasource"
+                          },
+                          "spec": {
+                            "editorMode": "code",
+                            "exemplar": true,
+                            "expr": "1000 * (external_dns_controller_last_reconcile_timestamp_seconds{pod=~\".*external-dns.*\",pod=~\"$pod\"})",
+                            "interval": "",
+                            "legendFormat": "{{pod}}",
+                            "range": true
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "bargauge",
+                "version": "10.1.5",
+                "spec": {
+                  "options": {
+                    "displayMode": "lcd",
+                    "minVizHeight": 10,
+                    "minVizWidth": 0,
+                    "orientation": "horizontal",
+                    "reduceOptions": {
+                      "calcs": [
+                        "lastNotNull"
+                      ],
+                      "fields": "",
+                      "values": false
+                    },
+                    "showUnfilled": true,
+                    "text": {
+                      "valueSize": 24
+                    },
+                    "valueMode": "color"
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "dateTimeAsLocal",
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "value": null,
+                            "color": "purple"
+                          }
+                        ]
+                      },
+                      "color": {
+                        "mode": "thresholds"
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-37": {
+            "kind": "Panel",
+            "spec": {
+              "id": 37,
+              "title": "External-dns controller no_op runs total",
+              "description": "External-dns controller no_op runs total",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "$datasource"
+                          },
+                          "spec": {
+                            "editorMode": "code",
+                            "exemplar": true,
+                            "expr": "external_dns_controller_no_op_runs_total {pod=~\".*external-dns.*\",pod=~\"$pod\"}",
+                            "interval": "",
+                            "legendFormat": "{{pod}}",
+                            "range": true
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "gauge",
+                "version": "10.1.5",
+                "spec": {
+                  "options": {
+                    "orientation": "auto",
+                    "reduceOptions": {
+                      "calcs": [
+                        "lastNotNull"
+                      ],
+                      "fields": "",
+                      "values": false
+                    },
+                    "showThresholdLabels": false,
+                    "showThresholdMarkers": true
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "value": null,
+                            "color": "purple"
+                          },
+                          {
+                            "value": 80,
+                            "color": "red"
+                          }
+                        ]
+                      },
+                      "color": {
+                        "mode": "thresholds"
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-6": {
+            "kind": "Panel",
+            "spec": {
+              "id": 6,
+              "title": "Number of DNS A-records that exists both in source and registry",
+              "description": "Number of DNS A-records that exists both in source and registry",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "$datasource"
+                          },
+                          "spec": {
+                            "editorMode": "code",
+                            "exemplar": true,
+                            "expr": "external_dns_controller_verified_records {pod=~\".*external-dns.*\",pod=~\"$pod\" ,record_type=\"a\"}",
+                            "interval": "",
+                            "legendFormat": "{{pod}}",
+                            "range": true
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "gauge",
+                "version": "10.1.5",
+                "spec": {
+                  "options": {
+                    "orientation": "auto",
+                    "reduceOptions": {
+                      "calcs": [
+                        "lastNotNull"
+                      ],
+                      "fields": "",
+                      "values": false
+                    },
+                    "showThresholdLabels": false,
+                    "showThresholdMarkers": true
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                          {
+                            "value": null,
+                            "color": "light-blue"
+                          },
+                          {
+                            "value": 80,
+                            "color": "red"
+                          }
+                        ]
+                      },
+                      "color": {
+                        "mode": "thresholds"
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          }
+        },
+        "layout": {
+          "kind": "RowsLayout",
+          "spec": {
+            "rows": [
+              {
+                "kind": "RowsLayoutRow",
+                "spec": {
+                  "title": "External-dns endpoints",
+                  "collapse": false,
+                  "layout": {
+                    "kind": "GridLayout",
+                    "spec": {
+                      "items": [
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 0,
+                            "y": 0,
+                            "width": 12,
+                            "height": 8,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-28"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 12,
+                            "y": 0,
+                            "width": 12,
+                            "height": 8,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-30"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "kind": "RowsLayoutRow",
+                "spec": {
+                  "title": "External-dns sync",
+                  "collapse": false,
+                  "layout": {
+                    "kind": "GridLayout",
+                    "spec": {
+                      "items": [
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 0,
+                            "y": 0,
+                            "width": 12,
+                            "height": 8,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-36"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 12,
+                            "y": 0,
+                            "width": 12,
+                            "height": 8,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-24"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 0,
+                            "y": 8,
+                            "width": 5,
+                            "height": 7,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-37"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "kind": "RowsLayoutRow",
+                "spec": {
+                  "title": "External-dns records",
+                  "collapse": false,
+                  "layout": {
+                    "kind": "GridLayout",
+                    "spec": {
+                      "items": [
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 0,
+                            "y": 0,
+                            "width": 5,
+                            "height": 7,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-32"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 5,
+                            "y": 0,
+                            "width": 5,
+                            "height": 7,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-33"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 10,
+                            "y": 0,
+                            "width": 5,
+                            "height": 7,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-34"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 0,
+                            "y": 7,
+                            "width": 5,
+                            "height": 7,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-35"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 5,
+                            "y": 7,
+                            "width": 5,
+                            "height": 7,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-6"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 10,
+                            "y": 7,
+                            "width": 5,
+                            "height": 7,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-31"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "kind": "RowsLayoutRow",
+                "spec": {
+                  "title": "External-dns errors",
+                  "collapse": false,
+                  "layout": {
+                    "kind": "GridLayout",
+                    "spec": {
+                      "items": [
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 0,
+                            "y": 0,
+                            "width": 5,
+                            "height": 7,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-10"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 5,
+                            "y": 0,
+                            "width": 5,
+                            "height": 7,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-12"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "kind": "RowsLayoutRow",
+                "spec": {
+                  "title": "External-dns pods",
+                  "collapse": false,
+                  "layout": {
+                    "kind": "GridLayout",
+                    "spec": {
+                      "items": [
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 0,
+                            "y": 0,
+                            "width": 12,
+                            "height": 8,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-18"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 12,
+                            "y": 0,
+                            "width": 12,
+                            "height": 8,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-14"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 0,
+                            "y": 8,
+                            "width": 24,
+                            "height": 7,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-20"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 0,
+                            "y": 15,
+                            "width": 24,
+                            "height": 7,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-22"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "links": [],
+        "liveNow": false,
+        "preload": false,
+        "tags": [
+          "external-dns",
+          "dns"
+        ],
+        "timeSettings": {
+          "timezone": "utc",
+          "from": "now-24h",
+          "to": "now",
+          "autoRefresh": "",
+          "autoRefreshIntervals": [
+            "5s",
+            "10s",
+            "30s",
+            "1m",
+            "5m",
+            "15m",
+            "30m",
+            "1h",
+            "2h",
+            "1d"
+          ],
+          "hideTimepicker": false,
+          "fiscalYearStartMonth": 0
+        },
+        "title": "External DNS",
+        "variables": [
+          {
+            "kind": "DatasourceVariable",
+            "spec": {
+              "name": "datasource",
+              "pluginId": "prometheus",
+              "refresh": "onDashboardLoad",
+              "regex": "",
+              "current": {
+                "text": "default",
+                "value": "default"
+              },
+              "options": [],
+              "multi": false,
+              "includeAll": false,
+              "label": "Datasource",
+              "hide": "hideVariable",
+              "skipUrlSync": false,
+              "allowCustomValue": true
+            }
+          },
+          {
+            "kind": "QueryVariable",
+            "spec": {
+              "name": "pod",
+              "current": {
+                "text": "",
+                "value": ""
+              },
+              "label": "pod",
+              "hide": "dontHide",
+              "refresh": "onTimeRangeChanged",
+              "skipUrlSync": false,
+              "query": {
+                "kind": "DataQuery",
+                "group": "prometheus",
+                "version": "v0",
+                "datasource": {
+                  "name": "$datasource"
+                },
+                "spec": {
+                  "query": "label_values(kube_pod_info{pod=~\".*external-dns.*\"}, pod)",
+                  "refId": "StandardVariableQuery"
+                }
+              },
+              "regex": "",
+              "sort": "disabled",
+              "definition": "label_values(kube_pod_info{pod=~\".*external-dns.*\"}, pod)",
+              "options": [],
+              "multi": false,
+              "includeAll": true,
+              "allowCustomValue": true
+            }
+          }
+        ]
+      }
+    }

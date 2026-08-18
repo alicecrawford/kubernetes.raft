@@ -1,0 +1,1068 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-k8s-networking-namespace-pods
+  namespace: monitoring
+  labels:
+    grafana_dashboard: '1'
+  annotations: {}
+data:
+  grafana-dashboard-k8s-networking-namespace-pods.json: |-
+    {
+      "apiVersion": "dashboard.grafana.app/v2",
+      "kind": "Dashboard",
+      "metadata": {
+        "name": "8b7a8b326d7a6f1f04244066368c67af",
+        "namespace": "default"
+      },
+      "spec": {
+        "annotations": [
+          {
+            "kind": "AnnotationQuery",
+            "spec": {
+              "query": {
+                "kind": "DataQuery",
+                "group": "grafana",
+                "version": "v0",
+                "datasource": {
+                  "name": "-- Grafana --"
+                },
+                "spec": {}
+              },
+              "enable": true,
+              "hide": true,
+              "iconColor": "rgba(0, 211, 255, 1)",
+              "name": "Annotations & Alerts",
+              "builtIn": true,
+              "legacyOptions": {
+                "type": "dashboard"
+              }
+            }
+          }
+        ],
+        "cursorSync": "Off",
+        "editable": false,
+        "elements": {
+          "panel-1": {
+            "kind": "Panel",
+            "spec": {
+              "id": 1,
+              "title": "Current Rate of Bits Received",
+              "description": "",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "sum((8 * rate(container_network_receive_bytes_total{polycule=~\"$cluster\",namespace=~\"$namespace\"}[$__rate_interval])) * on(polycule,namespace,pod) group_left() topk(1, max(kube_pod_info{host_network=\"false\",polycule=~\"$cluster\"}) by(polycule,namespace,pod)) by(polycule,namespace,pod)) by(polycule)",
+                            "legendFormat": "__auto"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {
+                    "interval": "1m"
+                  }
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "gauge",
+                "version": "v13.0.0",
+                "spec": {
+                  "options": {},
+                  "fieldConfig": {
+                    "defaults": {
+                      "displayName": "$namespace",
+                      "unit": "bps",
+                      "min": 0,
+                      "max": 10000000000,
+                      "thresholds": {
+                        "mode": "",
+                        "steps": [
+                          {
+                            "value": null,
+                            "color": "dark-green"
+                          },
+                          {
+                            "value": 5000000000,
+                            "color": "dark-yellow"
+                          },
+                          {
+                            "value": 7000000000,
+                            "color": "dark-red"
+                          }
+                        ]
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-2": {
+            "kind": "Panel",
+            "spec": {
+              "id": 2,
+              "title": "Current Rate of Bits Transmitted",
+              "description": "",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "sum((8 * rate(container_network_transmit_bytes_total{polycule=~\"$cluster\",namespace=~\"$namespace\"}[$__rate_interval])) * on(polycule,namespace,pod) group_left() topk(1, max(kube_pod_info{host_network=\"false\",polycule=~\"$cluster\"}) by(polycule,namespace,pod)) by(polycule,namespace,pod)) by(polycule)",
+                            "legendFormat": "__auto"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {
+                    "interval": "1m"
+                  }
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "gauge",
+                "version": "v13.0.0",
+                "spec": {
+                  "options": {},
+                  "fieldConfig": {
+                    "defaults": {
+                      "displayName": "$namespace",
+                      "unit": "bps",
+                      "min": 0,
+                      "max": 10000000000,
+                      "thresholds": {
+                        "mode": "",
+                        "steps": [
+                          {
+                            "value": null,
+                            "color": "dark-green"
+                          },
+                          {
+                            "value": 5000000000,
+                            "color": "dark-yellow"
+                          },
+                          {
+                            "value": 7000000000,
+                            "color": "dark-red"
+                          }
+                        ]
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-3": {
+            "kind": "Panel",
+            "spec": {
+              "id": 3,
+              "title": "Current Network Usage",
+              "description": "",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "sum((8 * rate(container_network_receive_bytes_total{polycule=~\"$cluster\",namespace=~\"$namespace\"}[$__rate_interval])) * on(polycule,namespace,pod) group_left() topk(1, max(kube_pod_info{host_network=\"false\",polycule=~\"$cluster\"}) by(polycule,namespace,pod)) by(polycule,namespace,pod)) by(pod,polycule)",
+                            "format": "table",
+                            "instant": true
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    },
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "sum((8 * rate(container_network_transmit_bytes_total{polycule=~\"$cluster\",namespace=~\"$namespace\"}[$__rate_interval])) * on(polycule,namespace,pod) group_left() topk(1, max(kube_pod_info{host_network=\"false\",polycule=~\"$cluster\"}) by(polycule,namespace,pod)) by(polycule,namespace,pod)) by(pod,polycule)",
+                            "format": "table",
+                            "instant": true
+                          }
+                        },
+                        "refId": "B",
+                        "hidden": false
+                      }
+                    },
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "sum(rate(container_network_receive_packets_total{polycule=~\"$cluster\",namespace=~\"$namespace\"}[$__rate_interval]) * on(polycule,namespace,pod) group_left() topk(1, max(kube_pod_info{host_network=\"false\",polycule=~\"$cluster\"}) by(polycule,namespace,pod)) by(polycule,namespace,pod)) by(pod,polycule)",
+                            "format": "table",
+                            "instant": true
+                          }
+                        },
+                        "refId": "C",
+                        "hidden": false
+                      }
+                    },
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "sum(rate(container_network_transmit_packets_total{polycule=~\"$cluster\",namespace=~\"$namespace\"}[$__rate_interval]) * on(polycule,namespace,pod) group_left() topk(1, max(kube_pod_info{host_network=\"false\",polycule=~\"$cluster\"}) by(polycule,namespace,pod)) by(polycule,namespace,pod)) by(pod,polycule)",
+                            "format": "table",
+                            "instant": true
+                          }
+                        },
+                        "refId": "D",
+                        "hidden": false
+                      }
+                    },
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "sum(rate(container_network_receive_packets_dropped_total{polycule=~\"$cluster\",namespace=~\"$namespace\"}[$__rate_interval]) * on(polycule,namespace,pod) group_left() topk(1, max(kube_pod_info{host_network=\"false\",polycule=~\"$cluster\"}) by(polycule,namespace,pod)) by(polycule,namespace,pod)) by(pod,polycule)",
+                            "format": "table",
+                            "instant": true
+                          }
+                        },
+                        "refId": "E",
+                        "hidden": false
+                      }
+                    },
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "sum(rate(container_network_transmit_packets_dropped_total{polycule=~\"$cluster\",namespace=~\"$namespace\"}[$__rate_interval]) * on(polycule,namespace,pod) group_left() topk(1, max(kube_pod_info{host_network=\"false\",polycule=~\"$cluster\"}) by(polycule,namespace,pod)) by(polycule,namespace,pod)) by(pod,polycule)",
+                            "format": "table",
+                            "instant": true
+                          }
+                        },
+                        "refId": "F",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [
+                    {
+                      "kind": "Transformation",
+                      "group": "joinByField",
+                      "spec": {
+                        "options": {
+                          "byField": "pod",
+                          "mode": "outer"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "Transformation",
+                      "group": "organize",
+                      "spec": {
+                        "options": {
+                          "excludeByName": {
+                            "Time": true,
+                            "Time 1": true,
+                            "Time 2": true,
+                            "Time 3": true,
+                            "Time 4": true,
+                            "Time 5": true,
+                            "Time 6": true
+                          },
+                          "indexByName": {
+                            "Time 1": 0,
+                            "Time 2": 1,
+                            "Time 3": 2,
+                            "Time 4": 3,
+                            "Time 5": 4,
+                            "Time 6": 5,
+                            "Value #A": 7,
+                            "Value #B": 8,
+                            "Value #C": 9,
+                            "Value #D": 10,
+                            "Value #E": 11,
+                            "Value #F": 12,
+                            "pod": 6
+                          },
+                          "renameByName": {
+                            "Value #A": "Current Receive Bandwidth",
+                            "Value #B": "Current Transmit Bandwidth",
+                            "Value #C": "Rate of Received Packets",
+                            "Value #D": "Rate of Transmitted Packets",
+                            "Value #E": "Rate of Received Packets Dropped",
+                            "Value #F": "Rate of Transmitted Packets Dropped",
+                            "pod": "Pod"
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "table",
+                "version": "v13.0.0",
+                "spec": {
+                  "options": {},
+                  "fieldConfig": {
+                    "defaults": {},
+                    "overrides": [
+                      {
+                        "matcher": {
+                          "id": "byRegexp",
+                          "options": "/Bandwidth/"
+                        },
+                        "properties": [
+                          {
+                            "id": "unit",
+                            "value": "bps"
+                          }
+                        ]
+                      },
+                      {
+                        "matcher": {
+                          "id": "byRegexp",
+                          "options": "/Packets/"
+                        },
+                        "properties": [
+                          {
+                            "id": "unit",
+                            "value": "pps"
+                          }
+                        ]
+                      },
+                      {
+                        "matcher": {
+                          "id": "byName",
+                          "options": "Pod"
+                        },
+                        "properties": [
+                          {
+                            "id": "links",
+                            "value": [
+                              {
+                                "title": "Drill down",
+                                "url": "/d/7a18067ce943a40ae25454675c19ff5c?${datasource:queryparam}&var-cluster=${cluster}&var-namespace=${namespace}&var-pod=${__data.fields.Pod}"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "panel-4": {
+            "kind": "Panel",
+            "spec": {
+              "id": 4,
+              "title": "Receive Bandwidth",
+              "description": "",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "sum((8 * rate(container_network_receive_bytes_total{polycule=~\"$cluster\",namespace=~\"$namespace\"}[$__rate_interval])) * on(polycule,namespace,pod) group_left() topk(1, max(kube_pod_info{host_network=\"false\",polycule=~\"$cluster\"}) by(polycule,namespace,pod)) by(polycule,namespace,pod)) by(pod,polycule)",
+                            "legendFormat": "__auto"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {
+                    "interval": "1m"
+                  }
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "timeseries",
+                "version": "v13.0.0",
+                "spec": {
+                  "options": {
+                    "legend": {
+                      "asTable": true,
+                      "displayMode": "table",
+                      "placement": "right",
+                      "showLegend": true
+                    },
+                    "tooltip": {
+                      "mode": "single"
+                    }
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "bps",
+                      "custom": {
+                        "showPoints": "never"
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-5": {
+            "kind": "Panel",
+            "spec": {
+              "id": 5,
+              "title": "Transmit Bandwidth",
+              "description": "",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "sum((8 * rate(container_network_transmit_bytes_total{polycule=~\"$cluster\",namespace=~\"$namespace\"}[$__rate_interval])) * on(polycule,namespace,pod) group_left() topk(1, max(kube_pod_info{host_network=\"false\",polycule=~\"$cluster\"}) by(polycule,namespace,pod)) by(polycule,namespace,pod)) by(pod,polycule)",
+                            "legendFormat": "__auto"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {
+                    "interval": "1m"
+                  }
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "timeseries",
+                "version": "v13.0.0",
+                "spec": {
+                  "options": {
+                    "legend": {
+                      "asTable": true,
+                      "displayMode": "table",
+                      "placement": "right",
+                      "showLegend": true
+                    },
+                    "tooltip": {
+                      "mode": "single"
+                    }
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "bps",
+                      "custom": {
+                        "showPoints": "never"
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-6": {
+            "kind": "Panel",
+            "spec": {
+              "id": 6,
+              "title": "Rate of Received Packets",
+              "description": "",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "sum(rate(container_network_receive_packets_total{polycule=~\"$cluster\",namespace=~\"$namespace\"}[$__rate_interval]) * on(polycule,namespace,pod) group_left() topk(1, max(kube_pod_info{host_network=\"false\",polycule=~\"$cluster\"}) by(polycule,namespace,pod)) by(polycule,namespace,pod)) by(pod,polycule)",
+                            "legendFormat": "__auto"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {
+                    "interval": "1m"
+                  }
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "timeseries",
+                "version": "v13.0.0",
+                "spec": {
+                  "options": {
+                    "legend": {
+                      "asTable": true,
+                      "displayMode": "table",
+                      "placement": "right",
+                      "showLegend": true
+                    },
+                    "tooltip": {
+                      "mode": "single"
+                    }
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "pps",
+                      "custom": {
+                        "showPoints": "never"
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-7": {
+            "kind": "Panel",
+            "spec": {
+              "id": 7,
+              "title": "Rate of Transmitted Packets",
+              "description": "",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "sum(rate(container_network_transmit_packets_total{polycule=~\"$cluster\",namespace=~\"$namespace\"}[$__rate_interval]) * on(polycule,namespace,pod) group_left() topk(1, max(kube_pod_info{host_network=\"false\",polycule=~\"$cluster\"}) by(polycule,namespace,pod)) by(polycule,namespace,pod)) by(pod,polycule)",
+                            "legendFormat": "__auto"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {
+                    "interval": "1m"
+                  }
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "timeseries",
+                "version": "v13.0.0",
+                "spec": {
+                  "options": {
+                    "legend": {
+                      "asTable": true,
+                      "displayMode": "table",
+                      "placement": "right",
+                      "showLegend": true
+                    },
+                    "tooltip": {
+                      "mode": "single"
+                    }
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "pps",
+                      "custom": {
+                        "showPoints": "never"
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-8": {
+            "kind": "Panel",
+            "spec": {
+              "id": 8,
+              "title": "Rate of Received Packets Dropped",
+              "description": "",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "sum(rate(container_network_receive_packets_dropped_total{polycule=~\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on(polycule,namespace,pod) group_left() topk(1, max(kube_pod_info{host_network=\"false\",polycule=~\"$cluster\"}) by(polycule,namespace,pod)) by(polycule,namespace,pod)) by(pod,polycule)",
+                            "legendFormat": "__auto"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {
+                    "interval": "1m"
+                  }
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "timeseries",
+                "version": "v13.0.0",
+                "spec": {
+                  "options": {
+                    "legend": {
+                      "asTable": true,
+                      "displayMode": "table",
+                      "placement": "right",
+                      "showLegend": true
+                    },
+                    "tooltip": {
+                      "mode": "single"
+                    }
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "pps",
+                      "custom": {
+                        "showPoints": "never"
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-9": {
+            "kind": "Panel",
+            "spec": {
+              "id": 9,
+              "title": "Rate of Transmitted Packets Dropped",
+              "description": "",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "sum(rate(container_network_transmit_packets_dropped_total{polycule=~\"$cluster\",namespace=~\"$namespace\"}[$__rate_interval]) * on(polycule,namespace,pod) group_left() topk(1, max(kube_pod_info{host_network=\"false\",polycule=~\"$cluster\"}) by(polycule,namespace,pod)) by(polycule,namespace,pod)) by(pod,polycule)",
+                            "legendFormat": "__auto"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {
+                    "interval": "1m"
+                  }
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "timeseries",
+                "version": "v13.0.0",
+                "spec": {
+                  "options": {
+                    "legend": {
+                      "asTable": true,
+                      "displayMode": "table",
+                      "placement": "right",
+                      "showLegend": true
+                    },
+                    "tooltip": {
+                      "mode": "single"
+                    }
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "pps",
+                      "custom": {
+                        "showPoints": "never"
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          }
+        },
+        "layout": {
+          "kind": "GridLayout",
+          "spec": {
+            "items": [
+              {
+                "kind": "GridLayoutItem",
+                "spec": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 12,
+                  "height": 9,
+                  "element": {
+                    "kind": "ElementReference",
+                    "name": "panel-1"
+                  }
+                }
+              },
+              {
+                "kind": "GridLayoutItem",
+                "spec": {
+                  "x": 12,
+                  "y": 0,
+                  "width": 12,
+                  "height": 9,
+                  "element": {
+                    "kind": "ElementReference",
+                    "name": "panel-2"
+                  }
+                }
+              },
+              {
+                "kind": "GridLayoutItem",
+                "spec": {
+                  "x": 0,
+                  "y": 9,
+                  "width": 24,
+                  "height": 9,
+                  "element": {
+                    "kind": "ElementReference",
+                    "name": "panel-3"
+                  }
+                }
+              },
+              {
+                "kind": "GridLayoutItem",
+                "spec": {
+                  "x": 0,
+                  "y": 18,
+                  "width": 12,
+                  "height": 9,
+                  "element": {
+                    "kind": "ElementReference",
+                    "name": "panel-4"
+                  }
+                }
+              },
+              {
+                "kind": "GridLayoutItem",
+                "spec": {
+                  "x": 12,
+                  "y": 18,
+                  "width": 12,
+                  "height": 9,
+                  "element": {
+                    "kind": "ElementReference",
+                    "name": "panel-5"
+                  }
+                }
+              },
+              {
+                "kind": "GridLayoutItem",
+                "spec": {
+                  "x": 0,
+                  "y": 27,
+                  "width": 12,
+                  "height": 9,
+                  "element": {
+                    "kind": "ElementReference",
+                    "name": "panel-6"
+                  }
+                }
+              },
+              {
+                "kind": "GridLayoutItem",
+                "spec": {
+                  "x": 12,
+                  "y": 27,
+                  "width": 12,
+                  "height": 9,
+                  "element": {
+                    "kind": "ElementReference",
+                    "name": "panel-7"
+                  }
+                }
+              },
+              {
+                "kind": "GridLayoutItem",
+                "spec": {
+                  "x": 0,
+                  "y": 36,
+                  "width": 12,
+                  "height": 9,
+                  "element": {
+                    "kind": "ElementReference",
+                    "name": "panel-8"
+                  }
+                }
+              },
+              {
+                "kind": "GridLayoutItem",
+                "spec": {
+                  "x": 12,
+                  "y": 36,
+                  "width": 12,
+                  "height": 9,
+                  "element": {
+                    "kind": "ElementReference",
+                    "name": "panel-9"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "links": [
+          {
+            "title": "Kubernetes",
+            "type": "dashboards",
+            "icon": "",
+            "tooltip": "",
+            "tags": [
+              "kubernetes-mixin"
+            ],
+            "asDropdown": true,
+            "targetBlank": false,
+            "includeVars": true,
+            "keepTime": true
+          }
+        ],
+        "liveNow": false,
+        "preload": false,
+        "tags": [
+          "kubernetes-mixin",
+          "vm-k8s-stack"
+        ],
+        "timeSettings": {
+          "timezone": "UTC",
+          "from": "now-1h",
+          "to": "now",
+          "autoRefresh": "10s",
+          "autoRefreshIntervals": [
+            "5s",
+            "10s",
+            "30s",
+            "1m",
+            "5m",
+            "15m",
+            "30m",
+            "1h",
+            "2h",
+            "1d"
+          ],
+          "hideTimepicker": false,
+          "fiscalYearStartMonth": 0
+        },
+        "title": "Networking / Namespace (Pods)",
+        "variables": [
+          {
+            "kind": "DatasourceVariable",
+            "spec": {
+              "name": "datasource",
+              "pluginId": "prometheus",
+              "refresh": "never",
+              "regex": "",
+              "current": {
+                "text": "default",
+                "value": "default"
+              },
+              "options": [],
+              "multi": false,
+              "includeAll": false,
+              "label": "Data source",
+              "hide": "dontHide",
+              "skipUrlSync": false,
+              "allowCustomValue": true
+            }
+          },
+          {
+            "kind": "ConstantVariable",
+            "spec": {
+              "name": "cluster",
+              "query": ".*",
+              "current": {
+                "text": ".*",
+                "value": ".*"
+              },
+              "label": "cluster",
+              "hide": "hideVariable",
+              "skipUrlSync": false
+            }
+          },
+          {
+            "kind": "QueryVariable",
+            "spec": {
+              "name": "namespace",
+              "current": {
+                "text": "kube-system",
+                "value": "kube-system"
+              },
+              "label": "namespace",
+              "hide": "dontHide",
+              "refresh": "onTimeRangeChanged",
+              "skipUrlSync": false,
+              "query": {
+                "kind": "DataQuery",
+                "group": "prometheus",
+                "version": "v0",
+                "datasource": {
+                  "name": "${datasource}"
+                },
+                "spec": {
+                  "__legacyStringValue": "label_values(container_network_receive_packets_total{polycule=~\"$cluster\"}, namespace)"
+                }
+              },
+              "regex": "",
+              "sort": "alphabeticalAsc",
+              "options": [],
+              "multi": false,
+              "includeAll": true,
+              "allValue": ".+",
+              "allowCustomValue": true
+            }
+          }
+        ]
+      }
+    }
