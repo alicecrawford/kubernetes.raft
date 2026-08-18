@@ -2836,7 +2836,7 @@ data:
           "dns"
         ],
         "timeSettings": {
-          "timezone": "utc",
+          "timezone": "browser",
           "from": "now-24h",
           "to": "now",
           "autoRefresh": "",
