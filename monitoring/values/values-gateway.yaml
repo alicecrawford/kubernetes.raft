@@ -21,11 +21,6 @@ gateways:
             port: 80
             hostnames:
               - grafana.raft.lutris.house
-          - name: logs
-            service: vlsingle-monitoring-victoria-metrics-k8s-stack
-            port: 9428
-            hostnames:
-              - logs.raft.lutris.house
           - name: vmagent
             service: vmagent-monitoring-victoria-metrics-k8s-stack
             port: 8429
