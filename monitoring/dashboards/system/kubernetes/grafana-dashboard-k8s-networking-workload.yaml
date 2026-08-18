@@ -1,0 +1,1024 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-k8s-networking-workload
+  namespace: monitoring
+  labels:
+    grafana_dashboard: '1'
+  annotations: {}
+data:
+  grafana-dashboard-k8s-networking-workload.json: |-
+    {
+      "apiVersion": "dashboard.grafana.app/v2",
+      "kind": "Dashboard",
+      "metadata": {
+        "name": "728bf77cc1166d2f3133bf25846876cc",
+        "namespace": "default"
+      },
+      "spec": {
+        "annotations": [
+          {
+            "kind": "AnnotationQuery",
+            "spec": {
+              "query": {
+                "kind": "DataQuery",
+                "group": "grafana",
+                "version": "v0",
+                "datasource": {
+                  "name": "-- Grafana --"
+                },
+                "spec": {}
+              },
+              "enable": true,
+              "hide": true,
+              "iconColor": "rgba(0, 211, 255, 1)",
+              "name": "Annotations & Alerts",
+              "builtIn": true,
+              "legacyOptions": {
+                "type": "dashboard"
+              }
+            }
+          }
+        ],
+        "cursorSync": "Off",
+        "editable": false,
+        "elements": {
+          "panel-1": {
+            "kind": "Panel",
+            "spec": {
+              "id": 1,
+              "title": "Current Rate of Bits Received",
+              "description": "",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "sort_desc(sum((8 * rate(container_network_receive_bytes_total{job=\"kubelet\",metrics_path=\"/metrics/cadvisor\",polycule=~\"$cluster\",namespace=~\"$namespace\"}[$__rate_interval])) * on(polycule,namespace,pod) group_left(workload,workload_type) namespace_workload_pod:kube_pod_owner:relabel{polycule=~\"$cluster\",namespace=~\"$namespace\",workload=~\"$workload\",workload_type=~\"$type\"}) by(pod,polycule))",
+                            "legendFormat": "__auto"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {
+                    "interval": "1m"
+                  }
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "bargauge",
+                "version": "v13.0.0",
+                "spec": {
+                  "options": {
+                    "displayMode": "basic",
+                    "showUnfilled": false
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "bps",
+                      "color": {
+                        "mode": "fixed",
+                        "fixedColor": "green"
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-10": {
+            "kind": "Panel",
+            "spec": {
+              "id": 10,
+              "title": "Rate of Transmitted Packets Dropped",
+              "description": "",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "sort_desc(sum(rate(container_network_transmit_packets_dropped_total{job=\"kubelet\",metrics_path=\"/metrics/cadvisor\",polycule=~\"$cluster\",namespace=~\"$namespace\"}[$__rate_interval]) * on(polycule,namespace,pod) group_left(workload,workload_type) namespace_workload_pod:kube_pod_owner:relabel{polycule=~\"$cluster\",namespace=~\"$namespace\",workload=~\"$workload\",workload_type=~\"$type\"}) by(pod,polycule))",
+                            "legendFormat": "__auto"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {
+                    "interval": "1m"
+                  }
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "timeseries",
+                "version": "v13.0.0",
+                "spec": {
+                  "options": {
+                    "legend": {
+                      "asTable": true,
+                      "calcs": [
+                        "lastNotNull"
+                      ],
+                      "displayMode": "table",
+                      "placement": "right",
+                      "showLegend": true
+                    },
+                    "tooltip": {
+                      "mode": "single"
+                    }
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "pps",
+                      "custom": {
+                        "fillOpacity": 10,
+                        "showPoints": "never",
+                        "spanNulls": true
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-2": {
+            "kind": "Panel",
+            "spec": {
+              "id": 2,
+              "title": "Current Rate of Bits Transmitted",
+              "description": "",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "sort_desc(sum((8 * rate(container_network_transmit_bytes_total{job=\"kubelet\",metrics_path=\"/metrics/cadvisor\",polycule=~\"$cluster\",namespace=~\"$namespace\"}[$__rate_interval])) * on(polycule,namespace,pod) group_left(workload,workload_type) namespace_workload_pod:kube_pod_owner:relabel{polycule=~\"$cluster\",namespace=~\"$namespace\",workload=~\"$workload\",workload_type=~\"$type\"}) by(pod,polycule))",
+                            "legendFormat": "__auto"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {
+                    "interval": "1m"
+                  }
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "bargauge",
+                "version": "v13.0.0",
+                "spec": {
+                  "options": {
+                    "displayMode": "basic",
+                    "showUnfilled": false
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "bps",
+                      "color": {
+                        "mode": "fixed",
+                        "fixedColor": "green"
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-3": {
+            "kind": "Panel",
+            "spec": {
+              "id": 3,
+              "title": "Average Rate of Bits Received",
+              "description": "",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "sort_desc(avg((8 * rate(container_network_receive_bytes_total{job=\"kubelet\",metrics_path=\"/metrics/cadvisor\",polycule=~\"$cluster\",namespace=~\"$namespace\"}[$__rate_interval])) * on(polycule,namespace,pod) group_left(workload,workload_type) namespace_workload_pod:kube_pod_owner:relabel{polycule=~\"$cluster\",namespace=~\"$namespace\",workload=~\"$workload\",workload_type=~\"$type\"}) by(pod,polycule))",
+                            "legendFormat": "__auto"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {
+                    "interval": "1m"
+                  }
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "bargauge",
+                "version": "v13.0.0",
+                "spec": {
+                  "options": {
+                    "displayMode": "basic",
+                    "showUnfilled": false
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "bps",
+                      "color": {
+                        "mode": "fixed",
+                        "fixedColor": "green"
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-4": {
+            "kind": "Panel",
+            "spec": {
+              "id": 4,
+              "title": "Average Rate of Bits Transmitted",
+              "description": "",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "sort_desc(avg((8 * rate(container_network_transmit_bytes_total{job=\"kubelet\",metrics_path=\"/metrics/cadvisor\",polycule=~\"$cluster\",namespace=~\"$namespace\"}[$__rate_interval])) * on(polycule,namespace,pod) group_left(workload,workload_type) namespace_workload_pod:kube_pod_owner:relabel{polycule=~\"$cluster\",namespace=~\"$namespace\",workload=~\"$workload\",workload_type=~\"$type\"}) by(pod,polycule))",
+                            "legendFormat": "__auto"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {
+                    "interval": "1m"
+                  }
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "bargauge",
+                "version": "v13.0.0",
+                "spec": {
+                  "options": {
+                    "displayMode": "basic",
+                    "showUnfilled": false
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "bps",
+                      "color": {
+                        "mode": "fixed",
+                        "fixedColor": "green"
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-5": {
+            "kind": "Panel",
+            "spec": {
+              "id": 5,
+              "title": "Receive Bandwidth",
+              "description": "",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "sort_desc(sum((8 * rate(container_network_receive_bytes_total{job=\"kubelet\",metrics_path=\"/metrics/cadvisor\",polycule=~\"$cluster\",namespace=~\"$namespace\"}[$__rate_interval])) * on(polycule,namespace,pod) group_left(workload,workload_type) namespace_workload_pod:kube_pod_owner:relabel{polycule=~\"$cluster\",namespace=~\"$namespace\",workload=~\"$workload\",workload_type=~\"$type\"}) by(pod,polycule))",
+                            "legendFormat": "__auto"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {
+                    "interval": "1m"
+                  }
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "timeseries",
+                "version": "v13.0.0",
+                "spec": {
+                  "options": {
+                    "legend": {
+                      "asTable": true,
+                      "calcs": [
+                        "lastNotNull"
+                      ],
+                      "displayMode": "table",
+                      "placement": "right",
+                      "showLegend": true
+                    },
+                    "tooltip": {
+                      "mode": "single"
+                    }
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "bps",
+                      "custom": {
+                        "fillOpacity": 10,
+                        "showPoints": "never",
+                        "spanNulls": true
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-6": {
+            "kind": "Panel",
+            "spec": {
+              "id": 6,
+              "title": "Transmit Bandwidth",
+              "description": "",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "sort_desc(sum((8 * rate(container_network_transmit_bytes_total{job=\"kubelet\",metrics_path=\"/metrics/cadvisor\",polycule=~\"$cluster\",namespace=~\"$namespace\"}[$__rate_interval])) * on(polycule,namespace,pod) group_left(workload,workload_type) namespace_workload_pod:kube_pod_owner:relabel{polycule=~\"$cluster\",namespace=~\"$namespace\",workload=~\"$workload\",workload_type=~\"$type\"}) by(pod,polycule))",
+                            "legendFormat": "__auto"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {
+                    "interval": "1m"
+                  }
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "timeseries",
+                "version": "v13.0.0",
+                "spec": {
+                  "options": {
+                    "legend": {
+                      "asTable": true,
+                      "calcs": [
+                        "lastNotNull"
+                      ],
+                      "displayMode": "table",
+                      "placement": "right",
+                      "showLegend": true
+                    },
+                    "tooltip": {
+                      "mode": "single"
+                    }
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "bps",
+                      "custom": {
+                        "fillOpacity": 10,
+                        "showPoints": "never",
+                        "spanNulls": true
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-7": {
+            "kind": "Panel",
+            "spec": {
+              "id": 7,
+              "title": "Rate of Received Packets",
+              "description": "",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "sort_desc(sum(rate(container_network_receive_packets_total{job=\"kubelet\",metrics_path=\"/metrics/cadvisor\",polycule=~\"$cluster\",namespace=~\"$namespace\"}[$__rate_interval]) * on(polycule,namespace,pod) group_left(workload,workload_type) namespace_workload_pod:kube_pod_owner:relabel{polycule=~\"$cluster\",namespace=~\"$namespace\",workload=~\"$workload\",workload_type=~\"$type\"}) by(pod,polycule))",
+                            "legendFormat": "__auto"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {
+                    "interval": "1m"
+                  }
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "timeseries",
+                "version": "v13.0.0",
+                "spec": {
+                  "options": {
+                    "legend": {
+                      "asTable": true,
+                      "calcs": [
+                        "lastNotNull"
+                      ],
+                      "displayMode": "table",
+                      "placement": "right",
+                      "showLegend": true
+                    },
+                    "tooltip": {
+                      "mode": "single"
+                    }
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "pps",
+                      "custom": {
+                        "fillOpacity": 10,
+                        "showPoints": "never",
+                        "spanNulls": true
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-8": {
+            "kind": "Panel",
+            "spec": {
+              "id": 8,
+              "title": "Rate of Transmitted Packets",
+              "description": "",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "sort_desc(sum(rate(container_network_transmit_packets_total{job=\"kubelet\",metrics_path=\"/metrics/cadvisor\",polycule=~\"$cluster\",namespace=~\"$namespace\"}[$__rate_interval]) * on(polycule,namespace,pod) group_left(workload,workload_type) namespace_workload_pod:kube_pod_owner:relabel{polycule=~\"$cluster\",namespace=~\"$namespace\",workload=~\"$workload\",workload_type=~\"$type\"}) by(pod,polycule))",
+                            "legendFormat": "__auto"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {
+                    "interval": "1m"
+                  }
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "timeseries",
+                "version": "v13.0.0",
+                "spec": {
+                  "options": {
+                    "legend": {
+                      "asTable": true,
+                      "calcs": [
+                        "lastNotNull"
+                      ],
+                      "displayMode": "table",
+                      "placement": "right",
+                      "showLegend": true
+                    },
+                    "tooltip": {
+                      "mode": "single"
+                    }
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "pps",
+                      "custom": {
+                        "fillOpacity": 10,
+                        "showPoints": "never",
+                        "spanNulls": true
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-9": {
+            "kind": "Panel",
+            "spec": {
+              "id": 9,
+              "title": "Rate of Received Packets Dropped",
+              "description": "",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "sort_desc(sum(rate(container_network_receive_packets_dropped_total{job=\"kubelet\",metrics_path=\"/metrics/cadvisor\",polycule=~\"$cluster\",namespace=~\"$namespace\"}[$__rate_interval]) * on(polycule,namespace,pod) group_left(workload,workload_type) namespace_workload_pod:kube_pod_owner:relabel{polycule=~\"$cluster\",namespace=~\"$namespace\",workload=~\"$workload\",workload_type=~\"$type\"}) by(pod,polycule))",
+                            "legendFormat": "__auto"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {
+                    "interval": "1m"
+                  }
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "timeseries",
+                "version": "v13.0.0",
+                "spec": {
+                  "options": {
+                    "legend": {
+                      "asTable": true,
+                      "calcs": [
+                        "lastNotNull"
+                      ],
+                      "displayMode": "table",
+                      "placement": "right",
+                      "showLegend": true
+                    },
+                    "tooltip": {
+                      "mode": "single"
+                    }
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "pps",
+                      "custom": {
+                        "fillOpacity": 10,
+                        "showPoints": "never",
+                        "spanNulls": true
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          }
+        },
+        "layout": {
+          "kind": "GridLayout",
+          "spec": {
+            "items": [
+              {
+                "kind": "GridLayoutItem",
+                "spec": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 12,
+                  "height": 9,
+                  "element": {
+                    "kind": "ElementReference",
+                    "name": "panel-1"
+                  }
+                }
+              },
+              {
+                "kind": "GridLayoutItem",
+                "spec": {
+                  "x": 12,
+                  "y": 0,
+                  "width": 12,
+                  "height": 9,
+                  "element": {
+                    "kind": "ElementReference",
+                    "name": "panel-2"
+                  }
+                }
+              },
+              {
+                "kind": "GridLayoutItem",
+                "spec": {
+                  "x": 0,
+                  "y": 9,
+                  "width": 12,
+                  "height": 9,
+                  "element": {
+                    "kind": "ElementReference",
+                    "name": "panel-3"
+                  }
+                }
+              },
+              {
+                "kind": "GridLayoutItem",
+                "spec": {
+                  "x": 12,
+                  "y": 9,
+                  "width": 12,
+                  "height": 9,
+                  "element": {
+                    "kind": "ElementReference",
+                    "name": "panel-4"
+                  }
+                }
+              },
+              {
+                "kind": "GridLayoutItem",
+                "spec": {
+                  "x": 0,
+                  "y": 18,
+                  "width": 12,
+                  "height": 9,
+                  "element": {
+                    "kind": "ElementReference",
+                    "name": "panel-5"
+                  }
+                }
+              },
+              {
+                "kind": "GridLayoutItem",
+                "spec": {
+                  "x": 12,
+                  "y": 18,
+                  "width": 12,
+                  "height": 9,
+                  "element": {
+                    "kind": "ElementReference",
+                    "name": "panel-6"
+                  }
+                }
+              },
+              {
+                "kind": "GridLayoutItem",
+                "spec": {
+                  "x": 0,
+                  "y": 27,
+                  "width": 12,
+                  "height": 9,
+                  "element": {
+                    "kind": "ElementReference",
+                    "name": "panel-7"
+                  }
+                }
+              },
+              {
+                "kind": "GridLayoutItem",
+                "spec": {
+                  "x": 12,
+                  "y": 27,
+                  "width": 12,
+                  "height": 9,
+                  "element": {
+                    "kind": "ElementReference",
+                    "name": "panel-8"
+                  }
+                }
+              },
+              {
+                "kind": "GridLayoutItem",
+                "spec": {
+                  "x": 0,
+                  "y": 36,
+                  "width": 12,
+                  "height": 9,
+                  "element": {
+                    "kind": "ElementReference",
+                    "name": "panel-9"
+                  }
+                }
+              },
+              {
+                "kind": "GridLayoutItem",
+                "spec": {
+                  "x": 12,
+                  "y": 36,
+                  "width": 12,
+                  "height": 9,
+                  "element": {
+                    "kind": "ElementReference",
+                    "name": "panel-10"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "links": [
+          {
+            "title": "Kubernetes",
+            "type": "dashboards",
+            "icon": "",
+            "tooltip": "",
+            "tags": [
+              "kubernetes-mixin"
+            ],
+            "asDropdown": true,
+            "targetBlank": false,
+            "includeVars": true,
+            "keepTime": true
+          }
+        ],
+        "liveNow": false,
+        "preload": false,
+        "tags": [
+          "kubernetes-mixin",
+          "vm-k8s-stack"
+        ],
+        "timeSettings": {
+          "timezone": "UTC",
+          "from": "now-1h",
+          "to": "now",
+          "autoRefresh": "10s",
+          "autoRefreshIntervals": [
+            "5s",
+            "10s",
+            "30s",
+            "1m",
+            "5m",
+            "15m",
+            "30m",
+            "1h",
+            "2h",
+            "1d"
+          ],
+          "hideTimepicker": false,
+          "fiscalYearStartMonth": 0
+        },
+        "title": "Networking / Workload",
+        "variables": [
+          {
+            "kind": "DatasourceVariable",
+            "spec": {
+              "name": "datasource",
+              "pluginId": "prometheus",
+              "refresh": "never",
+              "regex": "",
+              "current": {
+                "text": "default",
+                "value": "default"
+              },
+              "options": [],
+              "multi": false,
+              "includeAll": false,
+              "label": "Data source",
+              "hide": "dontHide",
+              "skipUrlSync": false,
+              "allowCustomValue": true
+            }
+          },
+          {
+            "kind": "ConstantVariable",
+            "spec": {
+              "name": "cluster",
+              "query": ".*",
+              "current": {
+                "text": ".*",
+                "value": ".*"
+              },
+              "label": "cluster",
+              "hide": "hideVariable",
+              "skipUrlSync": false
+            }
+          },
+          {
+            "kind": "QueryVariable",
+            "spec": {
+              "name": "namespace",
+              "current": {
+                "text": "kube-system",
+                "value": "kube-system"
+              },
+              "label": "namespace",
+              "hide": "dontHide",
+              "refresh": "onTimeRangeChanged",
+              "skipUrlSync": false,
+              "query": {
+                "kind": "DataQuery",
+                "group": "prometheus",
+                "version": "v0",
+                "datasource": {
+                  "name": "${datasource}"
+                },
+                "spec": {
+                  "__legacyStringValue": "label_values(container_network_receive_packets_total{polycule=~\"$cluster\"}, namespace)"
+                }
+              },
+              "regex": "",
+              "sort": "alphabeticalAsc",
+              "options": [],
+              "multi": false,
+              "includeAll": true,
+              "allValue": ".+",
+              "allowCustomValue": true
+            }
+          },
+          {
+            "kind": "QueryVariable",
+            "spec": {
+              "name": "workload",
+              "current": {
+                "text": "",
+                "value": ""
+              },
+              "label": "workload",
+              "hide": "dontHide",
+              "refresh": "onTimeRangeChanged",
+              "skipUrlSync": false,
+              "query": {
+                "kind": "DataQuery",
+                "group": "prometheus",
+                "version": "v0",
+                "datasource": {
+                  "name": "${datasource}"
+                },
+                "spec": {
+                  "__legacyStringValue": "label_values(namespace_workload_pod:kube_pod_owner:relabel{polycule=~\"$cluster\",namespace=~\"$namespace\",workload=~\".+\"}, workload)"
+                }
+              },
+              "regex": "",
+              "sort": "alphabeticalAsc",
+              "options": [],
+              "multi": false,
+              "includeAll": false,
+              "allowCustomValue": true
+            }
+          },
+          {
+            "kind": "QueryVariable",
+            "spec": {
+              "name": "type",
+              "current": {
+                "text": "",
+                "value": ""
+              },
+              "label": "workload_type",
+              "hide": "dontHide",
+              "refresh": "onTimeRangeChanged",
+              "skipUrlSync": false,
+              "query": {
+                "kind": "DataQuery",
+                "group": "prometheus",
+                "version": "v0",
+                "datasource": {
+                  "name": "${datasource}"
+                },
+                "spec": {
+                  "__legacyStringValue": "label_values(namespace_workload_pod:kube_pod_owner:relabel{polycule=~\"$cluster\",namespace=~\"$namespace\",workload=~\"$workload\"}, workload_type)"
+                }
+              },
+              "regex": "",
+              "sort": "alphabeticalAsc",
+              "options": [],
+              "multi": false,
+              "includeAll": true,
+              "allValue": ".+",
+              "allowCustomValue": true
+            }
+          }
+        ]
+      }
+    }

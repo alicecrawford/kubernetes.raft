@@ -1,0 +1,992 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-node-exporter-use-method-node
+  namespace: monitoring
+  labels:
+    grafana_dashboard: '1'
+  annotations: {}
+data:
+  grafana-dashboard-node-exporter-use-method-node.json: |-
+    {
+      "apiVersion": "dashboard.grafana.app/v2",
+      "kind": "Dashboard",
+      "metadata": {
+        "name": "fac67cfbe174d3ef53eb473d73d9212f",
+        "namespace": "default"
+      },
+      "spec": {
+        "annotations": [
+          {
+            "kind": "AnnotationQuery",
+            "spec": {
+              "query": {
+                "kind": "DataQuery",
+                "group": "grafana",
+                "version": "v0",
+                "datasource": {
+                  "name": "-- Grafana --"
+                },
+                "spec": {}
+              },
+              "enable": true,
+              "hide": true,
+              "iconColor": "rgba(0, 211, 255, 1)",
+              "name": "Annotations & Alerts",
+              "builtIn": true,
+              "legacyOptions": {
+                "type": "dashboard"
+              }
+            }
+          }
+        ],
+        "cursorSync": "Crosshair",
+        "editable": false,
+        "elements": {
+          "panel-11": {
+            "kind": "Panel",
+            "spec": {
+              "id": 11,
+              "title": "Disk IO Utilisation",
+              "description": "",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "instance_device:node_disk_io_time_seconds:rate5m{job=\"node-exporter\",instance=\"$instance\",polycule=~\"$cluster\"} != 0",
+                            "legendFormat": "{{device}}"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "timeseries",
+                "version": "v13.0.0",
+                "spec": {
+                  "options": {
+                    "legend": {
+                      "showLegend": false
+                    },
+                    "tooltip": {
+                      "mode": "multi",
+                      "sort": "desc"
+                    }
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "percentunit",
+                      "custom": {
+                        "fillOpacity": 100,
+                        "showPoints": "never",
+                        "stacking": {
+                          "mode": "normal"
+                        }
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-12": {
+            "kind": "Panel",
+            "spec": {
+              "id": 12,
+              "title": "Disk IO Saturation",
+              "description": "",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "instance_device:node_disk_io_time_weighted_seconds:rate5m{job=\"node-exporter\",instance=\"$instance\",polycule=~\"$cluster\"} != 0",
+                            "legendFormat": "{{device}}"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "timeseries",
+                "version": "v13.0.0",
+                "spec": {
+                  "options": {
+                    "legend": {
+                      "showLegend": false
+                    },
+                    "tooltip": {
+                      "mode": "multi",
+                      "sort": "desc"
+                    }
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "percentunit",
+                      "custom": {
+                        "fillOpacity": 100,
+                        "showPoints": "never",
+                        "stacking": {
+                          "mode": "normal"
+                        }
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-14": {
+            "kind": "Panel",
+            "spec": {
+              "id": 14,
+              "title": "Disk Space Utilisation",
+              "description": "",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "sort_desc((1 - (max(node_filesystem_avail_bytes{job=\"node-exporter\",fstype!=\"\",instance=\"$instance\",polycule=~\"$cluster\"}) without(mountpoint,fstype) / max(node_filesystem_size_bytes{job=\"node-exporter\",fstype!=\"\",instance=\"$instance\",polycule=~\"$cluster\"}) without(mountpoint,fstype))) != 0)",
+                            "legendFormat": "{{device}}"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "timeseries",
+                "version": "v13.0.0",
+                "spec": {
+                  "options": {
+                    "legend": {
+                      "showLegend": false
+                    },
+                    "tooltip": {
+                      "mode": "multi",
+                      "sort": "desc"
+                    }
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "percentunit",
+                      "custom": {
+                        "fillOpacity": 100,
+                        "showPoints": "never",
+                        "stacking": {
+                          "mode": "normal"
+                        }
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-2": {
+            "kind": "Panel",
+            "spec": {
+              "id": 2,
+              "title": "CPU Utilisation",
+              "description": "",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "instance:node_cpu_utilisation:rate5m{job=\"node-exporter\",instance=\"$instance\",polycule=~\"$cluster\"} != 0",
+                            "legendFormat": "Utilisation"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "timeseries",
+                "version": "v13.0.0",
+                "spec": {
+                  "options": {
+                    "legend": {
+                      "showLegend": false
+                    },
+                    "tooltip": {
+                      "mode": "multi",
+                      "sort": "desc"
+                    }
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "percentunit",
+                      "custom": {
+                        "fillOpacity": 100,
+                        "showPoints": "never",
+                        "stacking": {
+                          "mode": "normal"
+                        }
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-3": {
+            "kind": "Panel",
+            "spec": {
+              "id": 3,
+              "title": "CPU Saturation (Load1 per CPU)",
+              "description": "",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "instance:node_load1_per_cpu:ratio{job=\"node-exporter\",instance=\"$instance\",polycule=~\"$cluster\"} != 0",
+                            "legendFormat": "Saturation"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "timeseries",
+                "version": "v13.0.0",
+                "spec": {
+                  "options": {
+                    "legend": {
+                      "showLegend": false
+                    },
+                    "tooltip": {
+                      "mode": "multi",
+                      "sort": "desc"
+                    }
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "percentunit",
+                      "custom": {
+                        "fillOpacity": 100,
+                        "showPoints": "never",
+                        "stacking": {
+                          "mode": "normal"
+                        }
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-5": {
+            "kind": "Panel",
+            "spec": {
+              "id": 5,
+              "title": "Memory Utilisation",
+              "description": "",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "instance:node_memory_utilisation:ratio{job=\"node-exporter\",instance=\"$instance\",polycule=~\"$cluster\"} != 0",
+                            "legendFormat": "Utilisation"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "timeseries",
+                "version": "v13.0.0",
+                "spec": {
+                  "options": {
+                    "legend": {
+                      "showLegend": false
+                    },
+                    "tooltip": {
+                      "mode": "multi",
+                      "sort": "desc"
+                    }
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "percentunit",
+                      "custom": {
+                        "fillOpacity": 100,
+                        "showPoints": "never",
+                        "stacking": {
+                          "mode": "normal"
+                        }
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-6": {
+            "kind": "Panel",
+            "spec": {
+              "id": 6,
+              "title": "Memory Saturation (Major Page Faults)",
+              "description": "",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "instance:node_vmstat_pgmajfault:rate5m{job=\"node-exporter\",instance=\"$instance\",polycule=~\"$cluster\"} != 0",
+                            "legendFormat": "Major page Faults"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "timeseries",
+                "version": "v13.0.0",
+                "spec": {
+                  "options": {
+                    "legend": {
+                      "showLegend": false
+                    },
+                    "tooltip": {
+                      "mode": "multi",
+                      "sort": "desc"
+                    }
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "rds",
+                      "custom": {
+                        "fillOpacity": 100,
+                        "showPoints": "never",
+                        "stacking": {
+                          "mode": "normal"
+                        }
+                      }
+                    },
+                    "overrides": []
+                  }
+                }
+              }
+            }
+          },
+          "panel-8": {
+            "kind": "Panel",
+            "spec": {
+              "id": 8,
+              "title": "Network Utilisation (Bytes Receive/Transmit)",
+              "description": "",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "instance:node_network_receive_bytes_physical:rate5m{job=\"node-exporter\",instance=\"$instance\",polycule=~\"$cluster\"} != 0",
+                            "legendFormat": "Receive"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    },
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "instance:node_network_transmit_bytes_physical:rate5m{job=\"node-exporter\",instance=\"$instance\",polycule=~\"$cluster\"} != 0",
+                            "legendFormat": "Transmit"
+                          }
+                        },
+                        "refId": "B",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "timeseries",
+                "version": "v13.0.0",
+                "spec": {
+                  "options": {
+                    "legend": {
+                      "showLegend": false
+                    },
+                    "tooltip": {
+                      "mode": "multi",
+                      "sort": "desc"
+                    }
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "Bps",
+                      "custom": {
+                        "fillOpacity": 100,
+                        "showPoints": "never",
+                        "stacking": {
+                          "mode": "normal"
+                        }
+                      }
+                    },
+                    "overrides": [
+                      {
+                        "matcher": {
+                          "id": "byRegexp",
+                          "options": "/Transmit/"
+                        },
+                        "properties": [
+                          {
+                            "id": "custom.transform",
+                            "value": "negative-Y"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "panel-9": {
+            "kind": "Panel",
+            "spec": {
+              "id": 9,
+              "title": "Network Saturation (Drops Receive/Transmit)",
+              "description": "",
+              "links": [],
+              "data": {
+                "kind": "QueryGroup",
+                "spec": {
+                  "queries": [
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "instance:node_network_receive_drop_physical:rate5m{job=\"node-exporter\",instance=\"$instance\",polycule=~\"$cluster\"} != 0",
+                            "legendFormat": "Receive"
+                          }
+                        },
+                        "refId": "A",
+                        "hidden": false
+                      }
+                    },
+                    {
+                      "kind": "PanelQuery",
+                      "spec": {
+                        "query": {
+                          "kind": "DataQuery",
+                          "group": "prometheus",
+                          "version": "v0",
+                          "datasource": {
+                            "name": "${datasource}"
+                          },
+                          "spec": {
+                            "expr": "instance:node_network_transmit_drop_physical:rate5m{job=\"node-exporter\",instance=\"$instance\",polycule=~\"$cluster\"} != 0",
+                            "legendFormat": "Transmit"
+                          }
+                        },
+                        "refId": "B",
+                        "hidden": false
+                      }
+                    }
+                  ],
+                  "transformations": [],
+                  "queryOptions": {}
+                }
+              },
+              "vizConfig": {
+                "kind": "VizConfig",
+                "group": "timeseries",
+                "version": "v13.0.0",
+                "spec": {
+                  "options": {
+                    "legend": {
+                      "showLegend": false
+                    },
+                    "tooltip": {
+                      "mode": "multi",
+                      "sort": "desc"
+                    }
+                  },
+                  "fieldConfig": {
+                    "defaults": {
+                      "unit": "Bps",
+                      "custom": {
+                        "fillOpacity": 100,
+                        "showPoints": "never",
+                        "stacking": {
+                          "mode": "normal"
+                        }
+                      }
+                    },
+                    "overrides": [
+                      {
+                        "matcher": {
+                          "id": "byRegexp",
+                          "options": "/Transmit/"
+                        },
+                        "properties": [
+                          {
+                            "id": "custom.transform",
+                            "value": "negative-Y"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "layout": {
+          "kind": "RowsLayout",
+          "spec": {
+            "rows": [
+              {
+                "kind": "RowsLayoutRow",
+                "spec": {
+                  "title": "CPU",
+                  "collapse": false,
+                  "layout": {
+                    "kind": "GridLayout",
+                    "spec": {
+                      "items": [
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 0,
+                            "y": 0,
+                            "width": 12,
+                            "height": 7,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-2"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 12,
+                            "y": 0,
+                            "width": 12,
+                            "height": 7,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-3"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "kind": "RowsLayoutRow",
+                "spec": {
+                  "title": "Memory",
+                  "collapse": false,
+                  "layout": {
+                    "kind": "GridLayout",
+                    "spec": {
+                      "items": [
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 0,
+                            "y": 0,
+                            "width": 12,
+                            "height": 7,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-5"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 12,
+                            "y": 0,
+                            "width": 12,
+                            "height": 7,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-6"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "kind": "RowsLayoutRow",
+                "spec": {
+                  "title": "Network",
+                  "collapse": false,
+                  "layout": {
+                    "kind": "GridLayout",
+                    "spec": {
+                      "items": [
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 0,
+                            "y": 0,
+                            "width": 12,
+                            "height": 7,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-8"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 12,
+                            "y": 0,
+                            "width": 12,
+                            "height": 7,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-9"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "kind": "RowsLayoutRow",
+                "spec": {
+                  "title": "Disk IO",
+                  "collapse": false,
+                  "layout": {
+                    "kind": "GridLayout",
+                    "spec": {
+                      "items": [
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 0,
+                            "y": 0,
+                            "width": 12,
+                            "height": 7,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-11"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 12,
+                            "y": 0,
+                            "width": 12,
+                            "height": 7,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-12"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "kind": "RowsLayoutRow",
+                "spec": {
+                  "title": "Disk Space",
+                  "collapse": false,
+                  "layout": {
+                    "kind": "GridLayout",
+                    "spec": {
+                      "items": [
+                        {
+                          "kind": "GridLayoutItem",
+                          "spec": {
+                            "x": 0,
+                            "y": 0,
+                            "width": 24,
+                            "height": 7,
+                            "element": {
+                              "kind": "ElementReference",
+                              "name": "panel-14"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "links": [],
+        "liveNow": false,
+        "preload": false,
+        "tags": [
+          "node-exporter-mixin",
+          "vm-k8s-stack"
+        ],
+        "timeSettings": {
+          "timezone": "utc",
+          "from": "now-1h",
+          "to": "now",
+          "autoRefresh": "30s",
+          "autoRefreshIntervals": [
+            "5s",
+            "10s",
+            "30s",
+            "1m",
+            "5m",
+            "15m",
+            "30m",
+            "1h",
+            "2h",
+            "1d"
+          ],
+          "hideTimepicker": false,
+          "fiscalYearStartMonth": 0
+        },
+        "title": "Node Exporter / USE Method / Node",
+        "variables": [
+          {
+            "kind": "DatasourceVariable",
+            "spec": {
+              "name": "datasource",
+              "pluginId": "prometheus",
+              "refresh": "never",
+              "regex": "",
+              "current": {
+                "text": "",
+                "value": ""
+              },
+              "options": [],
+              "multi": false,
+              "includeAll": false,
+              "hide": "dontHide",
+              "skipUrlSync": false,
+              "allowCustomValue": true
+            }
+          },
+          {
+            "kind": "ConstantVariable",
+            "spec": {
+              "name": "cluster",
+              "query": ".*",
+              "current": {
+                "text": ".*",
+                "value": ".*"
+              },
+              "hide": "hideVariable",
+              "skipUrlSync": false
+            }
+          },
+          {
+            "kind": "QueryVariable",
+            "spec": {
+              "name": "instance",
+              "current": {
+                "text": "",
+                "value": ""
+              },
+              "hide": "dontHide",
+              "refresh": "onTimeRangeChanged",
+              "skipUrlSync": false,
+              "query": {
+                "kind": "DataQuery",
+                "group": "prometheus",
+                "version": "v0",
+                "datasource": {
+                  "name": "${datasource}"
+                },
+                "spec": {
+                  "__legacyStringValue": "label_values(node_exporter_build_info{job=\"node-exporter\",polycule=~\"$cluster\"}, instance)"
+                }
+              },
+              "regex": "",
+              "sort": "alphabeticalAsc",
+              "options": [],
+              "multi": false,
+              "includeAll": false,
+              "allowCustomValue": true
+            }
+          }
+        ]
+      }
+    }
