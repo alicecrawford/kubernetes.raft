@@ -18,3 +18,9 @@ spec:
             kind: Secret
             name: monitoring-vlogs-certificate
         mode: Terminate
+    - allowedRoutes:
+        namespaces:
+          from: Same
+      name: http
+      port: 80
+      protocol: HTTP
