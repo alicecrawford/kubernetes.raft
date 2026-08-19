@@ -12,7 +12,7 @@ data:
       "apiVersion": "dashboard.grafana.app/v2",
       "kind": "Dashboard",
       "metadata": {
-        "name": "bdpzp3w3jkt8ga",
+        "name": "victorialogs-explorer",
         "namespace": "default"
       },
       "spec": {
@@ -67,7 +67,7 @@ data:
                           },
                           "spec": {
                             "editorMode": "code",
-                            "expr": "_stream:{kubernetes.container_name:in($container), kubernetes.pod_namespace=\"$namespace\"} kubernetes.pod_labels.app.kubernetes.io/name:in($app) $query | sort desc | offset $offset | limit $limit",
+                            "expr": "_stream:{kubernetes.container_name in ($container), kubernetes.pod_namespace=\"$namespace\"} kubernetes.pod_labels.app.kubernetes.io/name:in($app) $query | sort desc | offset $offset | limit $limit",
                             "queryType": "range"
                           }
                         },
@@ -127,7 +127,7 @@ data:
                           },
                           "spec": {
                             "editorMode": "code",
-                            "expr": "_stream:{kubernetes.container_name:in($container), kubernetes.pod_namespace=\"$namespace\"} kubernetes.pod_labels.app.kubernetes.io/name:in($app) $query | stats count()",
+                            "expr": "_stream:{kubernetes.container_name in ($container), kubernetes.pod_namespace=\"$namespace\"} kubernetes.pod_labels.app.kubernetes.io/name:in($app) $query | stats count()",
                             "legendFormat": "${namespace} ${container}",
                             "queryType": "statsRange"
                           }
@@ -243,7 +243,7 @@ data:
                           },
                           "spec": {
                             "editorMode": "code",
-                            "expr": "_stream:{kubernetes.container_name:in($container), kubernetes.pod_namespace=\"$namespace\"} kubernetes.pod_labels.app.kubernetes.io/name:in($app) $query | stats by (\"$count_by\") count() c | sort by (c desc) | limit 50",
+                            "expr": "_stream:{kubernetes.container_name in ($container), kubernetes.pod_namespace=\"$namespace\"} kubernetes.pod_labels.app.kubernetes.io/name:in($app) $query | stats by (\"$count_by\") count() c | sort by (c desc) | limit 50",
                             "legendFormat": "{{$count_by}}",
                             "queryType": "stats"
                           }
@@ -355,7 +355,7 @@ data:
             "type": "link",
             "icon": "bolt",
             "tooltip": "",
-            "url": "/explore?orgId=1&left={\"datasource\":\"$DS_VICTORIALOGS\",\"queries\":[{\"expr\":\"_stream:{kubernetes.container_name:in($container), kubernetes.pod_namespace=\"$namespace\"} kubernetes.pod_labels.app.kubernetes.io/name:in($app) $query\"}]}",
+            "url": "/explore?orgId=1&left={\"datasource\":\"$DS_VICTORIALOGS\",\"queries\":[{\"expr\":\"_stream:{kubernetes.container_name in ($container), kubernetes.pod_namespace=\"$namespace\"} kubernetes.pod_labels.app.kubernetes.io/name:in($app) $query\"}]}",
             "tags": [],
             "asDropdown": false,
             "targetBlank": true,
