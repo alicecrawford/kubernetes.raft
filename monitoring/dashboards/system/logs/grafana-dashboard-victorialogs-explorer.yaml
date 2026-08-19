@@ -67,7 +67,7 @@ data:
                           },
                           "spec": {
                             "editorMode": "code",
-                            "expr": "_stream:{kubernetes.container_name in ($container), kubernetes.pod_namespace=\"$namespace\"} kubernetes.pod_labels.app.kubernetes.io/name:in($app) $query | sort desc | offset $offset | limit $limit",
+                            "expr": "_stream:{kubernetes.container_name in ($container), kubernetes.pod_namespace=\"$namespace\"} kubernetes.pod_labels.app.kubernetes.io/name:in($app) level:in($level) $query | sort desc | offset $offset | limit $limit",
                             "queryType": "range"
                           }
                         },
@@ -127,7 +127,7 @@ data:
                           },
                           "spec": {
                             "editorMode": "code",
-                            "expr": "_stream:{kubernetes.container_name in ($container), kubernetes.pod_namespace=\"$namespace\"} kubernetes.pod_labels.app.kubernetes.io/name:in($app) $query | stats count()",
+                            "expr": "_stream:{kubernetes.container_name in ($container), kubernetes.pod_namespace=\"$namespace\"} kubernetes.pod_labels.app.kubernetes.io/name:in($app) level:in($level) $query | stats count()",
                             "legendFormat": "${namespace} ${container}",
                             "queryType": "statsRange"
                           }
@@ -243,7 +243,7 @@ data:
                           },
                           "spec": {
                             "editorMode": "code",
-                            "expr": "_stream:{kubernetes.container_name in ($container), kubernetes.pod_namespace=\"$namespace\"} kubernetes.pod_labels.app.kubernetes.io/name:in($app) $query | stats by (\"$count_by\") count() c | sort by (c desc) | limit 50",
+                            "expr": "_stream:{kubernetes.container_name in ($container), kubernetes.pod_namespace=\"$namespace\"} kubernetes.pod_labels.app.kubernetes.io/name:in($app) level:in($level) $query | stats by (\"$count_by\") count() c | sort by (c desc) | limit 50",
                             "legendFormat": "{{$count_by}}",
                             "queryType": "stats"
                           }
@@ -355,7 +355,7 @@ data:
             "type": "link",
             "icon": "bolt",
             "tooltip": "",
-            "url": "/explore?orgId=1&left={\"datasource\":\"$DS_VICTORIALOGS\",\"queries\":[{\"expr\":\"_stream:{kubernetes.container_name in ($container), kubernetes.pod_namespace=\"$namespace\"} kubernetes.pod_labels.app.kubernetes.io/name:in($app) $query\"}]}",
+            "url": "/explore?orgId=1&left={\"datasource\":\"$DS_VICTORIALOGS\",\"queries\":[{\"expr\":\"_stream:{kubernetes.container_name in ($container), kubernetes.pod_namespace=\"$namespace\"} kubernetes.pod_labels.app.kubernetes.io/name:in($app) level:in($level) $query\"}]}",
             "tags": [],
             "asDropdown": false,
             "targetBlank": true,
@@ -543,6 +543,43 @@ data:
           {
             "kind": "QueryVariable",
             "spec": {
+              "name": "level",
+              "allValue": "*",
+              "current": {
+                "text": "",
+                "value": ""
+              },
+              "hide": "dontHide",
+              "refresh": "onTimeRangeChanged",
+              "skipUrlSync": false,
+              "query": {
+                "kind": "DataQuery",
+                "group": "victoriametrics-logs-datasource",
+                "version": "v0",
+                "datasource": {
+                  "name": "VictoriaLogs"
+                },
+                "spec": {
+                  "field": "level",
+                  "limit": 0,
+                  "query": "{kubernetes.container_name in ($container), kubernetes.pod_namespace=\"$namespace\"} kubernetes.pod_labels.app.kubernetes.io/name:in($app)",
+                  "refId": "VictoriaLogsVariableQueryEditor-VariableQuery",
+                  "type": "fieldValue"
+                }
+              },
+              "regex": "",
+              "sort": "alphabeticalAsc",
+              "definition": "{kubernetes.container_name in ($container), kubernetes.pod_namespace=\"$namespace\"} kubernetes.pod_labels.app.kubernetes.io/name:in($app)",
+              "options": [],
+              "multi": true,
+              "includeAll": true,
+              "allowCustomValue": true
+            }
+          },
+
+          {
+            "kind": "QueryVariable",
+            "spec": {
               "name": "count_by",
               "current": {
                 "text": "",
@@ -561,14 +598,14 @@ data:
                 "spec": {
                   "field": "kubernetes.container_name",
                   "limit": 25,
-                  "query": "{kubernetes.pod_namespace=\"$namespace\"} kubernetes.pod_labels.app.kubernetes.io/name:in($app)",
+                  "query": "{kkubernetes.container_name in ($container), ubernetes.pod_namespace=\"$namespace\"} kubernetes.pod_labels.app.kubernetes.io/name:in($app) level:in($level)",
                   "refId": "VictoriaLogsVariableQueryEditor-VariableQuery",
                   "type": "fieldName"
                 }
               },
               "regex": "/^[a-zA-Z].+/",
               "sort": "alphabeticalAsc",
-              "definition": "{kubernetes.pod_namespace=\"$namespace\"} kubernetes.pod_labels.app.kubernetes.io/name:=\"$app\"",
+              "definition": "{kkubernetes.container_name in ($container), ubernetes.pod_namespace=\"$namespace\"} kubernetes.pod_labels.app.kubernetes.io/name:=\"$app\" level:in($level)",
               "options": [],
               "multi": false,
               "includeAll": false,
