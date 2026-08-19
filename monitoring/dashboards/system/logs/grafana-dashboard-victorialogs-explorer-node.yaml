@@ -452,8 +452,7 @@ data:
               "definition": "",
               "options": [],
               "multi": true,
-              "includeAll": true,
-              "allValue": "*",
+              "includeAll": false,
               "allowCustomValue": true
             }
           },
