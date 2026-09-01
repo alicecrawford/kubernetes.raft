@@ -5,7 +5,6 @@ clusterDomain: polycule.raft.lutris.house
 securityContext:
   capabilities:
     add: ["SYS_CHROOT"]
-  fsGroupChangePolicy: OnRootMismatch
 gitea:
   metrics:
     enabled: true
