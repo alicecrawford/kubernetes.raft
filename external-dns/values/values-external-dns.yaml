@@ -9,6 +9,7 @@ sources:
   - gateway-tcproute
   - gateway-udproute
   - node
+  - crd
 
 serviceMonitor:
   enabled: false
