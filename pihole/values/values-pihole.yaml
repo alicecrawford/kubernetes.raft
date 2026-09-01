@@ -244,3 +244,10 @@ extraEnvVars:
 podDisruptionBudget:
   enabled: true
   minAvailable: 1
+securityContext:
+  capabilities:
+    add:
+      - NET_ADMIN
+      - NET_BIND_SERVICE
+      - NET_RAW
+      - SETFCAP
