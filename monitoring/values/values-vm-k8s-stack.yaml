@@ -144,7 +144,7 @@ vmauth:
 vmagent:
   enabled: true
   spec:
-    inlineRelableConfig:
+    inlineRelabelConfig:
       - action: labeldrop
         regex: ".*kubevirt_io.*"
     replicaCount: 3
