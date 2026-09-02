@@ -1,0 +1,21 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kubevirt
+spec:
+  destination:
+    namespace: kubevirt
+    server: https://kubernetes.default.svc
+  project: system
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
+    automated:
+      selfHeal: true
+      prune: true
+  source:
+    path: kubevirt
+    repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+    targetRevision: HEAD
+    ref: values
