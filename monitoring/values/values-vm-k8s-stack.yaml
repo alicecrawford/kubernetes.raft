@@ -238,8 +238,8 @@ prometheus-node-exporter:
 
 kube-state-metrics:
   enabled: true
-  extraArgs:
-    - --metric-labels-allowlist=pods=[*cnpg.io*]
+  #extraArgs:
+  #  - --metric-labels-allowlist=pods=[*cnpg.io*]
   vmScrape:
     enabled: true
 
