@@ -144,6 +144,9 @@ vmauth:
 vmagent:
   enabled: true
   spec:
+    inlineRelableConfig:
+      - action: labeldrop
+        regex: ".*kubevirt_io.*"
     replicaCount: 3
     resources:
       limits: {}
@@ -238,8 +241,8 @@ prometheus-node-exporter:
 
 kube-state-metrics:
   enabled: true
-  #extraArgs:
-  #  - --metric-labels-allowlist=pods=[*cnpg.io*]
+  extraArgs:
+    - --metric-labels-allowlist=pods=[*]
   vmScrape:
     enabled: true
 
