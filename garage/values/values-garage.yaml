@@ -117,7 +117,7 @@ gatewayApi:
       additionalRules: {}
 
     web:
-      enabled: true
+      enabled: false
       labels: {}
       annotations: {}
       hostnames:
@@ -397,7 +397,7 @@ webui:
   # -- Gateway API configuration for WebUI
   gatewayApi:
     # -- Enable gateway API HTTPRoute for WebUI
-    enabled: true
+    enabled: false
     # -- Additional labels for the HTTPRoute
     labels: {}
     # -- Additional annotations for the HTTPRoute
