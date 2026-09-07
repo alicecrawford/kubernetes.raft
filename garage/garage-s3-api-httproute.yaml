@@ -1,0 +1,55 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  labels:
+    app.kubernetes.io/component: garage
+    app.kubernetes.io/instance: garage
+    app.kubernetes.io/name: garage
+  name: garage-s3-api
+  namespace: garage
+spec:
+  hostnames:
+    - s3.raft.lutris.house
+    - '*.s3.raft.lutris.house'
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: garage-gateway
+      namespace: garage
+      sectionName: s3api
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: garage-gateway
+      namespace: garage
+      sectionName: https
+  rules:
+    - backendRefs:
+        - group: ""
+          kind: Service
+          name: garage
+          port: 3900
+          weight: 100
+      matches:
+        - path:
+            type: PathPrefix
+            value: /
+      filters:
+        - type: CORS
+          cors:
+            allowOrigins:
+              - "*"
+            allowMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - HEAD
+              - OPTIONS
+            allowHeaders:
+              - "*"
+            exposeHeaders:
+              - ETag
+              - Accept-Ranges
+              - Content-Encoding
+              - Content-Length
+              - Content-Range
