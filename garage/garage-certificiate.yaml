@@ -1,0 +1,16 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: garage-certificate
+  namespace: garage
+spec:
+  dnsNames:
+    - garage.raft.lutris.house
+    - s3.raft.lutris.house
+    - "*.s3.raft.lutris.house"
+    - "*.web.raft.lutris.house"
+  secretName: garage-certificate
+  issuerRef:
+    name: letsencrypt-dns01-issuer
+    kind: ClusterIssuer

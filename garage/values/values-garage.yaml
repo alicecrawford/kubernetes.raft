@@ -1,0 +1,430 @@
+commonLabels: {}
+
+clusterDomain: polycule.raft.lutris.house
+
+garage:
+  dbEngine: "lmdb"
+  blockSize: "1048576"
+  replicationFactor: "3"
+  consistencyMode: "consistent"
+  compressionLevel: "3"
+  metadataAutoSnapshotInterval: ""
+
+  rpc:
+    bindAddr: "[::]:3901"
+
+  secret:
+    create: true
+
+  s3:
+    api:
+      region: "garage"
+      rootDomain: ".s3.raft.lutris.house"
+    web:
+      rootDomain: ".web.raft.lutris.house"
+      index: "index.html"
+
+persistence:
+  enabled: true
+  meta:
+    storageClass: longhorn
+    size: 2Gi
+    hostPath: /var/lib/garage/meta
+  data:
+    storageClass: nfs-disk-csi
+    size: 1Ti
+    hostPath: /var/lib/garage/data
+
+deployment:
+  kind: StatefulSet
+  replicaCount: 3
+  podManagementPolicy: OrderedReady
+
+image:
+  repository: dxflrs/garage
+  tag: ""
+  pullPolicy: IfNotPresent
+
+podAnnotations: {}
+
+securityContext:
+  # -- The default security context is heavily restricted,
+  # feel free to tune it to your requirements
+  capabilities:
+    drop:
+      - ALL
+  readOnlyRootFilesystem: true
+
+service:
+  type: ClusterIP
+  ports:
+    s3Api: 3900
+    rpc: 3901
+    s3Web: 3902
+    admin: 3903
+
+gatewayApi:
+  s3:
+    api:
+      enabled: false
+      labels: {}
+      annotations: {}
+      hostnames:
+        - s3.raft.lutris.house
+        - "*.s3.raft.lutris.house"
+
+      # -- Gateway reference that the HTTPRoute should bind against
+      parentRefs:
+        - group: gateway.networking.k8s.io
+          kind: Gateway
+          name: garage-gateway
+          namespace: garage
+          sectionName: s3api
+        - group: gateway.networking.k8s.io
+          kind: Gateway
+          name: garage-gateway
+          namespace: garage
+          sectionName: https
+
+      filters:
+        - type: CORS
+          cors:
+            allowOrigins:
+              - "app://obsidian.md"
+              - "capacitor://localhost"
+              - "http://localhost"
+            allowMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - HEAD
+              - OPTIONS
+            allowHeaders:
+              - "*"
+            exposedHeaders:
+              - ETag
+              - Accept-Ranges
+              - Content-Encoding
+              - Content-Length
+              - Content-Range
+
+      matches:
+        - path:
+            type: PathPrefix
+            value: /
+
+      additionalRules: {}
+
+    web:
+      enabled: true
+      labels: {}
+      annotations: {}
+      hostnames:
+        - "*.web.raft.lutris.house"
+
+      parentRefs:
+        - group: gateway.networking.k8s.io
+          kind: Gateway
+          name: garage-gateway
+          namespace: garage
+          sectionName: s3web
+        - group: gateway.networking.k8s.io
+          kind: Gateway
+          name: garage-gateway
+          namespace: garage
+          sectionName: https
+
+      # -- Matches for the default rule
+      matches:
+        - path:
+            type: PathPrefix
+            value: /
+
+      # -- Filter that should be added to the default rule
+      filters: []
+
+      # -- Any custom rule you want to specify
+      additionalRules: {}
+
+livenessProbe: {}
+# httpGet:
+#   path: /health
+#   port: 3903
+# initialDelaySeconds: 5
+# periodSeconds: 30
+# -- Specifies a readinessProbe
+readinessProbe: {}
+# httpGet:
+#   path: /health
+#   port: 3903
+# initialDelaySeconds: 5
+# periodSeconds: 30
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+environment: {}
+
+extraVolumes: {}
+
+extraVolumeMounts: {}
+
+monitoring:
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: false
+      path: /metrics
+      namespace: ""
+      labels: {}
+      interval: 15s
+      scheme: http
+      tlsConfig: {}
+      scrapeTimeout: 10s
+      relabelings: []
+  tracing:
+    sink: ""
+  grafanaDashboard:
+    enabled: true
+    annotations: {}
+
+# -- Garage Cluster configuration
+clusterConfig:
+  # -- Enable the cluster configuration job
+  enabled: false
+
+  layout:
+    # -- Enable layout configuration
+    enabled: true
+    # -- Zone to assign nodes to
+    zone: dc1
+    # -- Capacity to assign to nodes. If empty, defaults to persistence.data.size
+    capacity: ""
+
+  # -- List of buckets to create
+  buckets: []
+  # - name: my-bucket
+  #   public: false
+
+  # -- Dict of keys to create
+  # keyId format: must start with 'GK' followed by 24 hex-encoded characters (12 bytes)
+  # secretKey format: must be 64 hex-encoded characters (32 bytes)
+  keys: {}
+  # Examples:
+  # 1. Stored directly in the values.yaml
+  # my-key:
+  #   keyId: GK12345678901234567890abcd
+  #   secretKey: 123456789012345678901234567890123456789012345678901234567890abcd
+  #   buckets:
+  #     # String format - grants read+write
+  #     - my-bucket
+  #     # Object format - explicit per-bucket permissions
+  #     - name: my-other-bucket
+  #       read: true
+  #       write: true
+  #       owner: false  # optional, grants owner permissions
+  # 2. Use an existing secret in kubernetes (containing the keyId and secretKey)
+  # my-existing-key:
+  #   secretName: someSecretWithKeys
+  #   keyId: keyIdA
+  #   secretKey: secretKeyA
+  #   buckets:
+  #     - name: my-bucket
+  #       read: true  # read-only key
+
+  # -- Extra commands to run
+  extraCommands: []
+
+  image:
+    # -- Image to use for the configuration job (defaults to the same as garage)
+    repository: ""
+    tag: ""
+    pullPolicy: IfNotPresent
+
+  toolsImage:
+    # -- Image to use for the tools task for the configuration job
+    repository: busybox
+    tag: musl
+    pullPolicy: IfNotPresent
+
+  configureImage:
+    # -- Image to use for the configure task for the configuration job
+    repository: busybox
+    tag: latest
+    pullPolicy: IfNotPresent
+
+  # -- Image pull secrets
+  imagePullSecrets: []
+
+  # -- Pod annotations
+  podAnnotations: {}
+
+  # Change sync behaviour with helm (helm install or helm upgrade)
+  helmSync:
+    # -- If true, the configure job runs as a post-install/post-upgrade hook (waits for all resources to be ready first).
+    # Set to false to run the job as a regular resource alongside other pods. Recommended when startup of other pods depends on readiness of the garage container.
+    asHook: true
+    # -- Time in seconds to keep the completed job before automatic cleanup (only applies when asHook is false)
+    ttlSecondsAfterFinished: 300
+
+  # -- Pod security context
+  podSecurityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+    fsGroupChangePolicy: "OnRootMismatch"
+    runAsNonRoot: true
+
+  # -- Container security context
+  securityContext:
+    capabilities:
+      drop:
+        - ALL
+    readOnlyRootFilesystem: true
+
+  # -- Resources for the job
+  resources: {}
+
+  # -- Node selector
+  nodeSelector: {}
+
+  # -- Tolerations
+  tolerations: []
+
+  # -- Affinity
+  affinity: {}
+
+# Garage WebUI configuration
+webui:
+  enabled: true
+
+  # -- Base path or prefix for Web UI
+  basePath: "/"
+
+  # -- Number of WebUI replicas
+  replicaCount: 1
+
+  image:
+    repository: khairul169/garage-webui
+    tag: "1.1.0"
+    pullPolicy: IfNotPresent
+
+  auth:
+    # -- Enable authentication for WebUI
+    enabled: false
+    # -- Use an existing secret for authentication (must contain 'webuiAuthUserPass' key)
+    existingSecret: ""
+    # -- Pre-hashed password in bcrypt format (username:hash), REQUIRED when auth is enabled
+    # -- When the chart manages the auth secret, provide this together with garage.secret.rpcSecret and garage.secret.adminToken.
+    # Generate with: htpasswd -nbBC 10 "username" "password"
+    # Example: "admin:$2y$10$DSTi9o..."
+    userPassHash: ""
+
+  # -- image pull secrets for private registries
+  imagePullSecrets: []
+
+  # -- pod annotations
+  podAnnotations: {}
+
+  # -- pod security context
+  podSecurityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+    fsGroupChangePolicy: "OnRootMismatch"
+    runAsNonRoot: true
+
+  # -- container security context
+  securityContext:
+    capabilities:
+      drop:
+        - ALL
+    readOnlyRootFilesystem: true
+
+  # -- WebUI service configuration
+  service:
+    # -- Service type
+    type: ClusterIP
+    # -- Service port
+    port: 3909
+    # -- Service annotations
+    annotations: {}
+
+  # -- WebUI resources
+  resources: {}
+    # limits:
+    #   cpu: 100m
+    #   memory: 256Mi
+    # requests:
+    #   cpu: 50m
+    #   memory: 128Mi
+
+  # -- WebUI liveness probe
+  livenessProbe: {}
+    # httpGet:
+    #   path: /
+    #   port: 3000
+    # initialDelaySeconds: 10
+    # periodSeconds: 30
+
+  # -- WebUI readiness probe
+  readinessProbe: {}
+    # httpGet:
+    #   path: /
+    #   port: 3000
+    # initialDelaySeconds: 5
+    # periodSeconds: 10
+
+  # -- node selector for WebUI pods
+  nodeSelector: {}
+
+  # -- tolerations for WebUI pods
+  tolerations: []
+
+  # -- affinity for WebUI pods
+  affinity: {}
+
+  # -- extra volumes for WebUI
+  extraVolumes: {}
+
+  # -- extra volume mounts for WebUI
+  extraVolumeMounts: {}
+
+  # -- Gateway API configuration for WebUI
+  gatewayApi:
+    # -- Enable gateway API HTTPRoute for WebUI
+    enabled: true
+    # -- Additional labels for the HTTPRoute
+    labels: {}
+    # -- Additional annotations for the HTTPRoute
+    annotations: {}
+    # -- Hostnames of the HTTPRoute
+    hostnames:
+      - garage.raft.lutris.house
+
+    # -- Gateway reference that the HTTPRoute should bind against
+    parentRefs:
+      - group: gateway.networking.k8s.io
+        kind: Gateway
+        name: garage-gateway
+        namespace: garage
+        sectionName: https
+
+    # -- Matches for the default rule
+    matches:
+      - path:
+          type: PathPrefix
+          value: /
+
+    # -- Filters that should be added to the default rule
+    filters: []
+
+    # -- Any custom rule you want to specify
+    additionalRules: {}
+
+# -- Extra resources to deploy
+extraResources: []

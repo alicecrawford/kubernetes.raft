@@ -1,0 +1,53 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: garage-gateway
+  namespace: garage
+spec:
+  gatewayClassName: istio
+  listeners:
+    - name: s3admin
+      port: 3903
+      protocol: HTTPS
+      allowedRoutes:
+        namespaces:
+          from: Same
+      tls:
+        certificateRefs:
+          - kind: Secret
+            group: ""
+            name: garage-certificate
+    - name: s3api
+      port: 3900
+      protocol: HTTPS
+      allowedRoutes:
+        namespaces:
+          from: Same
+      tls:
+        certificateRefs:
+          - kind: Secret
+            group: ""
+            name: garage-certificate
+    - name: s3web
+      port: 3902
+      protocol: HTTPS
+      allowedRoutes:
+        namespaces:
+          from: Same
+      tls:
+        certificateRefs:
+          - kind: Secret
+            group: ""
+            name: garage-certificate
+    - name: https
+      port: 443
+      protocol: HTTPS
+      allowedRoutes:
+        namespaces:
+          from: Same
+      tls:
+        certificateRefs:
+          - kind: Secret
+            group: ""
+            name: garage-certificate
