@@ -8,7 +8,7 @@ spec:
   project: system
   destination:
     server: https://kubernetes.default.svc
-    namespace: longhorn-system
+    namespace: garage
   syncPolicy:
     syncOptions:
       - ServerSideApply=true
@@ -22,4 +22,4 @@ spec:
       chart: garage
       helm:
         valueFiles:
-          - $values/longhorn/values/values-garage.yaml
+          - $values/garage/values/values-garage.yaml
