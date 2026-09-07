@@ -47,6 +47,7 @@ spec:
               - OPTIONS
             allowHeaders:
               - "*"
+            maxAge: 5
             exposeHeaders:
               - ETag
               - Accept-Ranges
