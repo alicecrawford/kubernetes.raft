@@ -33,7 +33,6 @@ spec:
         - path:
             type: PathPrefix
             value: /
-      maxAge: 5
       filters:
         - type: CORS
           cors:
