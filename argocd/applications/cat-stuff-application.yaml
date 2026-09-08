@@ -12,35 +12,8 @@ spec:
   syncPolicy:
     syncOptions:
       - ServerSideApply=true
-  ignoreDifferences:
-    - kind: StatefulSet
-      group: apps
-      jqPathExpressions:
-        - .spec.volumeClaimTemplates[].apiVersion
-        - .spec.volumeClaimTemplates[].kind
-    - kind: Secret
-      jsonPointers:
-        - /data/adminPassword
-        - /data/cookieAuthSecret
-        - /data/erlangCookie
-    - kind: StatefulSet
-      group: apps
-      jsonPointers:
-        - /spec/template/metadata/annotations/checksum~1secret
-  sources:
-    - repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
-      path: cat-stuff
-      targetRevision: HEAD
-      ref: values
-    - repoURL: https://apache.github.io/couchdb-helm
-      targetRevision: 4.6.3
-      chart: couchdb
-      helm:
-        valueFiles:
-          - $values/cat-stuff/values/values-couchdb.yaml
-    - repoURL: https://git.raft.lutris.house/api/packages/the_raft/helm/
-      chart: gw-helper
-      targetRevision: 0.1.4
-      helm:
-        valueFiles:
-          - $values/cat-stuff/values/values-gateway.yaml
+  source:
+    repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+    path: cat-stuff
+    targetRevision: HEAD
+    ref: values
