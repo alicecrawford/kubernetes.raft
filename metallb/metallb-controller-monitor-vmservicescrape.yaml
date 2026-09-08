@@ -11,7 +11,11 @@ spec:
   endpoints:
     - attach_metadata: {}
       honorLabels: true
-      port: metrics
+      port: metricshttps
+      scheme: https
+      tlsConfig:
+        insecureSkipVerify: true
+      bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
   jobLabel: app.kubernetes.io/name
   namespaceSelector:
     matchNames:
