@@ -27,8 +27,10 @@ machine-learning:
   enabled: true
   controllers:
     main:
-      image:
-        tag: v3.1.0
+      containers:
+        main:
+          image:
+            tag: v3.1.0
 
 immich:
   metrics:
