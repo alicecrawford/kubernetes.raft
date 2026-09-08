@@ -25,7 +25,7 @@ spec:
       targetRevision: HEAD
       ref: values
     - repoURL: https://helm.cilium.io/
-      targetRevision: 1.19.4
+      targetRevision: 1.20.1
       helm:
         valueFiles:
           - $values/cilium/values/values-cilium.yaml
