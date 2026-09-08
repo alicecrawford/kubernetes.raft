@@ -18,7 +18,7 @@ spec:
       path: metrics-server
       ref: values
     - repoURL: https://kubernetes-sigs.github.io/metrics-server/
-      targetRevision: 3.13.0
+      targetRevision: 3.14.0
       helm:
         valueFiles:
           - $values/metrics-server/values/values-metrics-server.yaml
