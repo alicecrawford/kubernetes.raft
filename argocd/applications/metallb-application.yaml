@@ -18,7 +18,7 @@ spec:
       targetRevision: HEAD
       ref: values
     - repoURL: https://metallb.github.io/metallb
-      targetRevision: 0.15.3
+      targetRevision: 0.16.1
       helm:
         valueFiles:
           - $values/metallb/values/values-metallb.yaml
