@@ -8,3 +8,9 @@ prometheus:
 speaker:
   frr:
     enabled: false
+
+frr:
+  enabled: false
+
+frrk8s:
+  enabled: false
