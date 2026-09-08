@@ -19,7 +19,7 @@ spec:
       ref: values
     - repoURL: https://charts.obeone.cloud
       chart: opengist
-      targetRevision: 1.1.0
+      targetRevision: 2.0.0
       helm:
         valueFiles:
           - $values/opengist/values/values-opengist.yaml
