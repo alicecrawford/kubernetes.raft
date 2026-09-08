@@ -4,3 +4,7 @@ prometheus:
     enabled: true
   serviceAccount: prometheus-stack-kube-prom-prometheus
   namespace: monitoring
+
+speaker:
+  frr:
+    enabled: false
