@@ -4,9 +4,7 @@ knownLastVersion: true
 runner:
   config:
     create: true
-    name: runner-test
-    token: JPdF4zFAUNdAJXuP3pvWM506QrUVNrlUgXKeOH8uLXz
-    instance: https://git.raft.lutris.house
+    existingSecret: "forgejo-runner-secret"
     file:
       runner:
         labels:
