@@ -32,7 +32,7 @@ spec:
           record: ''
         - alert: ArgocdServiceUnhealthy
           expr: argocd_app_info{health_status!="Healthy"} != 0
-          for: 15m
+          for: 45m
           labels:
             severity: warning
           annotations:
