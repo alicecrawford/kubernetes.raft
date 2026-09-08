@@ -26,7 +26,7 @@ spec:
           - $values/monitoring/values/values-vm-k8s-stack.yaml
     - repoURL: oci://ghcr.io/prometheus-community/charts/prometheus-smartctl-exporter
       path: .
-      targetRevision: 0.16.1
+      targetRevision: 0.17.1
       helm:
         valueFiles:
           - $values/monitoring/values/values-smartctl-exporter.yaml
