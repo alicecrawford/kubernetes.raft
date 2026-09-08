@@ -28,6 +28,7 @@ spec:
         valueFiles:
           - $values/forgejo/values/values-forgejo.yaml
     - repoURL: oci://codeberg.org/wrenix/helm-charts/forgejo-runner
+      path: .
       targetRevision: 0.7.6
       helm:
         valueFiles:
