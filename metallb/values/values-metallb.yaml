@@ -1,8 +1,7 @@
 ---
 prometheus:
   serviceMonitor:
-    enabled: true
-  serviceAccount: prometheus-stack-kube-prom-prometheus
+    enabled: false
   namespace: monitoring
 
 speaker:
