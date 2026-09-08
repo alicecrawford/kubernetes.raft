@@ -1,0 +1,14 @@
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: selkies-apps-alice
+  namespace: selkies-apps
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Ti
+  volumeName: selkies-apps-alice
+  storageClassName: nfs-csi

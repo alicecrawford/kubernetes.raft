@@ -1,0 +1,25 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  annotations:
+    pv.kubernetes.io/provisioned-by: nfs.csi.k8s.io
+  name: selkies-apps-alice
+  namespace: selkies-apps
+spec:
+  capacity:
+    storage: 5Ti
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: nfs-csi
+  mountOptions:
+    - nfsvers=4.1
+  csi:
+    driver: nfs.csi.k8s.io
+    # volumeHandle format: {nfs-server-address}#{share-name}#{sub-dir-name}
+    # make sure this value is unique for every share in the cluster
+    volumeHandle: narwhal.raft.lutris.house#/volumes/users#alice
+    volumeAttributes:
+      server: narwhal.raft.lutris.house
+      share: /volumes/users/alice

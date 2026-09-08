@@ -1,0 +1,18 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: selkies-apps
+spec:
+  destination:
+    namespace: selkies-apps
+    server: https://kubernetes.default.svc
+  project: default
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
+  source:
+    path: selkies-apps
+    repoURL: https://git.raft.lutris.house/the_raft/kubernetes.raft
+    targetRevision: HEAD
+    ref: values

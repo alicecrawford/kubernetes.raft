@@ -1,0 +1,14 @@
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: selkies-apps-soupmix
+  namespace: selkies-apps
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Ti
+  volumeName: selkies-apps-soupmix
+  storageClassName: nfs-csi

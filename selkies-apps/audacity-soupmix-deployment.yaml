@@ -1,0 +1,51 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: audacity-soupmix
+  namespace: selkies-apps
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: audacity-soupmix
+  template:
+    metadata:
+      labels:
+        name: audacity-soupmix
+    spec:
+      containers:
+        - name: audacity
+          image: lscr.io/linuxserver/audacity:latest
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            privileged: true
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: America/Los_Angeles
+            - name: CUSTOM_USER
+              value: soupmix
+            - name: SELKIES_ENABLE_HTTPS
+              value: "false"
+            - name: SUBFOLDER
+              value: "/soupmix/audacity/"
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          volumeMounts:
+            - name: home-dir
+              mountPath: /config
+            - name: dri
+              mountPath: /dev/dri
+      volumes:
+        - name: home-dir
+          persistentVolumeClaim:
+            claimName: selkies-apps-soupmix
+        - name: dri
+          hostPath:
+            path: /dev/dri

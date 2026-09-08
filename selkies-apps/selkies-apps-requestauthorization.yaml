@@ -1,0 +1,17 @@
+---
+apiVersion: security.istio.io/v1
+kind: RequestAuthentication
+metadata:
+  name: jwt-user-extract
+  namespace: selkies-apps
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: selkies-apps
+  jwtRules:
+    - issuer: "https://auth.raft.lutris.house"
+      jwksUri: "https://auth.raft.lutris.house/.well-known/jwks.json"
+      outputClaimToHeaders:
+        - claim: "preferred_username"
+          header: "x-remote-user"
