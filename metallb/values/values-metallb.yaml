@@ -2,6 +2,7 @@
 prometheus:
   serviceMonitor:
     enabled: true
+  serviceAccount: default
   namespace: monitoring
 
 speaker:
