@@ -27,6 +27,11 @@ spec:
       helm:
         valueFiles:
           - $values/forgejo/values/values-forgejo.yaml
+    - repoURL: oci://codeberg.org/wrenix/helm-charts/forgejo-runner
+      targetRevision: 0.7.6
+      helm:
+        valueFiles:
+          - $values/forgejo/values/values-runner.yaml
     - repoURL: https://git.raft.lutris.house/api/packages/the_raft/helm/
       chart: gw-helper
       targetRevision: 0.1.4

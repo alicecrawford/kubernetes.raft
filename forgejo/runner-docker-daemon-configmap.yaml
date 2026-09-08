@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: runner-docker-daemon
+  namespace: forgejo
+data:
+  daemon.json: |
+    {
+      "bip": "10.200.0.1/24",
+      "fixed-cidr": "10.200.0.0/26"
+    }
