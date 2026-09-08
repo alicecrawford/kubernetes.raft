@@ -1,7 +1,7 @@
 ---
 prometheus:
   serviceMonitor:
-    enabled: false
+    enabled: true
   namespace: monitoring
 
 speaker:
