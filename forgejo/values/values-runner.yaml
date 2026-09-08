@@ -4,7 +4,7 @@ knownLastVersion: true
 runner:
   config:
     create: true
-    existingSecret: "forgejo-runner-secret"
+    existingInitSecret: "forgejo-runner-secret"
     file:
       runner:
         labels:
